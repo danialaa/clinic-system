@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "437641424071",
+    "firebase_url": "https://dentistry-clinic-system.firebaseio.com",
+    "project_id": "dentistry-clinic-system",
+    "storage_bucket": "dentistry-clinic-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437641424071:android:13f07ff95b6de1fed3e2e2",
+        "android_client_info": {
+          "package_name": "com.example.msadentistryclinic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437641424071-nq12ths258qn9tlg1unl8rjk0buqc4ab.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.msadentistryclinic",
+            "certificate_hash": "a213c37c41a484830ef8324e5a9919ec8e66461d"
+          }
+        },
+        {
+          "client_id": "437641424071-3qb441gjn6br15he3pe8suqh2qt1utoj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8XuxRh8Lq842YtNck0PQK3mPGAMJSavo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437641424071-3qb441gjn6br15he3pe8suqh2qt1utoj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
