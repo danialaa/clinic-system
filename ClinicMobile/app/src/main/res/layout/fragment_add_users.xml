@@ -3,56 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AddUsersFragment"
-    android:background="#00FFFFFF">
+    android:background="#00FFFFFF"
+    tools:context=".fragments.AddUsersFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
     <ImageView
         android:layout_width="150dp"
         android:layout_height="200dp"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/logo"
         android:src="@drawable/tooth"
-        android:tint="#47202052"
-        android:layout_gravity="bottom|end"/>
+        android:tint="#47202052" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/headerLinear"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/alike_regular"
-                android:text="@string/add_users"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:layout_marginRight="16dp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/line"
-                android:layout_gravity="center"/>
-
-        </LinearLayout>
+            android:layout_margin="16dp"
+            android:fontFamily="@font/alike_regular"
+            android:text="@string/add_users"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:drawableEnd="@drawable/line"
+            android:drawablePadding="6dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/header"
             android:orientation="vertical"
-            android:paddingEnd="30dp"
             android:paddingStart="30dp"
             android:paddingTop="20dp"
-            android:layout_below="@id/headerLinear">
+            android:paddingEnd="30dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,26 +49,26 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:text="@string/employees"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp" />
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="2"
                     android:background="@drawable/spinner_bg">
 
                     <Spinner
                         android:id="@+id/employeesSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="28dp"
-                        android:backgroundTint="@color/colorPrimaryDark"
                         android:layout_gravity="center"
-                        android:textSize="12sp"/>
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:textSize="12sp" />
 
                 </RelativeLayout>
 
@@ -94,26 +82,26 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:text="@string/role"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp" />
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="2"
                     android:background="@drawable/spinner_bg">
 
                     <Spinner
                         android:id="@+id/rolesSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="28dp"
-                        android:backgroundTint="@color/colorPrimaryDark"
                         android:layout_gravity="center"
-                        android:textSize="12sp"/>
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:textSize="12sp" />
 
                 </RelativeLayout>
 
@@ -127,8 +115,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:text="@string/password"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp" />
@@ -136,14 +124,14 @@
                 <EditText
                     android:id="@+id/userPasswordEdit"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="28dp"
-                    android:hint="e.g. U12P123QRS87"
-                    android:inputType="textPassword"
+                    android:layout_weight="2"
                     android:background="@drawable/spinner_bg"
+                    android:hint="@string/password_hint"
+                    android:inputType="textPassword"
+                    android:padding="8dp"
                     android:textSize="12sp"
-                    android:paddingLeft="8dp"/>
-
+                    android:importantForAutofill="no" tools:targetApi="o"/>
 
             </LinearLayout>
 
@@ -155,8 +143,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:text="@string/confirm_password"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp" />
@@ -164,13 +152,14 @@
                 <EditText
                     android:id="@+id/userConfirmPasswordEdit"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="28dp"
-                    android:hint="e.g. U12P123QRS87"
-                    android:inputType="textPassword"
+                    android:layout_weight="2"
                     android:background="@drawable/spinner_bg"
+                    android:hint="@string/password_hint"
+                    android:inputType="textPassword"
+                    android:padding="8dp"
                     android:textSize="12sp"
-                    android:paddingLeft="8dp"/>
+                    android:importantForAutofill="no" tools:targetApi="o"/>
 
 
             </LinearLayout>
@@ -181,13 +170,13 @@
             android:id="@+id/addUser"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="@color/white"
-            android:text="@string/add_users"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="40dp"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="40dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/add_users"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 

@@ -9,48 +9,36 @@
     <ImageView
         android:layout_width="150dp"
         android:layout_height="200dp"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/logo"
         android:src="@drawable/tooth"
-        android:tint="#47202052"
-        android:layout_gravity="bottom|end"/>
+        android:tint="#47202052" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/headerLinear"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/alike_regular"
-                android:text="@string/add_permissions"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:layout_marginRight="16dp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/line"
-                android:layout_gravity="center"/>
-
-        </LinearLayout>
+            android:layout_margin="16dp"
+            android:fontFamily="@font/alike_regular"
+            android:text="@string/add_permissions"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:drawableEnd="@drawable/line2"
+            android:drawablePadding="6dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/header"
             android:orientation="vertical"
-            android:paddingEnd="30dp"
             android:paddingStart="30dp"
             android:paddingTop="20dp"
-            android:layout_below="@id/headerLinear">
+            android:paddingEnd="30dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,8 +48,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:text="@string/permission_name"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp" />
@@ -69,12 +57,15 @@
                 <EditText
                     android:id="@+id/permissionNameEdit"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="28dp"
-                    android:hint="e.g. Add Users"
+                    android:layout_weight="2"
+                    android:inputType="text"
                     android:background="@drawable/spinner_bg"
+                    android:hint="@string/permission_hint"
+                    android:padding="8dp"
                     android:textSize="12sp"
-                    android:paddingLeft="8dp"/>
+                    android:importantForAutofill="no"
+                    tools:targetApi="o"/>
 
 
             </LinearLayout>
@@ -87,8 +78,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:text="@string/permission_link"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp" />
@@ -96,12 +87,15 @@
                 <EditText
                     android:id="@+id/permissionLinkEdit"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="28dp"
-                    android:hint="e.g. AddUsersFragment."
+                    android:layout_weight="2"
+                    android:inputType="text"
                     android:background="@drawable/spinner_bg"
+                    android:hint="@string/link_hint"
+                    android:padding="8dp"
                     android:textSize="12sp"
-                    android:paddingLeft="8dp"/>
+                    android:importantForAutofill="no"
+                    tools:targetApi="o"/>
 
 
             </LinearLayout>
@@ -112,13 +106,13 @@
             android:id="@+id/addPermission"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="@color/white"
-            android:text="@string/add_permissions"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="40dp"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="40dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/add_permissions"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 
