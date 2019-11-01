@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.msadentistryclinic.R;
-import com.example.msadentistryclinic.fragments.EditUsersFragment;
+import com.example.msadentistryclinic.fragments.AddPermissionsFragment;
+import com.example.msadentistryclinic.fragments.AddRolesFragment;
+import com.example.msadentistryclinic.fragments.AddRoomFragment;
+import com.example.msadentistryclinic.fragments.AddUsersFragment;
 import com.example.msadentistryclinic.fragments.HomeFragment;
 import com.example.msadentistryclinic.fragments.SearchFragment;
 
@@ -42,6 +45,7 @@ public class HomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new HomeFragment()).commit();
     }
 
     @Override
@@ -63,9 +67,9 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new HomeFragment()).commit();
-        } else if (id == R.id.nav_edit) {
+        } else if (id == R.id.nav_add) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                    .setTitle(getResources().getString(R.string.edit_alert));
+                    .setTitle(getResources().getString(R.string.add_alert));
             final String[] Choices = {getResources().getString(R.string.users),
                     getResources().getString(R.string.role),
                     getResources().getString(R.string.permission),
@@ -78,17 +82,23 @@ public class HomeActivity extends AppCompatActivity
                     switch (i)
                     {
                         case 0:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new EditUsersFragment()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new AddUsersFragment()).commit();
+                            break;
                         case 1:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new EditUsersFragment()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new AddRolesFragment()).commit();
+                            break;
                         case 2:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new EditUsersFragment()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new AddPermissionsFragment()).commit();
+                            break;
                         case 3:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new EditUsersFragment()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new AddUsersFragment()).commit();
+                            break;
                         case 4:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new EditUsersFragment()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new AddRoomFragment()).commit();
+                            break;
                         case 5:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new EditUsersFragment()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new AddUsersFragment()).commit();
+                            break;
                     }
                 }
             });
@@ -147,7 +157,7 @@ public class HomeActivity extends AppCompatActivity
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle(getResources().getString(R.string.settings));
         alertDialog.setMessage(getResources().getString(R.string.change_language));
-        
+
 
         alertDialog.create().show();
     }

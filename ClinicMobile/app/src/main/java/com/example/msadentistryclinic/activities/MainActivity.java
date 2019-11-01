@@ -5,12 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.msadentistryclinic.R;
+import com.example.msadentistryclinic.services.Validator;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -19,13 +19,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private EditText emailEdt, passwordEdt;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     private String email, password;
+    private List<EditText> editTextList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +46,19 @@ public class MainActivity extends AppCompatActivity {
 
         emailEdt = findViewById(R.id.emailEdit);
         passwordEdt = findViewById(R.id.passwordEdit);
+        editTextList.add(emailEdt);
+        editTextList.add(passwordEdt);
     }
 
     public void notifyAdmin(View view) {
 
     }
 
-    public void login(View view) {
+    private void login(View view) {
          email = emailEdt.getText().toString();
          password = passwordEdt.getText().toString();
 
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            if (TextUtils.isEmpty(email)) {
-                emailEdt.setError(getResources().getString(R.string.required));
-            }
-            if (TextUtils.isEmpty(password)) {
-                passwordEdt.setError(getResources().getString(R.string.required));
-            }
-        } else {
+        if (Validator.isValidated(this, editTextList)) {
             firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
@@ -78,18 +76,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void PutAdmin(View view) {
+    private void PutAdmin(View view) {
         email = emailEdt.getText().toString();
         password = passwordEdt.getText().toString();
 
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            if (TextUtils.isEmpty(email)) {
-                emailEdt.setError(getResources().getString(R.string.required));
-            }
-            if (TextUtils.isEmpty(password)) {
-                passwordEdt.setError(getResources().getString(R.string.required));
-            }
-        } else {
+        if (Validator.isValidated(this, editTextList)) {
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override

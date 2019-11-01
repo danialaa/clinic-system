@@ -10,9 +10,9 @@
             android:title="@string/home" />
 
         <item
-            android:id="@+id/nav_edit"
+            android:id="@+id/nav_add"
             android:icon="@drawable/edit"
-            android:title="@string/edit" />
+            android:title="@string/add" />
 
         <item
             android:id="@+id/nav_search"

@@ -32,7 +32,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/tooth_white"
+                android:src="@drawable/tooth"
                 android:tint="@color/colorPrimaryDark"/>
 
             <ImageView
