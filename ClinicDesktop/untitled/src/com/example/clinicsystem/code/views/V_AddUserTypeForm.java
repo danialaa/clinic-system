@@ -1,28 +1,23 @@
 /*
- * Created by JFormDesigner on Wed Nov 27 21:29:12 EET 2019
+ * Created by JFormDesigner on Thu Nov 28 16:50:21 EET 2019
  */
 
-package com.example.clinicsystem.code.views;
+package com.example.clinicsystem.forms;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import info.clearthought.layout.TableLayout;
-import info.clearthought.layout.TableLayoutConstraints;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle;
+import javax.swing.border.*;
+import com.intellij.uiDesigner.core.*;
+import info.clearthought.layout.*;
 
 /**
  * @author Dania
  */
-public class V_AddUserTypeForm extends JPanel {
-    public V_AddUserTypeForm() {
+public class AddUserTypeForm extends JPanel {
+    public AddUserTypeForm() {
         initComponents();
     }
 
@@ -39,6 +34,14 @@ public class V_AddUserTypeForm extends JPanel {
     }
 
     private void labelExpandMouseClicked(MouseEvent e) {
+        // TODO add your code here
+    }
+
+    private void textFieldTypeNameFocusGained(FocusEvent e) {
+        // TODO add your code here
+    }
+
+    private void textFieldTypeNameFocusLost(FocusEvent e) {
         // TODO add your code here
     }
 
@@ -80,7 +83,7 @@ public class V_AddUserTypeForm extends JPanel {
         panelTypeBody = new JPanel();
         labelType = new JLabel();
         textFieldTypeName = new JTextField();
-        comboBoxType = new JComboBox();
+        comboBoxPermissions = new JComboBox();
         labelTypeError = new JLabel();
         buttonAddPermission = new JButton();
         panel2 = new JPanel();
@@ -101,11 +104,13 @@ public class V_AddUserTypeForm extends JPanel {
         setMinimumSize(new Dimension(1920, 1080));
         setPreferredSize(new Dimension(1920, 1200));
         setBackground(Color.white);
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0
-        ,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM
-        ,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt.Color.red),
-         getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e
-        ){if("bord\u0065r".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
+        . swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing
+        . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
+        Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
+        ) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
+        public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .getPropertyName (
+        ) )) throw new RuntimeException( ); }} );
         setLayout(new TableLayout(new double[][] {
             {226, TableLayout.FILL},
             {TableLayout.FILL}}));
@@ -442,7 +447,7 @@ public class V_AddUserTypeForm extends JPanel {
                 panelBody.setAutoscrolls(true);
                 panelBody.setBorder(new EmptyBorder(0, 20, 10, 30));
                 panelBody.setLayout(new TableLayout(new double[][] {
-                    {300, TableLayout.FILL, 300},
+                    {TableLayout.FILL, TableLayout.FILL, TableLayout.FILL},
                     {92, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}}));
                 ((TableLayout)panelBody.getLayout()).setHGap(5);
                 ((TableLayout)panelBody.getLayout()).setVGap(5);
@@ -487,13 +492,23 @@ public class V_AddUserTypeForm extends JPanel {
                     textFieldTypeName.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Type Name", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldTypeName.setText("e.g. Admin");
+                    textFieldTypeName.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldTypeNameFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldTypeNameFocusLost(e);
+                        }
+                    });
                     panelTypeBody.add(textFieldTypeName, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
-                    //---- comboBoxType ----
-                    comboBoxType.setBackground(Color.white);
-                    comboBoxType.setForeground(new Color(32, 32, 82));
-                    comboBoxType.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    panelTypeBody.add(comboBoxType, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    //---- comboBoxPermissions ----
+                    comboBoxPermissions.setBackground(Color.white);
+                    comboBoxPermissions.setForeground(new Color(32, 32, 82));
+                    comboBoxPermissions.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    panelTypeBody.add(comboBoxPermissions, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- labelTypeError ----
                     labelTypeError.setForeground(new Color(191, 44, 39));
@@ -566,8 +581,8 @@ public class V_AddUserTypeForm extends JPanel {
                     //---- labelDeletePermission ----
                     labelDeletePermission.setBackground(new Color(60, 63, 65, 0));
                     labelDeletePermission.setIcon(new ImageIcon(getClass().getResource("/com/example/clinicsystem/pictures/remove.png")));
-                    labelDeletePermission.setVisible(false);
                     labelDeletePermission.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    labelDeletePermission.setVisible(false);
                     panelPermissionsTable.add(labelDeletePermission, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.CENTER, TableLayoutConstraints.CENTER));
 
                     //---- labelPermissionName ----
@@ -663,7 +678,7 @@ public class V_AddUserTypeForm extends JPanel {
     private JPanel panelTypeBody;
     private JLabel labelType;
     private JTextField textFieldTypeName;
-    private JComboBox comboBoxType;
+    private JComboBox comboBoxPermissions;
     private JLabel labelTypeError;
     private JButton buttonAddPermission;
     private JPanel panel2;
