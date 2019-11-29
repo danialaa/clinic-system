@@ -6,7 +6,7 @@ import com.example.clinicsystem.models.classes.M_User;
 import java.util.List;
 
 public class C_User {
-    private DatabaseConnection databaseConnection = new DatabaseConnection();
+    private DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
     private M_User user = new M_User();
 
     public List request(String requestType, String condition) {

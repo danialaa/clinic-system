@@ -1,5 +1,6 @@
 package com.example.clinicsystem;
 
+import com.example.clinicsystem.views.V_AddUserTypeForm;
 import com.example.clinicsystem.views.V_LoginForm;
 
 import javax.swing.*;

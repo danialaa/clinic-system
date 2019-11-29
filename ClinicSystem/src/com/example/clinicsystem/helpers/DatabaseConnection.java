@@ -7,14 +7,23 @@ public class DatabaseConnection {
     private String uName = "root";
     private String uPass = "Dania98Mahdaly";
     private Connection connection;
+    private static DatabaseConnection INSTANCE = null;
 
-    public DatabaseConnection() {
+    private DatabaseConnection() {
         try {
             connection = DriverManager.getConnection(host, uName, uPass);
         } catch (SQLException e) {
             System.out.println("Connection Error: ");
             e.printStackTrace();
         }
+    }
+
+    public static DatabaseConnection getINSTANCE() {
+        if(INSTANCE == null) {
+            INSTANCE = new DatabaseConnection();
+        }
+
+        return INSTANCE;
     }
 
     public ResultSet getAll(String table, String condition) {

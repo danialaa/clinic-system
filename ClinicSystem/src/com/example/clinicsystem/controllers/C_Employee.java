@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.util.List;
 
 public class C_Employee {
-    private DatabaseConnection databaseConnection = new DatabaseConnection();
+    private DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
     private M_Address address = new M_Address();
     private M_Employee employee = new M_Employee();
 

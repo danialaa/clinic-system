@@ -7,7 +7,7 @@ import com.example.clinicsystem.models.classes.M_Permission;
 import java.util.List;
 
 public class C_Permission {
-    private DatabaseConnection databaseConnection = new DatabaseConnection();
+    private DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
     private M_Permission permission = new M_Permission();
 
     public List request(String requestType, String condition) {
