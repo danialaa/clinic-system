@@ -1,9 +1,6 @@
 package com.example.clinicsystem.controllers;
 
-
-import com.example.clinicsystem.helpers.DatabaseConnection;
 import com.example.clinicsystem.helpers.TextFieldValidator;
-import com.example.clinicsystem.models.classes.M_Address;
 import com.example.clinicsystem.models.classes.M_Employee;
 import com.example.clinicsystem.models.enums.Gender;
 
@@ -11,20 +8,17 @@ import javax.swing.*;
 import java.util.List;
 
 public class C_Employee {
-    private DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
-    private M_Address address = new M_Address();
     private M_Employee employee = new M_Employee();
 
     public List request(String requestType, List<String> list) {
         switch (requestType) {
             case "C":
-                address.setApartmentNumber(list.get(0));
-                address.setCity(list.get(1));
-                address.setGovernorate(list.get(2));
-                address.setStreetName(list.get(3));
-                int addressID = address.addAddress(databaseConnection);
+                employee.getAddress().setApartmentNumber(list.get(0));
+                employee.getAddress().setCity(list.get(1));
+                employee.getAddress().setGovernorate(list.get(2));
+                employee.getAddress().setStreetName(list.get(3));
+                employee.getAddress().setId(employee.addAddress());
 
-                employee.setAddress(addressID);
                 employee.setBirthDate(list.get(4));
                 employee.setFirstName(list.get(5));
                 employee.setMiddleName(list.get(6));
@@ -38,12 +32,12 @@ public class C_Employee {
                     employee.setGender(Gender.FEMALE);
                 }
 
-                int personID = employee.addPerson(databaseConnection);
+                int personID = employee.addPerson();
 
                 employee.setEmployeeID(Integer.parseInt(list.get(11)));
                 employee.setEmail(list.get(12));
 
-                employee.addEmployee(databaseConnection, personID);
+                employee.addEmployee(personID);
 
                 return null;
             case "R":

@@ -20,9 +20,10 @@ public class M_User {
     public M_User() {
     }
 
-    public List<M_User> getAllUsers(DatabaseConnection databaseConnection, String condition) {
+    public List<M_User> getAllUsers(String condition) {
         List<M_User> users = new ArrayList<>();
-        ResultSet resultSet = databaseConnection.getAll("users", condition);
+        DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
+        ResultSet resultSet = databaseConnection.select("users", condition);
 
         if(resultSet != null) {
             try {

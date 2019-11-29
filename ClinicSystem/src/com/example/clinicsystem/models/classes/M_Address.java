@@ -1,11 +1,11 @@
 package com.example.clinicsystem.models.classes;
 
-import com.example.clinicsystem.helpers.DatabaseConnection;
-
 public class M_Address {
+    private int id;
     private String city, streetName, governorate, apartmentNumber;
 
-    public M_Address(String city, String streetName, String governorate, String apartmentNumber) {
+    public M_Address(int id, String city, String streetName, String governorate, String apartmentNumber) {
+        this.id = id;
         this.city = city;
         this.streetName = streetName;
         this.governorate = governorate;
@@ -15,11 +15,12 @@ public class M_Address {
     public M_Address() {
     }
 
-    public int addAddress(DatabaseConnection databaseConnection) {
-        return databaseConnection.insertInto("address","(Address_City, Address_Street," +
-                "Address_Apartment, Address_Governorate)" ,"('" + this.city + "', '"
-                + this.streetName + "', '" + this.apartmentNumber + "', '" + this.governorate
-                + "')");
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCity() {

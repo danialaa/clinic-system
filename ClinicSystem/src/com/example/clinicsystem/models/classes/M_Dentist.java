@@ -46,7 +46,7 @@ public class M_Dentist extends M_Employee implements IViewReport, ITransfer, IVi
     }
 
     public M_Dentist(String firstName, String middleName, String lastName, String phoneNumber, String birthDate,
-                     int address, int nationalID, Gender gender, int employeeID, String email, DentistryDepartment department,
+                     M_Address address, int nationalID, Gender gender, int employeeID, String email, DentistryDepartment department,
                      boolean isSupervisor) {
         super(firstName, middleName, lastName, phoneNumber, birthDate, address, nationalID, gender, employeeID, email);
         this.department = department;

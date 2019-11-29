@@ -21,9 +21,10 @@ public class M_Permission {
     public M_Permission() {
     }
 
-    public List<M_Permission> getAllPermissions(DatabaseConnection databaseConnection, String condition){
+    public List<M_Permission> getAllPermissions(String condition){
         List<M_Permission> permissions = new ArrayList<>();
-        ResultSet resultSet = databaseConnection.getAll("permission", condition);
+        DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
+        ResultSet resultSet = databaseConnection.select("permission", condition);
 
         if(resultSet != null) {
             try {

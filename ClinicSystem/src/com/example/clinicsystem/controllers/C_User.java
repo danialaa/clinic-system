@@ -1,12 +1,10 @@
 package com.example.clinicsystem.controllers;
 
-import com.example.clinicsystem.helpers.DatabaseConnection;
 import com.example.clinicsystem.models.classes.M_User;
 
 import java.util.List;
 
 public class C_User {
-    private DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
     private M_User user = new M_User();
 
     public List request(String requestType, String condition) {
@@ -14,7 +12,7 @@ public class C_User {
             case "C":
 
             case "R":
-                return user.getAllUsers(databaseConnection, condition);
+                return user.getAllUsers(condition);
             case "U":
 
             case "D":

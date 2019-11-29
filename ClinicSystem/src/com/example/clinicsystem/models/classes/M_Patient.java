@@ -16,7 +16,7 @@ public class M_Patient extends M_Person {
     private List<String> previousSurgeries, medications;
 
     public M_Patient(String firstName, String middleName, String lastName, String phoneNumber, String birthDate,
-                     int address, int nationalID, Gender gender, int patientID, String registrationDate,
+                     M_Address address, int nationalID, Gender gender, int patientID, String registrationDate,
                      DentistryDepartment department, int emergencyContact, List<MedicalAlert> medicalAlerts,
                      List<String> previousSurgeries, List<String> medications) {
         super(firstName, middleName, lastName, phoneNumber, birthDate, address, nationalID, gender);

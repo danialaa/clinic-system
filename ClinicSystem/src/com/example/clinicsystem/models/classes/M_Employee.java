@@ -7,16 +7,19 @@ public class M_Employee extends M_Person {
     private int employeeID;
     private String email;
 
-    public M_Employee(String firstName, String middleName, String lastName, String phoneNumber, String birthDate, int address, int nationalID, Gender gender, int employeeID, String email) {
+    public M_Employee(String firstName, String middleName, String lastName, String phoneNumber, String birthDate, M_Address address, int nationalID, Gender gender, int employeeID, String email) {
         super(firstName, middleName, lastName, phoneNumber, birthDate, address, nationalID, gender);
         this.employeeID = employeeID;
         this.email = email;
     }
 
     public M_Employee() {
+        super();
     }
 
-    public void addEmployee(DatabaseConnection databaseConnection, int person) {
+    public void addEmployee(int person) {
+        DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
+
         databaseConnection.insertInto("employee","(Employee_ID, Person_ID, Employee_Email)" ,"('" + this.employeeID + "', '"
                 + person + "', '" + this.email + "')");
     }

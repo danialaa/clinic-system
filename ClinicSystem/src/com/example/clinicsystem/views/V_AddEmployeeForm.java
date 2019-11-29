@@ -75,8 +75,6 @@ public class V_AddEmployeeForm extends JPanel {
     }
 
     private void buttonAddEmpMouseClicked(MouseEvent e) {
-        // TODO add your code here
-
         List<JTextField> textFieldList = new ArrayList<>();
         textFieldList.add(textFieldWID);
         textFieldList.add(textFieldFN);
@@ -969,6 +967,20 @@ public class V_AddEmployeeForm extends JPanel {
         }
         add(scrollPane1, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+
+        datePicker = new DatePicker();
+        datePicker.setDateToToday();
+        datePicker.setBackground(Color.white);
+        datePicker.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+        panelBirth.add(datePicker);
+
+        for(int i=0; i<ClinicSystem.governorates.size(); i++) {
+            comboBoxGov.addItem(ClinicSystem.governorates.get(i));
+        }
+
+        for(int i=0; i<ClinicSystem.cairoCities.size(); i++) {
+            comboBoxCity.addItem(ClinicSystem.cairoCities.get(i));
+        }
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables

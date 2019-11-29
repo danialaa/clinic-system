@@ -5,11 +5,11 @@ import com.example.clinicsystem.models.enums.Gender;
 
 public class M_Person {
     private String firstName, middleName, lastName, phoneNumber, birthDate;
-    private int address;
+    private M_Address address;
     private int nationalID;
     private Gender gender;
 
-    public M_Person(String firstName, String middleName, String lastName, String phoneNumber, String birthDate, int address, int nationalID, Gender gender) {
+    public M_Person(String firstName, String middleName, String lastName, String phoneNumber, String birthDate, M_Address address, int nationalID, Gender gender) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -21,9 +21,20 @@ public class M_Person {
     }
 
     public M_Person() {
+        this.address = new M_Address();
     }
 
-    public int addPerson(DatabaseConnection databaseConnection) {
+    public int addAddress() {
+        DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
+
+        return databaseConnection.insertInto("address","(Address_City, Address_Street," +
+                "Address_Apartment, Address_Governorate)" ,"('" + address.getCity() + "', '"
+                + address.getStreetName() + "', '" + address.getApartmentNumber() + "', '" + address.getGovernorate()
+                + "')");
+    }
+
+    public int addPerson() {
+        DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
         int genderID;
 
         if (this.gender == Gender.MALE) {
@@ -34,7 +45,7 @@ public class M_Person {
 
         return databaseConnection.insertInto("person","(Address_ID, Gender_ID, Person_Birth" +
                 ", Person_FN, Person_LN, Person_MN, Person_NationalID, Person_Phone)"
-                ,"('" + this.address + "', '" + genderID + "', '" + this.birthDate + "', '" + this.firstName + "', '"
+                ,"('" + this.address.getId() + "', '" + genderID + "', '" + this.birthDate + "', '" + this.firstName + "', '"
                 + this.lastName + "', '" + this.middleName + "', '" + this.nationalID + "', '" + this.phoneNumber + "')");
     }
 
@@ -78,11 +89,11 @@ public class M_Person {
         this.birthDate = birthDate;
     }
 
-    public int getAddress() {
+    public M_Address getAddress() {
         return address;
     }
 
-    public void setAddress(int address) {
+    public void setAddress(M_Address address) {
         this.address = address;
     }
 

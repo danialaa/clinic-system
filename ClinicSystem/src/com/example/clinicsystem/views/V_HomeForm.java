@@ -35,7 +35,7 @@ public class V_HomeForm extends JPanel {
     private void labelEdit2MouseClicked(MouseEvent e) {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.add(new V_AddUserTypeForm());
+        frame.add(new V_AddEmployeeForm());
         frame.pack();
         frame.setVisible(true);
         V_LoginForm.frame.dispose();
