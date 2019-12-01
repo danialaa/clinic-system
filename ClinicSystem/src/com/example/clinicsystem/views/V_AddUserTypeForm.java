@@ -17,6 +17,8 @@ import javax.swing.border.*;
 import javax.swing.table.*;
 
 import com.example.clinicsystem.controllers.C_Permission;
+import com.example.clinicsystem.controllers.C_User;
+import com.example.clinicsystem.controllers.C_UserType;
 import com.example.clinicsystem.helpers.MyTableCellRenderer;
 import com.example.clinicsystem.models.classes.M_Permission;
 import com.intellij.uiDesigner.core.*;
@@ -112,7 +114,22 @@ public class V_AddUserTypeForm extends JPanel {
     }
 
     private void buttonAddTypeMouseClicked(MouseEvent e) {
-        // TODO add your code here
+        List<JTextField> textFields = new ArrayList<>();
+        List<JLabel> labels = new ArrayList<>();
+        textFields.add(textFieldTypeName);
+        labels.add(labelType);
+        if (userType.isValidUserType(textFields, labels)) {
+            List data = new ArrayList<>();
+            data.add(textFieldTypeName.getText());
+
+            for (int i = 0; i < tablePermissions.getModel().getRowCount(); i++) {
+                data.add(tablePermissions.getModel().getValueAt(i, 0));
+            }
+
+            userType.request("c", data);
+        }
+        textFields.clear();
+        labels.clear();
     }
 
     private void initComponents() {
@@ -159,15 +176,7 @@ public class V_AddUserTypeForm extends JPanel {
         panelPermissionsTable = new JPanel();
         panelTableHeader = new JPanel();
         labelHeader = new JLabel();
-        tablePermissions = new JTable() {
-            public TableCellRenderer getCellRenderer(int row, int column) {
-                if (column == 0 && this.getColumnCount() > 1) {
-                    return new MyTableCellRenderer();
-                } else {
-                    return super.getCellRenderer(row, column);
-                }
-            }
-        };
+        tablePermissions = new JTable();
         hSpacer2 = new JPanel(null);
         panelFooter = new JPanel();
         buttonAdd = new JButton();
@@ -177,12 +186,13 @@ public class V_AddUserTypeForm extends JPanel {
         setMinimumSize(new Dimension(1920, 1080));
         setPreferredSize(new Dimension(1920, 1200));
         setBackground(Color.white);
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.
-        border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER
-        ,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font
-        .BOLD,12),java.awt.Color.red), getBorder())); addPropertyChangeListener(
-        new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r"
-        .equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax
+        .swing.border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing
+        .border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.
+        Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt.Color.red
+        ), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override
+        public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName(
+        )))throw new RuntimeException();}});
         setLayout(new TableLayout(new double[][] {
             {226, TableLayout.FILL},
             {TableLayout.FILL}}));
@@ -742,7 +752,6 @@ public class V_AddUserTypeForm extends JPanel {
         add(scrollPane1, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
 
-        //add permissions to combobox
         List<M_Permission> permissionList = permissionController.request("R", "");
 
         for (int i = 0; i < permissionList.size(); i++) {
@@ -869,6 +878,7 @@ public class V_AddUserTypeForm extends JPanel {
     private boolean isFilled = false;
     private TableColumn removeColumn;
     private boolean isEditable = false;
+    private C_UserType userType = new C_UserType();
     private BufferedImage edit; {
         try {
             edit = ImageIO.read(getClass().getResourceAsStream("/com/example/clinicsystem/pictures/edit.png"));
