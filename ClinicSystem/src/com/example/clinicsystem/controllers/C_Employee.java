@@ -41,6 +41,11 @@ public class C_Employee {
 
                 return null;
             case "R":
+                if(list == null) {
+                    return employee.getAllEmployees("");
+                } else {
+                    return employee.getAllEmployees(list.get(0));
+                }
 
             case "U":
 

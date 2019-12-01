@@ -1,33 +1,47 @@
 /*
- * Created by JFormDesigner on Thu Nov 28 18:20:43 EET 2019
+ * Created by JFormDesigner on Sat Nov 30 22:03:00 EET 2019
  */
 
 package com.example.clinicsystem.views;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.List;
+import java.util.spi.CalendarDataProvider;
 
-import com.example.clinicsystem.controllers.C_Permission;
-import com.example.clinicsystem.helpers.MyTableCellRenderer;
-import com.example.clinicsystem.models.classes.M_Permission;
+import com.example.clinicsystem.controllers.C_Employee;
+import com.example.clinicsystem.models.classes.M_Employee;
+import com.example.clinicsystem.models.enums.DentistryDepartment;
+import com.github.lgooddatepicker.components.DatePicker;
 import com.intellij.uiDesigner.core.*;
 import info.clearthought.layout.*;
 
 /**
  * @author Dania
  */
-public class V_AddUserTypeForm extends JPanel {
-    public V_AddUserTypeForm() {
+public class V_SearchEmployeesForm extends JPanel {
+    public V_SearchEmployeesForm() {
         initComponents();
+
+        datePicker.setDate(LocalDate.parse(getNextDay()));
+
+        employees = employeeController.request("R", null);
+        updateTable();
+
+        comboBoxDepartment.addItem("-");
+
+        for (DentistryDepartment department : DentistryDepartment.values()) {
+            comboBoxDepartment.addItem(department.getName());
+        }
+
+        comboBoxJobTitle.addItem("-");
     }
 
     private void labelHome2MouseClicked(MouseEvent e) {
@@ -53,66 +67,88 @@ public class V_AddUserTypeForm extends JPanel {
         panelExpanded.setVisible(true);
     }
 
-    private void textFieldTypeNameFocusGained(FocusEvent e) {
-        if (textFieldTypeName.getText().equals("e.g. Admin")) {
-            textFieldTypeName.setText("");
-            textFieldTypeName.setForeground(Color.black);
+    private void textFieldIDFocusGained(FocusEvent e) {
+        if (textFieldID.getText().equals("e.g. 180967")) {
+            textFieldID.setText("");
+            textFieldID.setForeground(Color.black);
         }
     }
 
-    private void textFieldTypeNameFocusLost(FocusEvent e) {
-        if (textFieldTypeName.getText().equals("")) {
-            textFieldTypeName.setText("e.g. Admin");
-            textFieldTypeName.setForeground(Color.gray);
+    private void textFieldIDFocusLost(FocusEvent e) {
+        if (textFieldID.getText().equals("")) {
+            textFieldID.setText("e.g. 180967");
+            textFieldID.setForeground(Color.gray);
         }
     }
 
-    private void buttonAddPermissionMouseClicked(MouseEvent e) {
-        boolean isAddable = true;
-
-        for (String addedPermission : addedPermissions) {
-            if (addedPermission.equals(comboBoxPermissions.getSelectedItem().toString())) {
-                isAddable = false;
-            }
-        }
-
-        if (isAddable) {
-            Object[] data = {new ImageIcon(getClass().getResource("/com/example/clinicsystem/pictures/remove.png")),
-                    comboBoxPermissions.getSelectedItem().toString()};
-
-            if (!isFilled) {
-                model.removeRow(0);
-                isFilled = true;
-            }
-
-            model.addRow(data);
-            addedPermissions.add(comboBoxPermissions.getSelectedItem().toString());
+    private void textFieldNameFocusGained(FocusEvent e) {
+        if (textFieldName.getText().equals("e.g. John Doe")) {
+            textFieldName.setText("");
+            textFieldName.setForeground(Color.black);
         }
     }
 
-    private void labelClearTableMouseClicked(MouseEvent e) {
-        for(int i=0; i < addedPermissions.size(); ) {
-            removeSingleRow(i);
+    private void textFieldNameFocusLost(FocusEvent e) {
+        if (textFieldName.getText().equals("")) {
+            textFieldName.setText("e.g. John Doe");
+            textFieldName.setForeground(Color.gray);
         }
     }
 
-    private void labelEditTableMouseClicked(MouseEvent e) {
-        if (isFilled) {
-            if (!isEditable) {
-                labelEditTable.setIcon(new ImageIcon(cancel));
-                tablePermissions.addColumn(removeColumn);
-                tablePermissions.moveColumn(1, 0);
-                isEditable = true;
-            } else {
-                labelEditTable.setIcon(new ImageIcon(edit));
-                tablePermissions.removeColumn(removeColumn);
-                isEditable = false;
-            }
-        }
+    private void buttonResetMouseClicked(MouseEvent e) {
+        textFieldID.setText("e.g. 180967");
+        textFieldID.setForeground(Color.gray);
+        textFieldName.setText("e.g. John Doe");
+        textFieldName.setForeground(Color.gray);
+
+        comboBoxDepartment.setSelectedIndex(0);
+        comboBoxJobTitle.setSelectedIndex(0);
+
+        datePicker.setDate(LocalDate.parse(getNextDay()));
     }
 
-    private void buttonAddTypeMouseClicked(MouseEvent e) {
-        // TODO add your code here
+    private void buttonSearchMouseClicked(MouseEvent e) {
+        String sec = " WHERE ";
+
+        if(textFieldID.getText() != "e.g. 180967"){
+
+            sec += "Employee_ID = " + textFieldID.getText();
+        }
+        if(sec == " WHERE "){
+            employees = employeeController.request("R", null);
+        }
+        else{
+            List<String> condition = new ArrayList<>();
+            condition.add(sec);
+            employees = employeeController.request("R", condition);
+        }
+
+        updateTable();
+    }
+
+    private String getNextDay() {
+        datePicker.setDateToToday();
+        String newDate = datePicker.getDateStringOrEmptyString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+
+        try {
+            calendar.setTime(sdf.parse(newDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        calendar.add(Calendar.DATE, 1);
+        return sdf.format(calendar.getTime());
+    }
+
+    private void updateTable(){
+        ((DefaultTableModel) tableEmployees.getModel()).setRowCount(0);
+
+        for (M_Employee employee : employees) {
+            ((DefaultTableModel) tableEmployees.getModel()).addRow(new Object[]{employee.getEmployeeID(),
+                    employee.getFirstName() + " " + employee.getLastName(), employee.getPhoneNumber(), "Dentist", "Surgery", "H213"});
+        }
     }
 
     private void initComponents() {
@@ -143,38 +179,48 @@ public class V_AddUserTypeForm extends JPanel {
         labelFake = new JLabel();
         scrollPane1 = new JScrollPane();
         panelBody = new JPanel();
-        panelTypeHeader = new JPanel();
-        textTypeInfo = new JLabel();
-        separatorType = new JSeparator();
-        panelTypeBody = new JPanel();
-        labelType = new JLabel();
-        textFieldTypeName = new JTextField();
-        comboBoxPermissions = new JComboBox();
-        labelTypeError = new JLabel();
-        buttonAddPermission = new JButton();
-        panel2 = new JPanel();
-        labelClearTable = new JLabel();
-        labelEditTable = new JLabel();
+        panelSearchHeader = new JPanel();
+        textSearchEmp = new JLabel();
+        panelSearchBy = new JPanel();
+        labelRegDate = new JLabel();
+        textFieldID = new JTextField();
+        hSpacer3 = new JPanel(null);
+        textFieldName = new JTextField();
+        hSpacer4 = new JPanel(null);
+        panelRegDate = new JPanel();
+        vSpacer1 = new JPanel(null);
+        labelJob = new JLabel();
+        labelDepartment = new JLabel();
+        comboBoxJobTitle = new JComboBox();
+        comboBoxDepartment = new JComboBox();
+        vSpacer2 = new JPanel(null);
+        panelSearchButtons = new JPanel();
+        hSpacer5 = new JPanel(null);
+        buttonSearch = new JButton();
+        hSpacer6 = new JPanel(null);
+        buttonReset = new JButton();
+        hSpacer7 = new JPanel(null);
+        vSpacer3 = new JPanel(null);
+        hSpacer8 = new JPanel(null);
+        separatorSearch = new JSeparator();
+        vSpacer4 = new JPanel(null);
+        scrollPaneTable = new JScrollPane();
+        tableEmployees = new JTable();
         hSpacer1 = new JPanel(null);
-        panelPermissionsTable = new JPanel();
-        panelTableHeader = new JPanel();
-        labelHeader = new JLabel();
-        tablePermissions = new JTable();
-        hSpacer2 = new JPanel(null);
         panelFooter = new JPanel();
-        buttonAdd = new JButton();
+        buttonPrint = new JButton();
         labelTooth = new JLabel();
 
         //======== this ========
         setMinimumSize(new Dimension(1920, 1080));
         setPreferredSize(new Dimension(1920, 1200));
         setBackground(Color.white);
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing.
-        border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e" , javax. swing .border . TitledBorder. CENTER
-        ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "D\u0069al\u006fg", java .awt . Font
-        . BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) );  addPropertyChangeListener(
-        new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062or\u0064er"
-        .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
+        (0,0,0,0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn",javax.swing.border.TitledBorder.CENTER,javax.swing.border
+        .TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt
+        .Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void
+        propertyChange(java.beans.PropertyChangeEvent e){if("\u0062ord\u0065r".equals(e.getPropertyName()))throw new RuntimeException()
+        ;}});
         setLayout(new TableLayout(new double[][] {
             {226, TableLayout.FILL},
             {TableLayout.FILL}}));
@@ -511,202 +557,255 @@ public class V_AddUserTypeForm extends JPanel {
                 panelBody.setAutoscrolls(true);
                 panelBody.setBorder(new EmptyBorder(0, 20, 10, 30));
                 panelBody.setLayout(new TableLayout(new double[][] {
-                    {TableLayout.FILL, TableLayout.FILL, TableLayout.FILL},
-                    {92, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}}));
+                    {TableLayout.PREFERRED, TableLayout.FILL, 20},
+                    {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED, 20, TableLayout.FILL, TableLayout.PREFERRED}}));
                 ((TableLayout)panelBody.getLayout()).setHGap(5);
-                ((TableLayout)panelBody.getLayout()).setVGap(5);
 
-                //======== panelTypeHeader ========
+                //======== panelSearchHeader ========
                 {
-                    panelTypeHeader.setBackground(Color.white);
-                    panelTypeHeader.setLayout(new TableLayout(new double[][] {
-                        {TableLayout.PREFERRED, TableLayout.FILL},
-                        {93, TableLayout.PREFERRED}}));
-                    ((TableLayout)panelTypeHeader.getLayout()).setHGap(5);
-                    ((TableLayout)panelTypeHeader.getLayout()).setVGap(5);
+                    panelSearchHeader.setBackground(Color.white);
+                    panelSearchHeader.setLayout(new TableLayout(new double[][] {
+                        {TableLayout.PREFERRED, 980},
+                        {TableLayout.PREFERRED, TableLayout.PREFERRED}}));
+                    ((TableLayout)panelSearchHeader.getLayout()).setHGap(5);
+                    ((TableLayout)panelSearchHeader.getLayout()).setVGap(5);
 
-                    //---- textTypeInfo ----
-                    textTypeInfo.setText("User Type Info");
-                    textTypeInfo.setFont(new Font("Alike", Font.PLAIN, 21));
-                    textTypeInfo.setForeground(Color.black);
-                    panelTypeHeader.add(textTypeInfo, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-                    panelTypeHeader.add(separatorType, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.CENTER));
+                    //---- textSearchEmp ----
+                    textSearchEmp.setText("Search Employees");
+                    textSearchEmp.setFont(new Font("Alike", Font.BOLD, 26));
+                    textSearchEmp.setForeground(new Color(32, 32, 82));
+                    panelSearchHeader.add(textSearchEmp, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
                 }
-                panelBody.add(panelTypeHeader, new TableLayoutConstraints(0, 0, 2, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                panelBody.add(panelSearchHeader, new TableLayoutConstraints(0, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
-                //======== panelTypeBody ========
+                //======== panelSearchBy ========
                 {
-                    panelTypeBody.setBackground(Color.white);
-                    panelTypeBody.setLayout(new TableLayout(new double[][] {
-                        {TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL},
-                        {TableLayout.PREFERRED, 50, TableLayout.PREFERRED, 40}}));
-                    ((TableLayout)panelTypeBody.getLayout()).setHGap(5);
-                    ((TableLayout)panelTypeBody.getLayout()).setVGap(5);
+                    panelSearchBy.setBackground(Color.white);
+                    panelSearchBy.setLayout(new TableLayout(new double[][] {
+                        {TableLayout.FILL, 30, TableLayout.FILL, 30, TableLayout.FILL},
+                        {TableLayout.PREFERRED, 50, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED, 10, TableLayout.PREFERRED, 20}}));
+                    ((TableLayout)panelSearchBy.getLayout()).setHGap(5);
+                    ((TableLayout)panelSearchBy.getLayout()).setVGap(5);
 
-                    //---- labelType ----
-                    labelType.setText("Type Permissions");
-                    labelType.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
-                    labelType.setForeground(Color.black);
-                    panelTypeBody.add(labelType, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.BOTTOM));
+                    //---- labelRegDate ----
+                    labelRegDate.setText("Registration Date");
+                    labelRegDate.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                    labelRegDate.setForeground(Color.black);
+                    panelSearchBy.add(labelRegDate, new TableLayoutConstraints(4, 0, 4, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.BOTTOM));
 
-                    //---- textFieldTypeName ----
-                    textFieldTypeName.setBackground(Color.white);
-                    textFieldTypeName.setForeground(Color.gray);
-                    textFieldTypeName.setFont(new Font("Helvetica-Normal", Font.PLAIN, 15));
-                    textFieldTypeName.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Type Name", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
+                    //---- textFieldID ----
+                    textFieldID.setBackground(Color.white);
+                    textFieldID.setForeground(Color.gray);
+                    textFieldID.setFont(new Font("Helvetica-Normal", Font.PLAIN, 15));
+                    textFieldID.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Employee ID", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
-                    textFieldTypeName.setText("e.g. Admin");
-                    textFieldTypeName.addFocusListener(new FocusAdapter() {
+                    textFieldID.setText("e.g. 180967");
+                    textFieldID.setMinimumSize(new Dimension(64, 55));
+                    textFieldID.setPreferredSize(new Dimension(95, 60));
+                    textFieldID.addFocusListener(new FocusAdapter() {
                         @Override
                         public void focusGained(FocusEvent e) {
-                            textFieldTypeNameFocusGained(e);
+                            textFieldIDFocusGained(e);
                         }
                         @Override
                         public void focusLost(FocusEvent e) {
-                            textFieldTypeNameFocusLost(e);
+                            textFieldIDFocusLost(e);
                         }
                     });
-                    panelTypeBody.add(textFieldTypeName, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    panelSearchBy.add(textFieldID, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
-                    //---- comboBoxPermissions ----
-                    comboBoxPermissions.setBackground(Color.white);
-                    comboBoxPermissions.setForeground(new Color(32, 32, 82));
-                    comboBoxPermissions.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    panelTypeBody.add(comboBoxPermissions, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    //---- hSpacer3 ----
+                    hSpacer3.setBackground(new Color(60, 63, 65, 0));
+                    panelSearchBy.add(hSpacer3, new TableLayoutConstraints(1, 1, 1, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
-                    //---- labelTypeError ----
-                    labelTypeError.setForeground(new Color(191, 44, 39));
-                    labelTypeError.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
-                    labelTypeError.setBackground(Color.white);
-                    panelTypeBody.add(labelTypeError, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-                    //---- buttonAddPermission ----
-                    buttonAddPermission.setText("Add Permission");
-                    buttonAddPermission.setBackground(new Color(32, 32, 82));
-                    buttonAddPermission.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
-                    buttonAddPermission.setForeground(Color.white);
-                    buttonAddPermission.addMouseListener(new MouseAdapter() {
+                    //---- textFieldName ----
+                    textFieldName.setBackground(Color.white);
+                    textFieldName.setForeground(Color.gray);
+                    textFieldName.setFont(new Font("Helvetica-Normal", Font.PLAIN, 15));
+                    textFieldName.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Employee Name", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
+                        new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
+                    textFieldName.setText("e.g. John Doe");
+                    textFieldName.setMinimumSize(new Dimension(64, 55));
+                    textFieldName.setPreferredSize(new Dimension(95, 60));
+                    textFieldName.addFocusListener(new FocusAdapter() {
                         @Override
-                        public void mouseClicked(MouseEvent e) {
-                            buttonAddPermissionMouseClicked(e);
+                        public void focusGained(FocusEvent e) {
+                            textFieldNameFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldNameFocusLost(e);
                         }
                     });
-                    panelTypeBody.add(buttonAddPermission, new TableLayoutConstraints(2, 3, 2, 3, TableLayoutConstraints.RIGHT, TableLayoutConstraints.TOP));
-                }
-                panelBody.add(panelTypeBody, new TableLayoutConstraints(0, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    panelSearchBy.add(textFieldName, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
-                //======== panel2 ========
+                    //---- hSpacer4 ----
+                    hSpacer4.setBackground(new Color(60, 63, 65, 0));
+                    panelSearchBy.add(hSpacer4, new TableLayoutConstraints(3, 1, 3, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //======== panelRegDate ========
+                    {
+                        panelRegDate.setBackground(Color.gray);
+                        panelRegDate.setLayout(new BorderLayout());
+                    }
+                    panelSearchBy.add(panelRegDate, new TableLayoutConstraints(4, 1, 4, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- vSpacer1 ----
+                    vSpacer1.setBackground(new Color(60, 63, 65, 0));
+                    panelSearchBy.add(vSpacer1, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- labelJob ----
+                    labelJob.setText("Job Title");
+                    labelJob.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                    labelJob.setForeground(Color.black);
+                    panelSearchBy.add(labelJob, new TableLayoutConstraints(0, 3, 0, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.BOTTOM));
+
+                    //---- labelDepartment ----
+                    labelDepartment.setText("Department");
+                    labelDepartment.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                    labelDepartment.setForeground(Color.black);
+                    panelSearchBy.add(labelDepartment, new TableLayoutConstraints(2, 3, 2, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.BOTTOM));
+
+                    //---- comboBoxJobTitle ----
+                    comboBoxJobTitle.setBackground(Color.white);
+                    comboBoxJobTitle.setForeground(new Color(32, 32, 82));
+                    comboBoxJobTitle.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    comboBoxJobTitle.setPreferredSize(new Dimension(93, 47));
+                    comboBoxJobTitle.setMinimumSize(new Dimension(99, 47));
+                    panelSearchBy.add(comboBoxJobTitle, new TableLayoutConstraints(0, 4, 0, 4, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- comboBoxDepartment ----
+                    comboBoxDepartment.setBackground(Color.white);
+                    comboBoxDepartment.setForeground(new Color(32, 32, 82));
+                    comboBoxDepartment.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    comboBoxDepartment.setPreferredSize(new Dimension(93, 47));
+                    comboBoxDepartment.setMinimumSize(new Dimension(99, 47));
+                    panelSearchBy.add(comboBoxDepartment, new TableLayoutConstraints(2, 4, 2, 4, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- vSpacer2 ----
+                    vSpacer2.setBackground(new Color(60, 63, 65, 0));
+                    panelSearchBy.add(vSpacer2, new TableLayoutConstraints(0, 5, 0, 5, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //======== panelSearchButtons ========
+                    {
+                        panelSearchButtons.setBackground(new Color(60, 63, 65, 0));
+                        panelSearchButtons.setLayout(new TableLayout(new double[][] {
+                            {TableLayout.PREFERRED, 120, TableLayout.PREFERRED, 120, TableLayout.PREFERRED},
+                            {35}}));
+                        ((TableLayout)panelSearchButtons.getLayout()).setHGap(5);
+                        ((TableLayout)panelSearchButtons.getLayout()).setVGap(5);
+
+                        //---- hSpacer5 ----
+                        hSpacer5.setBackground(new Color(60, 63, 65, 0));
+                        panelSearchButtons.add(hSpacer5, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                        //---- buttonSearch ----
+                        buttonSearch.setText("Search");
+                        buttonSearch.setBackground(new Color(32, 32, 82));
+                        buttonSearch.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        buttonSearch.setForeground(Color.white);
+                        buttonSearch.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                buttonSearchMouseClicked(e);
+                            }
+                        });
+                        panelSearchButtons.add(buttonSearch, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                        //---- hSpacer6 ----
+                        hSpacer6.setBackground(new Color(60, 63, 65, 0));
+                        panelSearchButtons.add(hSpacer6, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                        //---- buttonReset ----
+                        buttonReset.setText("Reset");
+                        buttonReset.setBackground(new Color(32, 32, 82));
+                        buttonReset.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        buttonReset.setForeground(Color.white);
+                        buttonReset.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                buttonResetMouseClicked(e);
+                            }
+                        });
+                        panelSearchButtons.add(buttonReset, new TableLayoutConstraints(3, 0, 3, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                        //---- hSpacer7 ----
+                        hSpacer7.setBackground(new Color(60, 63, 65, 0));
+                        panelSearchButtons.add(hSpacer7, new TableLayoutConstraints(4, 0, 4, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    }
+                    panelSearchBy.add(panelSearchButtons, new TableLayoutConstraints(0, 6, 0, 6, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- vSpacer3 ----
+                    vSpacer3.setBackground(new Color(60, 63, 65, 0));
+                    panelSearchBy.add(vSpacer3, new TableLayoutConstraints(2, 7, 2, 7, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                }
+                panelBody.add(panelSearchBy, new TableLayoutConstraints(1, 1, 1, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                //---- hSpacer8 ----
+                hSpacer8.setBackground(new Color(60, 63, 65, 0));
+                panelBody.add(hSpacer8, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                //---- separatorSearch ----
+                separatorSearch.setForeground(Color.black);
+                panelBody.add(separatorSearch, new TableLayoutConstraints(1, 2, 1, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.CENTER));
+
+                //---- vSpacer4 ----
+                vSpacer4.setBackground(new Color(60, 63, 65, 0));
+                panelBody.add(vSpacer4, new TableLayoutConstraints(1, 3, 1, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                //======== scrollPaneTable ========
                 {
-                    panel2.setBackground(new Color(60, 63, 65, 0));
-                    panel2.setLayout(new TableLayout(new double[][] {
-                        {TableLayout.PREFERRED, TableLayout.PREFERRED},
-                        {TableLayout.FILL}}));
-                    ((TableLayout)panel2.getLayout()).setHGap(5);
-                    ((TableLayout)panel2.getLayout()).setVGap(5);
+                    scrollPaneTable.setBackground(Color.white);
 
-                    //---- labelClearTable ----
-                    labelClearTable.setBackground(new Color(60, 63, 65, 0));
-                    labelClearTable.setIcon(new ImageIcon(getClass().getResource("/com/example/clinicsystem/pictures/clear.png")));
-                    labelClearTable.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    labelClearTable.addMouseListener(new MouseAdapter() {
+                    //---- tableEmployees ----
+                    tableEmployees.setBackground(Color.white);
+                    tableEmployees.setGridColor(Color.lightGray);
+                    tableEmployees.setForeground(Color.black);
+                    tableEmployees.setSelectionBackground(new Color(204, 204, 255));
+                    tableEmployees.setSelectionForeground(Color.black);
+                    tableEmployees.setBorder(new LineBorder(Color.lightGray));
+                    tableEmployees.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                    tableEmployees.setRowHeight(40);
+                    tableEmployees.setModel(new DefaultTableModel(
+                        new Object[][] {
+                        },
+                        new String[] {
+                            "ID", "Name", "Phone", "Job", "Department", "Room"
+                        }
+                    ) {
+                        boolean[] columnEditable = new boolean[] {
+                            false, false, false, false, false, false
+                        };
                         @Override
-                        public void mouseClicked(MouseEvent e) {
-                            labelClearTableMouseClicked(e);
+                        public boolean isCellEditable(int rowIndex, int columnIndex) {
+                            return columnEditable[columnIndex];
                         }
                     });
-                    panel2.add(labelClearTable, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.RIGHT, TableLayoutConstraints.BOTTOM));
-
-                    //---- labelEditTable ----
-                    labelEditTable.setBackground(Color.white);
-                    labelEditTable.setIcon(new ImageIcon(getClass().getResource("/com/example/clinicsystem/pictures/edit.png")));
-                    labelEditTable.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    labelEditTable.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            labelEditTableMouseClicked(e);
-                        }
-                    });
-                    panel2.add(labelEditTable, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.RIGHT, TableLayoutConstraints.BOTTOM));
+                    scrollPaneTable.setViewportView(tableEmployees);
                 }
-                panelBody.add(panel2, new TableLayoutConstraints(1, 2, 1, 2, TableLayoutConstraints.RIGHT, TableLayoutConstraints.FULL));
+                panelBody.add(scrollPaneTable, new TableLayoutConstraints(1, 4, 1, 4, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                 //---- hSpacer1 ----
                 hSpacer1.setBackground(new Color(60, 63, 65, 0));
-                panelBody.add(hSpacer1, new TableLayoutConstraints(0, 3, 0, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-                //======== panelPermissionsTable ========
-                {
-                    panelPermissionsTable.setBackground(Color.white);
-                    panelPermissionsTable.setBorder(null);
-                    panelPermissionsTable.setAlignmentY(0.0F);
-                    panelPermissionsTable.setLayout(new TableLayout(new double[][] {
-                        {TableLayout.FILL},
-                        {45, TableLayout.PREFERRED}}));
-                    ((TableLayout)panelPermissionsTable.getLayout()).setHGap(5);
-
-                    //======== panelTableHeader ========
-                    {
-                        panelTableHeader.setBackground(Color.lightGray);
-                        panelTableHeader.setLayout(new BorderLayout());
-
-                        //---- labelHeader ----
-                        labelHeader.setText("Permissions");
-                        labelHeader.setForeground(Color.black);
-                        labelHeader.setFont(new Font("Helvetica-Normal", Font.PLAIN, 16));
-                        labelHeader.setHorizontalAlignment(SwingConstants.CENTER);
-                        panelTableHeader.add(labelHeader, BorderLayout.CENTER);
-                    }
-                    panelPermissionsTable.add(panelTableHeader, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-                    //---- tablePermissions ----
-                    tablePermissions.setBackground(Color.white);
-                    tablePermissions.setGridColor(Color.lightGray);
-                    tablePermissions.setForeground(Color.black);
-                    tablePermissions.setSelectionBackground(new Color(204, 204, 255));
-                    tablePermissions.setSelectionForeground(Color.black);
-                    tablePermissions.setBorder(new LineBorder(Color.lightGray));
-                    tablePermissions.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
-                    tablePermissions.setRowHeight(40);
-                    tablePermissions.setModel(new DefaultTableModel(
-                        new Object[][] {
-                            {null, null},
-                        },
-                        new String[] {
-                            null, null
-                        }
-                    ));
-                    tablePermissions.setShowVerticalLines(false);
-                    panelPermissionsTable.add(tablePermissions, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-                }
-                panelBody.add(panelPermissionsTable, new TableLayoutConstraints(1, 3, 1, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-                //---- hSpacer2 ----
-                hSpacer2.setBackground(new Color(60, 63, 65, 0));
-                panelBody.add(hSpacer2, new TableLayoutConstraints(2, 3, 2, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                panelBody.add(hSpacer1, new TableLayoutConstraints(2, 0, 2, 5, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                 //======== panelFooter ========
                 {
                     panelFooter.setBackground(Color.white);
                     panelFooter.setLayout(null);
 
-                    //---- buttonAdd ----
-                    buttonAdd.setText("Add");
-                    buttonAdd.setBackground(new Color(32, 32, 82));
-                    buttonAdd.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
-                    buttonAdd.setForeground(Color.white);
-                    buttonAdd.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            buttonAddTypeMouseClicked(e);
-                        }
-                    });
-                    panelFooter.add(buttonAdd);
-                    buttonAdd.setBounds(90, 100, 190, 35);
+                    //---- buttonPrint ----
+                    buttonPrint.setText("Print");
+                    buttonPrint.setBackground(new Color(32, 32, 82));
+                    buttonPrint.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                    buttonPrint.setForeground(Color.white);
+                    panelFooter.add(buttonPrint);
+                    buttonPrint.setBounds(5, 45, 145, 30);
 
                     //---- labelTooth ----
                     labelTooth.setIcon(new ImageIcon(getClass().getResource("/com/example/clinicsystem/pictures/tooth_purple.png")));
                     panelFooter.add(labelTooth);
-                    labelTooth.setBounds(175, 0, 110, 143);
+                    labelTooth.setBounds(75, -55, 110, 140);
 
                     {
                         // compute preferred size
@@ -723,79 +822,23 @@ public class V_AddUserTypeForm extends JPanel {
                         panelFooter.setPreferredSize(preferredSize);
                     }
                 }
-                panelBody.add(panelFooter, new TableLayoutConstraints(2, 5, 2, 5, TableLayoutConstraints.RIGHT, TableLayoutConstraints.BOTTOM));
+                panelBody.add(panelFooter, new TableLayoutConstraints(1, 5, 1, 5, TableLayoutConstraints.RIGHT, TableLayoutConstraints.BOTTOM));
             }
             scrollPane1.setViewportView(panelBody);
         }
         add(scrollPane1, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
 
-        List<M_Permission> permissionList = permissionController.request("R", "");
+        datePicker = new DatePicker();
+        datePicker.setBackground(Color.white);
+        datePicker.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+        panelRegDate.add(datePicker);
 
-        for (int i = 0; i < permissionList.size(); i++) {
-            comboBoxPermissions.addItem(permissionList.get(i).getLinkName());
-        }
-
-        //design table structure
-        designTable();
-    }
-
-    private void designTable() {
-        model = new DefaultTableModel(new Object[][] {{"", "None"}}, new String[] {"remove", "name"});
-        tablePermissions.setModel(model);
-        tablePermissions.setDefaultEditor(Object.class, null);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        tablePermissions.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tablePermissions.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        removeColumn = tablePermissions.getColumnModel().getColumn(0);
-        removeColumn.setMaxWidth(50);
-        tablePermissions.removeColumn(removeColumn);
-        tablePermissions.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = tablePermissions.rowAtPoint(e.getPoint());
-                int col = tablePermissions.columnAtPoint(e.getPoint());
 
-                if(col == 0 && isEditable) {
-                    removeSingleRow(row);
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                int col = tablePermissions.columnAtPoint(e.getPoint());
-
-                if(col == 0 && isEditable) {
-                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                } else {
-                    setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                int col = tablePermissions.columnAtPoint(e.getPoint());
-
-                if(col == 0 && isEditable) {
-                    setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
-            }
-        });
-    }
-
-    private void removeSingleRow(int row) {
-        model.removeRow(row);
-        addedPermissions.remove(row);
-
-        if (model.getRowCount() == 0) {
-            Object[] data = {null, "None"};
-            model.addRow(data);
-            isFilled = false;
-            isEditable = false;
-            tablePermissions.removeColumn(removeColumn);
-            labelEditTable.setIcon(new ImageIcon(edit));
-            setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        for(int i=0; i < tableEmployees.getModel().getColumnCount(); i++) {
+            tableEmployees.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
 
@@ -826,58 +869,41 @@ public class V_AddUserTypeForm extends JPanel {
     private JLabel labelFake;
     private JScrollPane scrollPane1;
     private JPanel panelBody;
-    private JPanel panelTypeHeader;
-    private JLabel textTypeInfo;
-    private JSeparator separatorType;
-    private JPanel panelTypeBody;
-    private JLabel labelType;
-    private JTextField textFieldTypeName;
-    private JComboBox comboBoxPermissions;
-    private JLabel labelTypeError;
-    private JButton buttonAddPermission;
-    private JPanel panel2;
-    private JLabel labelClearTable;
-    private JLabel labelEditTable;
+    private JPanel panelSearchHeader;
+    private JLabel textSearchEmp;
+    private JPanel panelSearchBy;
+    private JLabel labelRegDate;
+    private JTextField textFieldID;
+    private JPanel hSpacer3;
+    private JTextField textFieldName;
+    private JPanel hSpacer4;
+    private JPanel panelRegDate;
+    private JPanel vSpacer1;
+    private JLabel labelJob;
+    private JLabel labelDepartment;
+    private JComboBox comboBoxJobTitle;
+    private JComboBox comboBoxDepartment;
+    private JPanel vSpacer2;
+    private JPanel panelSearchButtons;
+    private JPanel hSpacer5;
+    private JButton buttonSearch;
+    private JPanel hSpacer6;
+    private JButton buttonReset;
+    private JPanel hSpacer7;
+    private JPanel vSpacer3;
+    private JPanel hSpacer8;
+    private JSeparator separatorSearch;
+    private JPanel vSpacer4;
+    private JScrollPane scrollPaneTable;
+    private JTable tableEmployees;
     private JPanel hSpacer1;
-    private JPanel panelPermissionsTable;
-    private JPanel panelTableHeader;
-    private JLabel labelHeader;
-    private JTable tablePermissions;
-    private JPanel hSpacer2;
     private JPanel panelFooter;
-    private JButton buttonAdd;
+    private JButton buttonPrint;
     private JLabel labelTooth;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     public static JFrame frame = new JFrame("Home Frame");
-    private C_Permission permissionController = new C_Permission();
-    private DefaultTableModel model;
-    private List<String> addedPermissions = new ArrayList<>();
-    private boolean isFilled = false;
-    private TableColumn removeColumn;
-    private boolean isEditable = false;
-    private BufferedImage edit; {
-        try {
-            edit = ImageIO.read(getClass().getResourceAsStream("/com/example/clinicsystem/pictures/edit.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private BufferedImage cancel; {
-        try {
-            cancel = ImageIO.read(getClass().getResourceAsStream("/com/example/clinicsystem/pictures/cancel.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /*tablePermissions = new JTable() {
-        public TableCellRenderer getCellRenderer(int row, int column) {
-            if (column == 0 && this.getColumnCount() > 1) {
-                return new MyTableCellRenderer();
-            } else {
-                return super.getCellRenderer(row, column);
-            }
-        }
-    };*/
+    private DatePicker datePicker;
+    private C_Employee employeeController = new C_Employee();
+    private List<M_Employee> employees = new ArrayList<>();
 }
