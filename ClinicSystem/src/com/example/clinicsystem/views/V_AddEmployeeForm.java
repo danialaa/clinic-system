@@ -122,6 +122,9 @@ public class V_AddEmployeeForm extends JPanel {
 
             employeeController.request("C", data);
         }
+
+        labelList.clear();
+        textFieldList.clear();
     }
 
     private void initComponents() {

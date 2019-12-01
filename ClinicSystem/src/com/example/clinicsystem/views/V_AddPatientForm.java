@@ -6,10 +6,16 @@ package com.example.clinicsystem.views;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 
 import com.example.clinicsystem.ClinicSystem;
+import com.example.clinicsystem.controllers.C_Patient;
+import com.example.clinicsystem.models.enums.DentistryDepartment;
+import com.example.clinicsystem.models.enums.Gender;
+import com.example.clinicsystem.models.enums.MedicalAlert;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.intellij.uiDesigner.core.*;
 import info.clearthought.layout.*;
@@ -72,7 +78,89 @@ public class V_AddPatientForm extends JPanel {
     }
 
     private void buttonAddPatientMouseClicked(MouseEvent e) {
-        // TODO add your code here
+        List<JTextField> textFields = new ArrayList<>();
+        textFields.add(textFieldFN);
+        textFields.add(textFieldMN);
+        textFields.add(textFieldLN);
+        textFields.add(textFieldPhone);
+        textFields.add(textFieldID);
+        textFields.add(textFieldStreet);
+        textFields.add(textFieldApt);
+        textFields.add(textFieldEmerName);
+        textFields.add(textFieldEmerPhone);
+
+        List<JLabel> labels = new ArrayList<>();
+        labels.add(labelFNError);
+        labels.add(labelMNError);
+        labels.add(labelLNError);
+        labels.add(labelPhoneError);
+        labels.add(labelIDError);
+        labels.add(labelStreetError);
+        labels.add(labelAptError);
+        labels.add(labelEmerNameError);
+        labels.add(labelPhoneError);
+
+        if(patientController.isValidPatient(textFields,labels)) {
+            List data = new ArrayList<>();
+
+            data.add(textFieldFN.getText());
+            data.add(textFieldMN.getText());
+            data.add(textFieldLN.getText());
+            data.add(textFieldPhone.getText());
+            data.add(datePicker.getDate().toString());
+            data.add(textFieldID.getText());
+
+            if(radioButtonFemale.isSelected()) {
+                data.add(Gender.FEMALE);
+            } else {
+                data.add(Gender.MALE);
+            }
+
+            data.add(comboBoxGov.getSelectedItem().toString());
+            data.add(comboBoxCity.getSelectedItem().toString());
+            data.add(textFieldStreet.getText());
+            data.add(textFieldApt.getText());
+            data.add(textFieldEmerName.getText());
+            data.add(comboBoxRelation.getSelectedItem().toString());
+            data.add(textFieldEmerPhone.getText());
+            data.add(departments.get(comboBoxDepartment.getSelectedItem()));
+
+            if(checkBoxAllergies.isSelected()) {
+                data.add(MedicalAlert.ALLERGIES);
+            }
+            if(checkBoxDiabetes.isSelected()) {
+                data.add(MedicalAlert.DIABETES);
+            }
+            if(checkBoxAsthma.isSelected()) {
+                data.add(MedicalAlert.ASTHMA);
+            }
+            if(checkBoxDrugs.isSelected()) {
+                data.add(MedicalAlert.DRUGS);
+            }
+            if(checkBoxBP.isSelected()) {
+                data.add(MedicalAlert.BLOOD_PRESSURE);
+            }
+            if(checkBoxAnemia.isSelected()) {
+                data.add(MedicalAlert.ANEMIA);
+            }
+            if(checkBoxCancer.isSelected()) {
+                data.add(MedicalAlert.CANCER);
+            }
+            if(checkBoxCardio.isSelected()) {
+                data.add(MedicalAlert.CARDIOVASCULAR_DISEASES);
+            }
+            if(checkBoxHypertension.isSelected()) {
+                data.add(MedicalAlert.HYPERTENSION);
+            }
+            if(checkBoxBD.isSelected()) {
+                data.add(MedicalAlert.BLEEDING_DISORDERS);
+            }
+
+            patientController.request("C",data);
+        }
+
+        textFields.clear();
+        labels.clear();
     }
 
     private void initComponents() {
@@ -123,10 +211,12 @@ public class V_AddPatientForm extends JPanel {
         labelPhoneError = new JLabel();
         labelIDError = new JLabel();
         vSpacer3 = new JPanel(null);
+        labelDepartment = new JLabel();
         panelGender = new JPanel();
         labelGender = new JLabel();
         radioButtonFemale = new JRadioButton();
         radioButtonMale = new JRadioButton();
+        comboBoxDepartment = new JComboBox();
         panelAddressHeader = new JPanel();
         textAddressInfo = new JLabel();
         separatorAddress = new JSeparator();
@@ -151,7 +241,7 @@ public class V_AddPatientForm extends JPanel {
         labelRelation = new JLabel();
         textFieldEmerName = new JTextField();
         hSpacer5 = new JPanel(null);
-        comboBoxCity2 = new JComboBox();
+        comboBoxRelation = new JComboBox();
         hSpacer6 = new JPanel(null);
         panelFake2 = new JPanel();
         labelEmerNameError = new JLabel();
@@ -185,11 +275,12 @@ public class V_AddPatientForm extends JPanel {
         setMinimumSize(new Dimension(1920, 1080));
         setPreferredSize(new Dimension(1920, 1200));
         setBackground(Color.white);
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder (
-        0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder
-        . BOTTOM, new java. awt .Font ( "D\u0069alog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .
-        red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java .
-        beans. PropertyChangeEvent e) { if( "\u0062order" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing.
+        border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder. CENTER
+        ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font
+        . BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) );  addPropertyChangeListener(
+        new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "bord\u0065r"
+        .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
         setLayout(new TableLayout(new double[][] {
             {226, TableLayout.FILL},
             {TableLayout.FILL}}));
@@ -554,7 +645,7 @@ public class V_AddPatientForm extends JPanel {
                     panelPatientBody.setBackground(Color.white);
                     panelPatientBody.setLayout(new TableLayout(new double[][] {
                         {TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL},
-                        {50, TableLayout.PREFERRED, 30, 50, TableLayout.PREFERRED, 30, 50}}));
+                        {50, TableLayout.PREFERRED, 30, 50, TableLayout.PREFERRED, 30, TableLayout.PREFERRED, 50}}));
                     ((TableLayout)panelPatientBody.getLayout()).setHGap(5);
                     ((TableLayout)panelPatientBody.getLayout()).setVGap(5);
 
@@ -670,6 +761,12 @@ public class V_AddPatientForm extends JPanel {
                     vSpacer3.setMinimumSize(new Dimension(50, 10));
                     panelPatientBody.add(vSpacer3, new TableLayoutConstraints(0, 5, 0, 5, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
+                    //---- labelDepartment ----
+                    labelDepartment.setText("City");
+                    labelDepartment.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                    labelDepartment.setForeground(Color.black);
+                    panelPatientBody.add(labelDepartment, new TableLayoutConstraints(2, 6, 2, 6, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
                     //======== panelGender ========
                     {
                         panelGender.setBackground(Color.white);
@@ -712,7 +809,13 @@ public class V_AddPatientForm extends JPanel {
                         });
                         panelGender.add(radioButtonMale, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.CENTER, TableLayoutConstraints.FULL));
                     }
-                    panelPatientBody.add(panelGender, new TableLayoutConstraints(0, 6, 0, 6, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    panelPatientBody.add(panelGender, new TableLayoutConstraints(0, 7, 0, 7, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- comboBoxDepartment ----
+                    comboBoxDepartment.setBackground(Color.white);
+                    comboBoxDepartment.setForeground(new Color(32, 32, 82));
+                    comboBoxDepartment.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    panelPatientBody.add(comboBoxDepartment, new TableLayoutConstraints(2, 7, 2, 7, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
                 }
                 panelBody.add(panelPatientBody, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
@@ -889,11 +992,11 @@ public class V_AddPatientForm extends JPanel {
                     hSpacer5.setPreferredSize(new Dimension(50, 10));
                     panelEmerBody.add(hSpacer5, new TableLayoutConstraints(1, 1, 1, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
-                    //---- comboBoxCity2 ----
-                    comboBoxCity2.setBackground(Color.white);
-                    comboBoxCity2.setForeground(new Color(32, 32, 82));
-                    comboBoxCity2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    panelEmerBody.add(comboBoxCity2, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    //---- comboBoxRelation ----
+                    comboBoxRelation.setBackground(Color.white);
+                    comboBoxRelation.setForeground(new Color(32, 32, 82));
+                    comboBoxRelation.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    panelEmerBody.add(comboBoxRelation, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- hSpacer6 ----
                     hSpacer6.setBackground(new Color(255, 255, 255, 0));
@@ -1121,6 +1224,31 @@ public class V_AddPatientForm extends JPanel {
         }
         add(scrollPane1, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+
+        datePicker = new DatePicker();
+        datePicker.setBackground(Color.white);
+        datePicker.setDateToToday();
+        panelBirth.add(datePicker);
+
+        departments.put("Diagnosis", DentistryDepartment.DIAGNOSIS);
+        departments.put("Operative", DentistryDepartment.OPERATIVE);
+        departments.put("Endodontics", DentistryDepartment.ENDODONTICS);
+        departments.put("Removable Prosth", DentistryDepartment.REMOVABLE_PROSTH);
+        departments.put("Periodontics", DentistryDepartment.PERIODONTICS);
+        departments.put("Surgery", DentistryDepartment.SURGERY);
+        departments.put("Crown and Bridge", DentistryDepartment.CROWN_AND_BRIDGE);
+        departments.put("Pedodontics", DentistryDepartment.PEDODONTICS);
+        departments.put("Post Graduate", DentistryDepartment.POST_GRADUATE);
+
+        Iterator it = departments.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            comboBoxDepartment.addItem(pair.getKey().toString());
+
+            it.remove();
+        }
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -1170,10 +1298,12 @@ public class V_AddPatientForm extends JPanel {
     private JLabel labelPhoneError;
     private JLabel labelIDError;
     private JPanel vSpacer3;
+    private JLabel labelDepartment;
     private JPanel panelGender;
     private JLabel labelGender;
     private JRadioButton radioButtonFemale;
     private JRadioButton radioButtonMale;
+    private JComboBox comboBoxDepartment;
     private JPanel panelAddressHeader;
     private JLabel textAddressInfo;
     private JSeparator separatorAddress;
@@ -1198,7 +1328,7 @@ public class V_AddPatientForm extends JPanel {
     private JLabel labelRelation;
     private JTextField textFieldEmerName;
     private JPanel hSpacer5;
-    private JComboBox comboBoxCity2;
+    private JComboBox comboBoxRelation;
     private JPanel hSpacer6;
     private JPanel panelFake2;
     private JLabel labelEmerNameError;
@@ -1231,4 +1361,6 @@ public class V_AddPatientForm extends JPanel {
 
     DatePicker datePicker;
     public static JFrame frame = new JFrame("Home Frame");
+    private C_Patient patientController = new C_Patient();
+    private HashMap<String, DentistryDepartment> departments = new HashMap<>();
 }

@@ -269,7 +269,7 @@ new FormModel {
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class info.clearthought.layout.TableLayout ) {
 						"$columnSpecs": "fill, pref, fill, pref, fill"
-						"$rowSpecs": "50.0, pref, 30.0, 50.0, pref, 30.0, 50.0"
+						"$rowSpecs": "50.0, pref, 30.0, 50.0, pref, 30.0, pref, 50.0"
 						"hGap": 5
 						"vGap": 5
 					} ) {
@@ -416,6 +416,15 @@ new FormModel {
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridY": 5
 						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "labelDepartment"
+							"text": "City"
+							"font": #Font8
+							"foreground": #Color15
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 6
+							"gridX": 2
+						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class info.clearthought.layout.TableLayout ) {
 							"$columnSpecs": "pref, fill, fill"
 							"$rowSpecs": "50.0"
@@ -454,7 +463,16 @@ new FormModel {
 								"hAlign": 1
 							} )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
-							"gridY": 6
+							"gridY": 7
+						} )
+						add( new FormComponent( "javax.swing.JComboBox" ) {
+							name: "comboBoxDepartment"
+							"background": sfield java.awt.Color white
+							"foreground": &Color19 new java.awt.Color( 32, 32, 82, 255 )
+							"cursor": &Cursor0 new java.awt.Cursor( 12 )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 7
+							"gridX": 2
 						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 						"gridY": 1
@@ -489,7 +507,7 @@ new FormModel {
 						"vGap": 5
 					} ) {
 						name: "panelAddBody"
-						"background": &Color19 new java.awt.Color( 255, 255, 255, 255 )
+						"background": &Color20 new java.awt.Color( 255, 255, 255, 255 )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "labelGov"
 							"text": "Governorate"
@@ -510,7 +528,7 @@ new FormModel {
 							name: "comboBoxGov"
 							"background": sfield java.awt.Color white
 							"foreground": new java.awt.Color( 0, 0, 0, 255 )
-							"cursor": &Cursor0 new java.awt.Cursor( 12 )
+							"cursor": #Cursor0
 							addEvent( new FormEvent( "java.awt.event.ItemListener", "itemStateChanged", "comboBoxGovItemStateChanged", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridY": 1
@@ -527,7 +545,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JComboBox" ) {
 							name: "comboBoxCity"
 							"background": sfield java.awt.Color white
-							"foreground": &Color20 new java.awt.Color( 32, 32, 82, 255 )
+							"foreground": #Color19
 							"cursor": #Cursor0
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridY": 1
@@ -637,7 +655,7 @@ new FormModel {
 						"vGap": 5
 					} ) {
 						name: "panelEmerBody"
-						"background": #Color19
+						"background": #Color20
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "labelRelation"
 							"text": "Relation"
@@ -666,9 +684,9 @@ new FormModel {
 							"gridY": 1
 						} )
 						add( new FormComponent( "javax.swing.JComboBox" ) {
-							name: "comboBoxCity2"
+							name: "comboBoxRelation"
 							"background": sfield java.awt.Color white
-							"foreground": #Color20
+							"foreground": #Color19
 							"cursor": #Cursor0
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridY": 1
@@ -760,7 +778,7 @@ new FormModel {
 						"vGap": 5
 					} ) {
 						name: "panelMedBody"
-						"background": #Color19
+						"background": #Color20
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxAllergies"
 							"text": "Allergies"
@@ -947,7 +965,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 1520, 870 )
+			"size": new java.awt.Dimension( 1520, 965 )
 		} )
 	}
 }
