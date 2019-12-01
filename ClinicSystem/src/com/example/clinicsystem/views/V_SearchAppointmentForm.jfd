@@ -1,0 +1,563 @@
+JFDML JFormDesigner: "7.0.0.6.255" Java: "11.0.4" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class info.clearthought.layout.TableLayout ) {
+			"$columnSpecs": "226.0, fill"
+			"$rowSpecs": "fill"
+			"hGap": 5
+			"vGap": 5
+		} ) {
+			name: "this"
+			"minimumSize": new java.awt.Dimension( 1920, 1080 )
+			"preferredSize": new java.awt.Dimension( 1920, 1200 )
+			"background": new java.awt.Color( 255, 255, 255, 255 )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.intellij.uiDesigner.core.GridLayoutManager ) {
+				"$columnCount": 2
+				"$rowCount": 3
+				"hGap": 0
+				"vGap": 0
+			} ) {
+				name: "panelExpanded"
+				"background": &Color0 new java.awt.Color( 255, 255, 255, 255 )
+				"minimumSize": new java.awt.Dimension( 246, 1200 )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {space :::p, comp labelLogo2:::p:59:p, space :::x, comp labelSettings2:::p:48:p}, seq t {par t {comp labelLogout2:::::x, comp labelView2::l:::x, comp labelAdd2::l:::x, comp labelHome2:::::x}, space :::p}}"
+					"$verticalGroup": "par l {seq t {space :p:40:p, comp labelHome2:::p:66:p, space :::p, comp labelAdd2:::p:66:p, space :::p, comp labelView2:::p:66:p, space :::p, comp labelLogout2:::p:66:p, space :::x, par l {comp labelSettings2::t:p:43:p, comp labelLogo2::t:p::p}, space :::p}}"
+				} ) {
+					name: "panelExpandedNav"
+					"background": &Color1 new java.awt.Color( 32, 32, 82, 255 )
+					"preferredSize": new java.awt.Dimension( 119, 1200 )
+					"minimumSize": new java.awt.Dimension( 180, 394 )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelHome2"
+						"background": &Color2 new java.awt.Color( 32, 32, 82, 255 )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/home.png" )
+						"horizontalAlignment": 0
+						"text": "Home"
+						"font": &Font0 new java.awt.Font( "Helvetica-Normal", 0, 20 )
+						"foreground": &Color3 new java.awt.Color( 255, 255, 255, 255 )
+						"iconTextGap": 20
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "labelHome2MouseClicked", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelAdd2"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/add.png" )
+						"horizontalAlignment": 0
+						"font": &Font1 new java.awt.Font( "Helvetica-Normal", 0, 20 )
+						"foreground": &Color4 new java.awt.Color( 255, 255, 255, 255 )
+						"iconTextGap": 30
+						"text": "Add"
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "labelEdit2MouseClicked", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelView2"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/list.png" )
+						"horizontalAlignment": 0
+						"font": &Font2 new java.awt.Font( "Helvetica-Normal", 0, 20 )
+						"foreground": &Color5 new java.awt.Color( 255, 255, 255, 255 )
+						"text": "Search"
+						"iconTextGap": 10
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelLogout2"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/logout.png" )
+						"horizontalAlignment": 0
+						"text": "Logout"
+						"foreground": &Color6 new java.awt.Color( 255, 255, 255, 255 )
+						"font": &Font3 new java.awt.Font( "Helvetica-Normal", 0, 20 )
+						"iconTextGap": 10
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelSettings2"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/settings.png" )
+						"horizontalAlignment": 0
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelLogo2"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/tooth_white.png" )
+						"horizontalAlignment": 0
+					} )
+				}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+					"rowSpan": 3
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0, 0"
+					"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignTop": true
+					"$alignLeft": true
+				} ) {
+					name: "panelButtonContainer"
+					"background": &Color7 new java.awt.Color( 255, 255, 255, 255 )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {seq l {comp labelShrink:::p:41:p, space :0:0:x}}"
+						"$verticalGroup": "par l {seq t {space :0:0:x, comp labelShrink:::p:119:p}}"
+					} ) {
+						name: "panelShrink"
+						"background": &Color8 new java.awt.Color( 32, 32, 82, 255 )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "labelShrink"
+							"background": #Color2
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/arrow_left.png" )
+							"horizontalAlignment": 0
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "labelShrinkMouseClicked", true ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "labelShrinkMouseClicked", true ) )
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 5
+						"gridheight": 4
+						"vAlign": 5
+					} )
+				}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+					"column": 1
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.intellij.uiDesigner.core.GridLayoutManager ) {
+				"$columnCount": 2
+				"$rowCount": 2
+				"hGap": 0
+				"vGap": 0
+			} ) {
+				name: "panelShrinked"
+				"background": #Color0
+				"minimumSize": new java.awt.Dimension( 216, 1200 )
+				"preferredSize": new java.awt.Dimension( 216, 1200 )
+				"visible": false
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq t {par t {comp labelSettings::t:::x, comp labelLogo::t:::x, seq {space :0:0:x, par t {comp labelView:::p:71:p, comp labelAdd:::p:71:p, comp labelHome::t:p:71:p, comp labelLogout::t:p:71:p}}}, space :::p}}"
+					"$verticalGroup": "par l {seq t {comp labelHome:::p:66:p, space :::p, comp labelAdd:::p:66:p, space :::p, comp labelView:::p:66:p, space :::p, comp labelLogout:::p:66:p, space :::x, comp labelSettings:::p:58:p, space :::p, comp labelLogo:::p:69:p, space :::p}}"
+				} ) {
+					name: "panelShrinkedNav"
+					"background": #Color1
+					"preferredSize": new java.awt.Dimension( 70, 1200 )
+					"minimumSize": new java.awt.Dimension( 70, 394 )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelHome"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/home.png" )
+						"horizontalAlignment": 0
+						"font": #Font0
+						"foreground": #Color3
+						"iconTextGap": 20
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelAdd"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/add.png" )
+						"horizontalAlignment": 0
+						"font": #Font1
+						"foreground": #Color4
+						"iconTextGap": 30
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelView"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/list.png" )
+						"horizontalAlignment": 0
+						"font": #Font2
+						"foreground": #Color5
+						"iconTextGap": 10
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelLogout"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/logout.png" )
+						"horizontalAlignment": 0
+						"foreground": #Color6
+						"font": #Font3
+						"iconTextGap": 10
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelSettings"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/settings.png" )
+						"horizontalAlignment": 0
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelLogo"
+						"background": #Color2
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/tooth_white.png" )
+						"horizontalAlignment": 0
+					} )
+				}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+					"rowSpan": 2
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0, 0"
+					"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignTop": true
+					"$alignLeft": true
+				} ) {
+					name: "panelButtonContainer2"
+					"background": #Color7
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {seq l {comp labelExpand:::p:41:p, space :0:0:x}}"
+						"$verticalGroup": "par l {seq t {space :0:0:x, comp labelExpand:::p:119:p}}"
+					} ) {
+						name: "panelExpand"
+						"background": #Color8
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "labelExpand"
+							"background": #Color2
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/arrow_right.png" )
+							"horizontalAlignment": 0
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "labelExpandMouseClicked", true ) )
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 5
+						"gridheight": 5
+						"vAlign": 5
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelFake"
+						"text": " "
+						"minimumSize": new java.awt.Dimension( 120, 16 )
+						"preferredSize": new java.awt.Dimension( 120, 16 )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 7
+					} )
+				}, new FormLayoutConstraints( class com.intellij.uiDesigner.core.GridConstraints ) {
+					"column": 1
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane1"
+				"background": new java.awt.Color( 255, 255, 255, 255 )
+				"foreground": new java.awt.Color( 255, 255, 255, 255 )
+				"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class info.clearthought.layout.TableLayout ) {
+					"$columnSpecs": "pref, fill, 20.0"
+					"$rowSpecs": "pref, pref, pref, 20.0, fill, pref"
+					"hGap": 5
+				} ) {
+					name: "panelBody"
+					"background": new java.awt.Color( 255, 255, 255, 255 )
+					"autoscrolls": true
+					"border": new javax.swing.border.EmptyBorder( 0, 20, 10, 30 )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class info.clearthought.layout.TableLayout ) {
+						"$columnSpecs": "pref, 980.0"
+						"$rowSpecs": "pref, pref"
+						"hGap": 5
+						"vGap": 5
+					} ) {
+						name: "panelSearchHeader"
+						"background": new java.awt.Color( 255, 255, 255, 255 )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "textSearchApp"
+							"text": "Search Appointment"
+							"font": new java.awt.Font( "Alike", 1, 26 )
+							"foreground": new java.awt.Color( 32, 32, 82, 255 )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 1
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+						"gridWidth": 2
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class info.clearthought.layout.TableLayout ) {
+						"$columnSpecs": "fill, 30.0, fill, 30.0, fill"
+						"$rowSpecs": "pref, 50.0, pref, pref, pref, 10.0, pref, 20.0"
+						"hGap": 5
+						"vGap": 5
+					} ) {
+						name: "panelSearchBy"
+						"background": new java.awt.Color( 255, 255, 255, 255 )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "labelDepartment"
+							"text": "Department"
+							"font": new java.awt.Font( "Helvetica-Normal", 0, 12 )
+							"foreground": new java.awt.Color( 0, 0, 0, 255 )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"vAlign": 3
+							"gridX": 4
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "textFieldID"
+							"background": &Color9 new java.awt.Color( 255, 255, 255, 255 )
+							"foreground": sfield java.awt.Color gray
+							"font": &Font4 new java.awt.Font( "Helvetica-Normal", 0, 15 )
+							"border": new javax.swing.border.TitledBorder( &EtchedBorder0 new javax.swing.border.EtchedBorder( 1, new java.awt.Color( 66, 66, 135, 255 ), new java.awt.Color( 139, 139, 195, 255 ) ), "Appointment ID", 4, 0, &Font5 new java.awt.Font( "Helvetica-Normal", 0, 12 ), &Color10 new java.awt.Color( 0, 0, 0, 255 ) )
+							"text": "e.g. 180967"
+							"minimumSize": &Dimension0 new java.awt.Dimension( 64, 55 )
+							"preferredSize": &Dimension1 new java.awt.Dimension( 95, 60 )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldIDFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldIDFocusLost", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 1
+						} )
+						add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+							name: "hSpacer3"
+							"background": &Color11 new java.awt.Color( 60, 63, 65, 0 )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridX": 1
+							"gridY": 1
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "textFieldPatientName"
+							"background": #Color9
+							"foreground": sfield java.awt.Color gray
+							"font": #Font4
+							"border": new javax.swing.border.TitledBorder( #EtchedBorder0, "Patient Name", 4, 0, #Font5, #Color10 )
+							"text": "e.g. John Doe"
+							"minimumSize": #Dimension0
+							"preferredSize": #Dimension1
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldPatNameFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldPatNameFocusLost", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 1
+							"gridX": 2
+						} )
+						add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+							name: "hSpacer4"
+							"background": #Color11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridX": 3
+							"gridY": 1
+						} )
+						add( new FormComponent( "javax.swing.JComboBox" ) {
+							name: "comboBoxDepartment"
+							"background": sfield java.awt.Color white
+							"foreground": new java.awt.Color( 32, 32, 82, 255 )
+							"cursor": new java.awt.Cursor( 12 )
+							"preferredSize": new java.awt.Dimension( 93, 47 )
+							"minimumSize": new java.awt.Dimension( 99, 47 )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 1
+							"gridX": 4
+						} )
+						add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+							name: "vSpacer1"
+							"background": #Color11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 2
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "labelDate"
+							"text": "Date"
+							"font": new java.awt.Font( "Helvetica-Normal", 0, 12 )
+							"foreground": new java.awt.Color( 0, 0, 0, 255 )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"vAlign": 3
+							"gridX": 2
+							"gridY": 3
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "textFieldDrName"
+							"background": #Color9
+							"foreground": sfield java.awt.Color gray
+							"font": #Font4
+							"border": new javax.swing.border.TitledBorder( #EtchedBorder0, "Doctor Name", 4, 0, #Font5, #Color10 )
+							"text": "e.g. John Doe"
+							"minimumSize": #Dimension0
+							"preferredSize": #Dimension1
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldDrNameFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldDrNameFocusLost", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 4
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+							name: "panelRegDate"
+							"background": sfield java.awt.Color gray
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 4
+							"gridX": 2
+						} )
+						add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+							name: "vSpacer2"
+							"background": #Color11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 5
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class info.clearthought.layout.TableLayout ) {
+							"$columnSpecs": "pref, 120.0, pref, 120.0, pref"
+							"$rowSpecs": "35.0"
+							"hGap": 5
+							"vGap": 5
+						} ) {
+							name: "panelSearchButtons"
+							"background": new java.awt.Color( 60, 63, 65, 0 )
+							add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+								name: "hSpacer5"
+								"background": #Color11
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "buttonSearch"
+								"text": "Search"
+								"background": &Color12 new java.awt.Color( 32, 32, 82, 255 )
+								"font": &Font6 new java.awt.Font( "Helvetica-Normal", 0, 14 )
+								"foreground": &Color13 new java.awt.Color( 255, 255, 255, 255 )
+								addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "buttonSearchMouseClicked", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+								"gridX": 1
+							} )
+							add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+								name: "hSpacer6"
+								"background": #Color11
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+								"gridX": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "buttonReset"
+								"text": "Reset"
+								"background": #Color12
+								"font": #Font6
+								"foreground": #Color13
+								addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "buttonResetMouseClicked", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+								"gridX": 3
+							} )
+							add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+								name: "hSpacer7"
+								"background": #Color11
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+								"gridX": 4
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridY": 6
+						} )
+						add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+							name: "vSpacer3"
+							"background": #Color11
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+							"gridX": 2
+							"gridY": 7
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+						"gridY": 1
+						"gridX": 1
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer8"
+						"background": #Color11
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+						"gridY": 2
+					} )
+					add( new FormComponent( "javax.swing.JSeparator" ) {
+						name: "separatorSearch"
+						"foreground": new java.awt.Color( 0, 0, 0, 255 )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+						"vAlign": 1
+						"gridY": 2
+						"gridX": 1
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+						name: "vSpacer4"
+						"background": #Color11
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+						"gridX": 1
+						"gridY": 3
+					} )
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scrollPaneTable"
+						"background": new java.awt.Color( 255, 255, 255, 255 )
+						add( new FormComponent( "javax.swing.JTable" ) {
+							name: "tableAppointments"
+							"background": new java.awt.Color( 255, 255, 255, 255 )
+							"gridColor": sfield java.awt.Color lightGray
+							"foreground": new java.awt.Color( 0, 0, 0, 255 )
+							"selectionBackground": new java.awt.Color( 204, 204, 255, 255 )
+							"selectionForeground": new java.awt.Color( 0, 0, 0, 255 )
+							"border": new javax.swing.border.LineBorder( sfield java.awt.Color lightGray, 1, false )
+							"font": new java.awt.Font( "Helvetica-Normal", 0, 14 )
+							"rowHeight": 40
+							"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
+								add( "ID" )
+								add( "Doctor" )
+								add( "Patient" )
+								add( "Department" )
+								add( "Status" )
+								add( "Room" )
+								add( "Date" )
+								add( "Time" )
+							}, new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							}, new java.util.Vector {
+								add( false )
+								add( false )
+								add( false )
+								add( false )
+								add( false )
+								add( false )
+								add( null )
+								add( null )
+							}, new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+						"gridX": 1
+						"gridY": 4
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+						name: "hSpacer1"
+						"background": #Color11
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+						"gridX": 2
+						"gridHeight": 6
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+						name: "panelFooter"
+						"background": new java.awt.Color( 255, 255, 255, 255 )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "buttonPrint"
+							"text": "Print"
+							"background": #Color12
+							"font": #Font6
+							"foreground": #Color13
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+							"width": 145
+							"height": 30
+							"x": 5
+							"y": 45
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "labelTooth"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/tooth_purple.png" )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+							"width": 110
+							"height": 140
+							"x": 75
+							"y": -55
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+						"gridY": 5
+						"hAlign": 3
+						"vAlign": 3
+						"gridX": 1
+					} )
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
+				"gridX": 1
+				"hAlign": 2
+				"vAlign": 2
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 1495, 800 )
+		} )
+	}
+}
