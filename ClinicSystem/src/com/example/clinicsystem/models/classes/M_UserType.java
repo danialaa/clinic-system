@@ -1,15 +1,28 @@
 package com.example.clinicsystem.models.classes;
 
+import com.example.clinicsystem.helpers.DatabaseConnection;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class M_UserType {
     private int userTypeID;
     private String typeName;
+    private List<M_Permission> permissions;
 
-    public M_UserType(int userTypeID, String typeName) {
+    public M_UserType(int userTypeID, String typeName,List<M_Permission> permissions) {
         this.userTypeID = userTypeID;
         this.typeName = typeName;
+        this.permissions = permissions;
     }
 
     public M_UserType() {
+        permissions = new ArrayList<>();
+    }
+
+    public void addUserType() {
+        DatabaseConnection.getINSTANCE().insertInto("usertype","(UserType_Name)"
+                ,"('" + this.getTypeName() + "')");
     }
 
     public int getUserTypeID() {
@@ -26,5 +39,13 @@ public class M_UserType {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public List<M_Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<M_Permission> permissions) {
+        this.permissions = permissions;
     }
 }

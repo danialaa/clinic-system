@@ -22,6 +22,34 @@ public class M_Employee extends M_Person {
         super();
     }
 
+    public List<M_Employee> getAllEmployees(String condition) {
+        List<M_Employee> employees = new ArrayList<>();
+        DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
+        ResultSet resultSet = databaseConnection.select("employee", condition);
+
+        if(resultSet != null) {
+            try {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("Employee_ID");
+                    String email = resultSet.getString("Employee_Email");
+
+                    List<M_Person> people = getAllPersons(" WHERE Person_ID = " + resultSet.getInt("Person_ID"));
+
+                    M_Employee employee = new M_Employee(people.get(0).getFirstName(), people.get(0).getMiddleName(),
+                            people.get(0).getLastName(), people.get(0).getPhoneNumber(), people.get(0).getBirthDate(),
+                            people.get(0).getAddress(), people.get(0).getNationalID(), people.get(0).getGender(),
+                            id, email);
+
+                    employees.add(employee);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return employees;
+    }
+
     public void addEmployee(int person) {
         DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
 

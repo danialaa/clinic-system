@@ -17,6 +17,8 @@ import javax.swing.border.*;
 import javax.swing.table.*;
 
 import com.example.clinicsystem.controllers.C_Permission;
+import com.example.clinicsystem.controllers.C_User;
+import com.example.clinicsystem.controllers.C_UserType;
 import com.example.clinicsystem.helpers.MyTableCellRenderer;
 import com.example.clinicsystem.models.classes.M_Permission;
 import com.intellij.uiDesigner.core.*;
@@ -112,7 +114,22 @@ public class V_AddUserTypeForm extends JPanel {
     }
 
     private void buttonAddTypeMouseClicked(MouseEvent e) {
-        // TODO add your code here
+        List<JTextField> textFields = new ArrayList<>();
+        List<JLabel> labels = new ArrayList<>();
+        textFields.add(textFieldTypeName);
+        labels.add(labelType);
+        if (userType.isValidUserType(textFields, labels)) {
+            List data = new ArrayList<>();
+            data.add(textFieldTypeName.getText());
+
+            for (int i = 0; i < tablePermissions.getModel().getRowCount(); i++) {
+                data.add(tablePermissions.getModel().getValueAt(i, 0));
+            }
+
+            userType.request("c", data);
+        }
+        textFields.clear();
+        labels.clear();
     }
 
     private void initComponents() {
@@ -856,6 +873,7 @@ public class V_AddUserTypeForm extends JPanel {
     private boolean isFilled = false;
     private TableColumn removeColumn;
     private boolean isEditable = false;
+    private C_UserType userType = new C_UserType();
     private BufferedImage edit; {
         try {
             edit = ImageIO.read(getClass().getResourceAsStream("/com/example/clinicsystem/pictures/edit.png"));
