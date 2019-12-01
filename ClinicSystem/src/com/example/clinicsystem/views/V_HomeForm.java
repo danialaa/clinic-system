@@ -51,6 +51,15 @@ public class V_HomeForm extends JPanel {
         panelExpanded.setVisible(true);
     }
 
+    private void labelView2MouseClicked(MouseEvent e) {
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.add(new V_SearchEmployeesForm());
+        frame.pack();
+        frame.setVisible(true);
+        V_LoginForm.frame.dispose();
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Dania
@@ -86,12 +95,12 @@ public class V_HomeForm extends JPanel {
         setMinimumSize(new Dimension(1200, 1080));
         setPreferredSize(new Dimension(1920, 1200));
         setMaximumSize(new Dimension(32767, 32935));
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing.
-        border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder. CENTER
-        , javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font
-        .BOLD ,12 ), java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (
-        new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r"
-        .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing.
+        border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER
+        ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "D\u0069alog", java .awt . Font
+        . BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) );  addPropertyChangeListener(
+        new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order"
+        .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
 
         //======== panelExpanded ========
         {
@@ -136,6 +145,12 @@ public class V_HomeForm extends JPanel {
                 labelView2.setForeground(Color.white);
                 labelView2.setText("Search");
                 labelView2.setIconTextGap(10);
+                labelView2.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        labelView2MouseClicked(e);
+                    }
+                });
 
                 //---- labelLogout2 ----
                 labelLogout2.setBackground(new Color(32, 32, 82));
@@ -303,6 +318,12 @@ public class V_HomeForm extends JPanel {
                 labelView.setFont(new Font("Helvetica-Normal", Font.PLAIN, 20));
                 labelView.setForeground(Color.white);
                 labelView.setIconTextGap(10);
+                labelView.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        labelView2MouseClicked(e);
+                    }
+                });
 
                 //---- labelLogout ----
                 labelLogout.setBackground(new Color(32, 32, 82));
