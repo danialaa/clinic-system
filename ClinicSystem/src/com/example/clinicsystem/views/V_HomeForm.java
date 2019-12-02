@@ -95,12 +95,14 @@ public class V_HomeForm extends JPanel {
         setMinimumSize(new Dimension(1200, 1080));
         setPreferredSize(new Dimension(1920, 1200));
         setMaximumSize(new Dimension(32767, 32935));
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing.
-        border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER
-        ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "D\u0069alog", java .awt . Font
-        . BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) );  addPropertyChangeListener(
-        new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order"
-        .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder (
+        new javax . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e"
+        , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM
+        , new java. awt .Font ( "Dialo\u0067", java .awt . Font. BOLD ,12 )
+        ,java . awt. Color .red ) , getBorder () ) );  addPropertyChangeListener(
+        new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
+        ) { if( "borde\u0072" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
+        ;} } );
 
         //======== panelExpanded ========
         {
@@ -299,7 +301,7 @@ public class V_HomeForm extends JPanel {
 
                 //---- labelAdd ----
                 labelAdd.setBackground(new Color(32, 32, 82));
-                labelAdd.setIcon(new ImageIcon(getClass().getResource("/com/example/clinicsystem/pictures/edit.png")));
+                labelAdd.setIcon(new ImageIcon(getClass().getResource("/com/example/clinicsystem/pictures/add.png")));
                 labelAdd.setHorizontalAlignment(SwingConstants.CENTER);
                 labelAdd.setFont(new Font("Helvetica-Normal", Font.PLAIN, 20));
                 labelAdd.setForeground(Color.white);

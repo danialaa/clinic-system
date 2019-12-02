@@ -163,7 +163,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "labelAdd"
 						"background": #Color2
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/edit.png" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/com/example/clinicsystem/pictures/add.png" )
 						"horizontalAlignment": 0
 						"font": #Font1
 						"foreground": #Color4
