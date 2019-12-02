@@ -350,6 +350,8 @@ new FormModel {
 							"font": new java.awt.Font( "Helvetica-Normal", 0, 15 )
 							"border": new javax.swing.border.TitledBorder( new javax.swing.border.EtchedBorder( 1, new java.awt.Color( 66, 66, 135, 255 ), new java.awt.Color( 139, 139, 195, 255 ) ), "Patient ID", 4, 0, new java.awt.Font( "Helvetica-Normal", 0, 12 ), new java.awt.Color( 0, 0, 0, 255 ) )
 							"text": "e.g. 182732"
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldPatientFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldPatientFocusLost", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridX": 2
 							"gridY": 5
@@ -425,7 +427,7 @@ new FormModel {
 							"background": new java.awt.Color( 32, 32, 82, 255 )
 							"font": new java.awt.Font( "Helvetica-Normal", 0, 14 )
 							"foreground": new java.awt.Color( 255, 255, 255, 255 )
-							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "buttonAddEmpMouseClicked", true ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "buttonReserveMouseClicked", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 							"width": 190
 							"height": 35
