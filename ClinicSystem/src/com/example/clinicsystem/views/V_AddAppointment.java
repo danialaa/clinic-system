@@ -6,9 +6,14 @@ package com.example.clinicsystem.views;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import com.example.clinicsystem.controllers.C_Appointment;
+import com.example.clinicsystem.controllers.C_Patient;
+import com.example.clinicsystem.models.enums.DentistryDepartment;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.intellij.uiDesigner.core.*;
 import info.clearthought.layout.*;
@@ -19,6 +24,21 @@ import info.clearthought.layout.*;
 public class V_AddAppointment extends JPanel {
     public V_AddAppointment() {
         initComponents();
+
+        for (DentistryDepartment department : DentistryDepartment.values()) {
+            comboBoxDepartment.addItem(department.getName());
+        }
+        comboBoxDentist.addItem("Doctor1");
+        comboBoxDentist.addItem("Doctor2");
+        comboBoxDentist.addItem("Doctor3");
+
+        comboBoxAType.addItem("Phone");
+        comboBoxAType.addItem("Front-desk");
+
+        comboBoxTime.addItem("09:30 AM");
+        comboBoxTime.addItem("11:00 AM");
+        comboBoxTime.addItem("12:30 PM");
+        comboBoxTime.addItem("01:00 PM");
     }
 
     private void labelHome2MouseClicked(MouseEvent e) {
@@ -44,10 +64,40 @@ public class V_AddAppointment extends JPanel {
         panelExpanded.setVisible(true);
     }
 
-    private void buttonAddEmpMouseClicked(MouseEvent e) {
-        // TODO add your code here
+    private void buttonReserveMouseClicked(MouseEvent e) {
+        List list = new ArrayList<>();
+        list.add(textFieldPatient.getText());
+        list.add(comboBoxDentist.getSelectedItem().toString());
+        list.add(comboBoxDepartment.getSelectedItem().toString());
+        list.add(datePicker.getDate().toString());
+
+        if(comboBoxAType.getSelectedItem().equals("Phone")){
+            list.add(true);
+        }
+        else{
+            list.add(false);
+        }
+
+        list.add(comboBoxTime.getSelectedItem().toString());
+        appointmentController.request("C", list);
+    }
+    private void textFieldPatientFocusGained(FocusEvent e) {
+
+        if(textFieldPatient.getText().equals("e.g. 182732")){
+
+            textFieldPatient.setText("");
+            textFieldPatient.setForeground(Color.black);
+        }
     }
 
+    private void textFieldPatientFocusLost(FocusEvent e) {
+
+        if(textFieldPatient.getText().equals("")){
+
+            textFieldPatient.setText("e.g. 182732");
+            textFieldPatient.setForeground(Color.gray);
+        }
+    }
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Dania
@@ -105,11 +155,11 @@ public class V_AddAppointment extends JPanel {
         setPreferredSize(new Dimension(1920, 1200));
         setBackground(Color.white);
         setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
-        . swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing
+        . swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing
         . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
         Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
         ) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
-        public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .getPropertyName (
+        public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName (
         ) )) throw new RuntimeException( ); }} );
         setLayout(new TableLayout(new double[][] {
             {226, TableLayout.FILL},
@@ -536,6 +586,16 @@ public class V_AddAppointment extends JPanel {
                     textFieldPatient.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Patient ID", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldPatient.setText("e.g. 182732");
+                    textFieldPatient.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldPatientFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldPatientFocusLost(e);
+                        }
+                    });
                     panelAppointmentBody.add(textFieldPatient, new TableLayoutConstraints(2, 5, 2, 5, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- labelFNError ----
@@ -596,7 +656,7 @@ public class V_AddAppointment extends JPanel {
                     buttonReserve.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            buttonAddEmpMouseClicked(e);
+                            buttonReserveMouseClicked(e);
                         }
                     });
                     panelFooter.add(buttonReserve);
@@ -689,4 +749,6 @@ public class V_AddAppointment extends JPanel {
 
     DatePicker datePicker;
     public static JFrame frame = new JFrame("Home Frame");
+    C_Patient patientController = new C_Patient();
+    C_Appointment appointmentController = new C_Appointment();
 }

@@ -48,7 +48,11 @@ public class C_Patient {
                 int patient_ID = patient.addPatient(personID,emergency_ID);
                 patient.updateEmergency(patient_ID);
             case "R":
-
+                if(data == null) {
+                    return patient.getAllPatients("");
+                } else {
+                    return patient.getAllPatients(data.get(0).toString());
+                }
             case "U":
 
             case "D":

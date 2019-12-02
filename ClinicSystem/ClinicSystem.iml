@@ -20,6 +20,6 @@
         <jarDirectory url="file://$APPLICATION_HOME_DIR$/lib" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="TableLayout" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

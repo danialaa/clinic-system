@@ -4,6 +4,7 @@
       <root url="jar://$PROJECT_DIR$/ClinicSystem/lib/TableLayout.jar!/" />
       <root url="jar://$PROJECT_DIR$/ClinicSystem/lib/TableLayout-javadoc.jar!/" />
       <root url="jar://$PROJECT_DIR$/ClinicSystem/lib/TableLayout-src.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../clinic-system-master/clinic-system-master/ClinicSystem/lib/LGoodDatePicker-10.4.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
