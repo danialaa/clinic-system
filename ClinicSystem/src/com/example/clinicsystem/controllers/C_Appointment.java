@@ -10,14 +10,12 @@ import java.util.List;
 
 public class C_Appointment {
     private C_Patient patientController = new C_Patient();
-    private M_Patient patient = new M_Patient();
     private M_Appointment appointment = new M_Appointment();
 
     public List request(String requestType, List list) {
         switch (requestType) {
             case "C":
-                boolean isValid = isValidAppointmentData(Integer.parseInt(list.get(0).toString()));
-                if(isValid){
+                if(isValidAppointmentData(Integer.parseInt(list.get(0).toString()))){
                     appointment.setPatientID(Integer.parseInt(list.get(0).toString()));
                     appointment.setDentistID(Integer.parseInt(list.get(1).toString()));
                     appointment.setAppointmentType((DentistryDepartment) list.get(2));
@@ -25,11 +23,9 @@ public class C_Appointment {
                     appointment.setByPhone((boolean) list.get(4));
                     appointment.setStartTime(list.get(5).toString());
                     appointment.setComplete(false);
-
                 }
                 else{
-                    JOptionPane.showMessageDialog(null
-                            ,"Patient not Found");
+                    JOptionPane.showMessageDialog(null, "Patient not Found");
                 }
             case "R":
 
@@ -45,17 +41,15 @@ public class C_Appointment {
         List<String> data = new ArrayList<>();
         String condition = " WHERE Patient_ID = " + PID;
         data.add(condition);
-        List<M_Patient> result = patientController.request("R",data);
-        boolean isFound = false;
+        List<M_Patient> result = patientController.request("R", data);
+
         for(int i = 0 ; i < result.size() ; i++)
         {
-            if(Integer.compare(result.get(i).getPatientID(), PID)==0){
-                isFound = true;
-            }
-            else{
-                isFound = false;
+            if(Integer.compare(result.get(i).getPatientID(), PID) == 0){
+                 return true;
             }
         }
-        return isFound;
+
+        return false;
     }
 }

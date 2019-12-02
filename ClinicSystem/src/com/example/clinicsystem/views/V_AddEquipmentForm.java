@@ -8,6 +8,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.github.lgooddatepicker.components.DatePicker;
 import com.intellij.uiDesigner.core.*;
 import info.clearthought.layout.*;
 
@@ -17,10 +21,75 @@ import info.clearthought.layout.*;
 public class V_AddEquipmentForm extends JPanel {
     public V_AddEquipmentForm() {
         initComponents();
+
+        comboBoxEquipType.addItem("Drug");
+        comboBoxEquipType.addItem("Dental Engine");
+        comboBoxEquipType.addItem("Operational Tool");
+        comboBoxEquipType.addItem("Sterilization Tool");
+
+        panels.add(panelDetailsDrug);
+        panels.add(panelDetailsEngine);
+        panels.add(panelDetailsOperational);
+        panels.add(panelDetailsSterilization);
+    }
+
+    private void comboBoxEquipTypeItemStateChanged(ItemEvent e) {
+        switch (comboBoxEquipType.getSelectedIndex()) {
+            case 0:
+                panelDetailsDrug.setVisible(true);
+
+                for(JPanel panel : panels) {
+                    if(panel != panelDetailsDrug && panel.isVisible()) {
+                        panel.setVisible(false);
+                    }
+                }
+
+                break;
+
+            case 1:
+                panelDetailsEngine.setVisible(true);
+
+                for(JPanel panel : panels) {
+                    if(panel != panelDetailsEngine && panel.isVisible()) {
+                        panel.setVisible(false);
+                    }
+                }
+
+                break;
+
+            case 2:
+                panelDetailsOperational.setVisible(true);
+
+                for(JPanel panel : panels) {
+                    if(panel != panelDetailsOperational && panel.isVisible()) {
+                        panel.setVisible(false);
+                    }
+                }
+
+                break;
+
+            case 3:
+                panelDetailsSterilization.setVisible(true);
+
+                for(JPanel panel : panels) {
+                    if(panel != panelDetailsSterilization && panel.isVisible()) {
+                        panel.setVisible(false);
+                    }
+                }
+
+                break;
+        }
+
+        repaint();
     }
 
     private void labelHome2MouseClicked(MouseEvent e) {
-        // TODO add your code here
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.add(new V_HomeForm());
+        frame.pack();
+        frame.setVisible(true);
+        V_LoginForm.frame.dispose();
     }
 
     private void labelEdit2MouseClicked(MouseEvent e) {
@@ -28,23 +97,29 @@ public class V_AddEquipmentForm extends JPanel {
     }
 
     private void labelShrinkMouseClicked(MouseEvent e) {
-        // TODO add your code here
+        panelExpanded.setVisible(false);
+        panelShrinked.setVisible(true);
     }
 
     private void labelExpandMouseClicked(MouseEvent e) {
-        // TODO add your code here
+        panelShrinked.setVisible(false);
+        panelExpanded.setVisible(true);
     }
 
-    private void radioButtonAvailableMouseClicked(MouseEvent e) {
-        // TODO add your code here
+    private void radioButtonMaintainedMouseClicked(MouseEvent e) {
+        if(radioButtonMaintained.isSelected()) {
+            radioButtonNeeds.setSelected(false);
+        } else {
+            radioButtonMaintained.setSelected(true);
+        }
     }
 
-    private void radioButtonDepletedMouseClicked(MouseEvent e) {
-        // TODO add your code here
-    }
-
-    private void comboBoxGovItemStateChanged(ItemEvent e) {
-        // TODO add your code here
+    private void radioButtonNeedsMouseClicked(MouseEvent e) {
+        if(radioButtonNeeds.isSelected()) {
+            radioButtonMaintained.setSelected(false);
+        } else {
+            radioButtonNeeds.setSelected(true);
+        }
     }
 
     private void buttonAddEquipMouseClicked(MouseEvent e) {
@@ -52,27 +127,113 @@ public class V_AddEquipmentForm extends JPanel {
     }
 
     private void textFieldQuantityFocusGained(FocusEvent e) {
-        // TODO add your code here
+        if (textFieldQuantity.getText().equals("e.g. 50")) {
+            textFieldQuantity.setText("");
+            textFieldQuantity.setForeground(Color.black);
+        }
     }
 
     private void textFieldQuantityFocusLost(FocusEvent e) {
-        // TODO add your code here
+        if (textFieldQuantity.getText().equals("")) {
+            textFieldQuantity.setText("e.g. 50");
+            textFieldQuantity.setForeground(Color.gray);
+        }
     }
 
     private void textFieldPriceFocusGained(FocusEvent e) {
-        // TODO add your code here
+        if (textFieldPrice.getText().equals("e.g. 200")) {
+            textFieldPrice.setText("");
+            textFieldPrice.setForeground(Color.black);
+        }
     }
 
     private void textFieldPriceFocusLost(FocusEvent e) {
-        // TODO add your code here
+        if (textFieldPrice.getText().equals("")) {
+            textFieldPrice.setText("e.g. 200");
+            textFieldPrice.setForeground(Color.gray);
+        }
     }
 
     private void textFieldNameFocusGained(FocusEvent e) {
-        // TODO add your code here
+        if (textFieldName.getText().equals("e.g. Gloves")) {
+            textFieldName.setText("");
+            textFieldName.setForeground(Color.black);
+        }
     }
 
     private void textFieldNameFocusLost(FocusEvent e) {
-        // TODO add your code here
+        if (textFieldName.getText().equals("")) {
+            textFieldName.setText("e.g. Gloves");
+            textFieldName.setForeground(Color.gray);
+        }
+    }
+
+    private void radioButtonOccupiedMouseClicked(MouseEvent e) {
+        if(radioButtonOccupied.isSelected()) {
+            radioButtonEmpty.setSelected(false);
+        } else {
+            radioButtonOccupied.setSelected(true);
+        }
+    }
+
+    private void radioButtonEmptyMouseClicked(MouseEvent e) {
+        if(radioButtonEmpty.isSelected()) {
+            radioButtonOccupied.setSelected(false);
+        } else {
+            radioButtonEmpty.setSelected(true);
+        }
+    }
+
+    private void radioButtonSterilizedMouseClicked(MouseEvent e) {
+        if(radioButtonSterilized.isSelected()) {
+            radioButtonNeedsSteri.setSelected(false);
+        } else {
+            radioButtonSterilized.setSelected(true);
+        }
+    }
+
+    private void radioButtonNeedsSteriMouseClicked(MouseEvent e) {
+        if(radioButtonNeedsSteri.isSelected()) {
+            radioButtonSterilized.setSelected(false);
+        } else {
+            radioButtonNeedsSteri.setSelected(true);
+        }
+    }
+
+    private void radioButtonReuseMouseClicked(MouseEvent e) {
+        if(radioButtonReusable.isSelected()) {
+            radioButtonDisposable.setSelected(false);
+        } else {
+            radioButtonReusable.setSelected(true);
+        }
+    }
+
+    private void radioButtonDisposeMouseClicked(MouseEvent e) {
+        if(radioButtonDisposable.isSelected()) {
+            radioButtonReusable.setSelected(false);
+        } else {
+            radioButtonDisposable.setSelected(true);
+        }
+    }
+
+    private void radioButtonAvailableMouseClicked(MouseEvent e) {
+        if(radioButtonAvailable.isSelected()) {
+            radioButtonDepleted.setSelected(false);
+
+            textFieldQuantity.setVisible(true);
+        } else {
+            radioButtonAvailable.setSelected(true);
+        }
+    }
+
+    private void radioButtonDepletedMouseClicked(MouseEvent e) {
+        if(radioButtonDepleted.isSelected()) {
+            radioButtonAvailable.setSelected(false);
+
+            textFieldQuantity.setVisible(false);
+        } else {
+            radioButtonDepleted.setSelected(true);
+        }
     }
 
     private void initComponents() {
@@ -126,20 +287,52 @@ public class V_AddEquipmentForm extends JPanel {
         panelDetailsHeader = new JPanel();
         textDetailsInfo = new JLabel();
         separatorDetails = new JSeparator();
-        panelDetailsBody = new JPanel();
-        labelGov = new JLabel();
-        labelCity = new JLabel();
-        comboBoxGov = new JComboBox();
+        panelDetailsDrug = new JPanel();
+        labelProduction = new JLabel();
+        labelExpiry = new JLabel();
+        panelProduction = new JPanel();
         hSpacer3 = new JPanel(null);
-        comboBoxCity = new JComboBox();
+        panelExpiry = new JPanel();
         hSpacer4 = new JPanel(null);
         panelFake = new JPanel();
-        vSpacer5 = new JPanel(null);
-        textFieldStreet = new JTextField();
-        labelStreetError = new JLabel();
-        vSpacer6 = new JPanel(null);
-        textFieldApt = new JTextField();
-        labelAptError = new JLabel();
+        panelDetailsEngine = new JPanel();
+        panelMaintainability = new JPanel();
+        labelMaintainability = new JLabel();
+        radioButtonMaintained = new JRadioButton();
+        radioButtonNeeds = new JRadioButton();
+        hSpacer5 = new JPanel(null);
+        panelFake5 = new JPanel();
+        hSpacer6 = new JPanel(null);
+        panelFake2 = new JPanel();
+        vSpacer8 = new JPanel(null);
+        panelOccupation = new JPanel();
+        labelOccupation = new JLabel();
+        radioButtonOccupied = new JRadioButton();
+        radioButtonEmpty = new JRadioButton();
+        vSpacer9 = new JPanel(null);
+        labelRoom = new JLabel();
+        comboBoxRoom = new JComboBox();
+        panelDetailsOperational = new JPanel();
+        panelSterilization = new JPanel();
+        labelAvailability2 = new JLabel();
+        radioButtonSterilized = new JRadioButton();
+        radioButtonNeedsSteri = new JRadioButton();
+        hSpacer7 = new JPanel(null);
+        panelFake6 = new JPanel();
+        hSpacer8 = new JPanel(null);
+        panelFake3 = new JPanel();
+        vSpacer10 = new JPanel(null);
+        panelReusability = new JPanel();
+        labelReusability = new JLabel();
+        radioButtonReusable = new JRadioButton();
+        radioButtonDisposable = new JRadioButton();
+        panelDetailsSterilization = new JPanel();
+        labelSteriType = new JLabel();
+        comboBoxSterilization = new JComboBox();
+        hSpacer9 = new JPanel(null);
+        panelFake7 = new JPanel();
+        hSpacer10 = new JPanel(null);
+        panelFake4 = new JPanel();
         panelFooter = new JPanel();
         buttonAddEquip = new JButton();
         labelTooth = new JLabel();
@@ -148,13 +341,12 @@ public class V_AddEquipmentForm extends JPanel {
         setMinimumSize(new Dimension(1920, 1080));
         setPreferredSize(new Dimension(1920, 1200));
         setBackground(Color.white);
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing
-        . border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax. swing .border . TitledBorder
-        . CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .
-        awt . Font. BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) )
-        ;  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
-        ) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } )
-        ;
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border
+        . EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER, javax
+        . swing. border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,
+        12 ), java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans
+        . PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .
+        getPropertyName () )) throw new RuntimeException( ); }} );
         setLayout(new TableLayout(new double[][] {
             {226, TableLayout.FILL},
             {TableLayout.FILL}}));
@@ -492,7 +684,7 @@ public class V_AddEquipmentForm extends JPanel {
                 panelBody.setBorder(new EmptyBorder(0, 20, 10, 30));
                 panelBody.setLayout(new TableLayout(new double[][] {
                     {TableLayout.FILL},
-                    {92, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}}));
+                    {92, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.PREFERRED}}));
                 ((TableLayout)panelBody.getLayout()).setHGap(5);
                 ((TableLayout)panelBody.getLayout()).setVGap(5);
 
@@ -552,6 +744,7 @@ public class V_AddEquipmentForm extends JPanel {
                     comboBoxEquipType.setBackground(Color.white);
                     comboBoxEquipType.setForeground(new Color(32, 32, 82));
                     comboBoxEquipType.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    comboBoxEquipType.addItemListener(e -> comboBoxEquipTypeItemStateChanged(e));
                     panelEquipBody.add(comboBoxEquipType, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- labelNameError ----
@@ -614,7 +807,7 @@ public class V_AddEquipmentForm extends JPanel {
 
                         //---- labelAvailability ----
                         labelAvailability.setText("Availability");
-                        labelAvailability.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                        labelAvailability.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                         labelAvailability.setForeground(Color.black);
                         panelAvailability.add(labelAvailability, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
@@ -622,7 +815,7 @@ public class V_AddEquipmentForm extends JPanel {
                         radioButtonAvailable.setText("Available");
                         radioButtonAvailable.setBackground(Color.white);
                         radioButtonAvailable.setForeground(Color.black);
-                        radioButtonAvailable.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                        radioButtonAvailable.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                         radioButtonAvailable.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
@@ -635,7 +828,7 @@ public class V_AddEquipmentForm extends JPanel {
                         radioButtonDepleted.setText("Depleted");
                         radioButtonDepleted.setBackground(Color.white);
                         radioButtonDepleted.setForeground(Color.black);
-                        radioButtonDepleted.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                        radioButtonDepleted.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                         radioButtonDepleted.setSelected(true);
                         radioButtonDepleted.addMouseListener(new MouseAdapter() {
                             @Override
@@ -698,51 +891,52 @@ public class V_AddEquipmentForm extends JPanel {
                 }
                 panelBody.add(panelDetailsHeader, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
-                //======== panelDetailsBody ========
+                //======== panelDetailsDrug ========
                 {
-                    panelDetailsBody.setBackground(Color.white);
-                    panelDetailsBody.setLayout(new TableLayout(new double[][] {
+                    panelDetailsDrug.setBackground(Color.white);
+                    panelDetailsDrug.setLayout(new TableLayout(new double[][] {
                         {TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL},
-                        {TableLayout.PREFERRED, 50, 30, 50, TableLayout.PREFERRED, 30, 50, TableLayout.PREFERRED}}));
-                    ((TableLayout)panelDetailsBody.getLayout()).setHGap(5);
-                    ((TableLayout)panelDetailsBody.getLayout()).setVGap(5);
+                        {TableLayout.PREFERRED, 50}}));
+                    ((TableLayout)panelDetailsDrug.getLayout()).setHGap(5);
+                    ((TableLayout)panelDetailsDrug.getLayout()).setVGap(5);
 
-                    //---- labelGov ----
-                    labelGov.setText("Governorate");
-                    labelGov.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
-                    labelGov.setForeground(Color.black);
-                    panelDetailsBody.add(labelGov, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.BOTTOM));
+                    //---- labelProduction ----
+                    labelProduction.setText("Production Date");
+                    labelProduction.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                    labelProduction.setForeground(Color.black);
+                    panelDetailsDrug.add(labelProduction, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.BOTTOM));
 
-                    //---- labelCity ----
-                    labelCity.setText("City");
-                    labelCity.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
-                    labelCity.setForeground(Color.black);
-                    panelDetailsBody.add(labelCity, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    //---- labelExpiry ----
+                    labelExpiry.setText("Expiry Date");
+                    labelExpiry.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                    labelExpiry.setForeground(Color.black);
+                    panelDetailsDrug.add(labelExpiry, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.BOTTOM));
 
-                    //---- comboBoxGov ----
-                    comboBoxGov.setBackground(Color.white);
-                    comboBoxGov.setForeground(new Color(32, 32, 82));
-                    comboBoxGov.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    comboBoxGov.addItemListener(e -> comboBoxGovItemStateChanged(e));
-                    panelDetailsBody.add(comboBoxGov, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    //======== panelProduction ========
+                    {
+                        panelProduction.setBackground(Color.gray);
+                        panelProduction.setLayout(new BorderLayout());
+                    }
+                    panelDetailsDrug.add(panelProduction, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- hSpacer3 ----
                     hSpacer3.setBackground(Color.white);
                     hSpacer3.setMinimumSize(new Dimension(30, 12));
                     hSpacer3.setPreferredSize(new Dimension(50, 10));
-                    panelDetailsBody.add(hSpacer3, new TableLayoutConstraints(1, 1, 1, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    panelDetailsDrug.add(hSpacer3, new TableLayoutConstraints(1, 1, 1, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
-                    //---- comboBoxCity ----
-                    comboBoxCity.setBackground(Color.white);
-                    comboBoxCity.setForeground(new Color(32, 32, 82));
-                    comboBoxCity.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    panelDetailsBody.add(comboBoxCity, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    //======== panelExpiry ========
+                    {
+                        panelExpiry.setBackground(Color.gray);
+                        panelExpiry.setLayout(new BorderLayout());
+                    }
+                    panelDetailsDrug.add(panelExpiry, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- hSpacer4 ----
                     hSpacer4.setBackground(Color.white);
                     hSpacer4.setMinimumSize(new Dimension(30, 12));
                     hSpacer4.setPreferredSize(new Dimension(50, 10));
-                    panelDetailsBody.add(hSpacer4, new TableLayoutConstraints(3, 1, 3, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    panelDetailsDrug.add(hSpacer4, new TableLayoutConstraints(3, 1, 3, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //======== panelFake ========
                     {
@@ -752,56 +946,408 @@ public class V_AddEquipmentForm extends JPanel {
                         panelFake.setLayout(panelFakeLayout);
                         panelFakeLayout.setHorizontalGroup(
                             panelFakeLayout.createParallelGroup()
-                                .addGap(0, 280, Short.MAX_VALUE)
+                                .addGap(0, 355, Short.MAX_VALUE)
                         );
                         panelFakeLayout.setVerticalGroup(
                             panelFakeLayout.createParallelGroup()
                                 .addGap(0, 50, Short.MAX_VALUE)
                         );
                     }
-                    panelDetailsBody.add(panelFake, new TableLayoutConstraints(4, 1, 4, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-                    //---- vSpacer5 ----
-                    vSpacer5.setBackground(Color.white);
-                    vSpacer5.setPreferredSize(new Dimension(50, 10));
-                    vSpacer5.setMinimumSize(new Dimension(50, 10));
-                    panelDetailsBody.add(vSpacer5, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-                    //---- textFieldStreet ----
-                    textFieldStreet.setBackground(Color.white);
-                    textFieldStreet.setForeground(Color.black);
-                    textFieldStreet.setFont(new Font("Helvetica-Normal", Font.PLAIN, 16));
-                    textFieldStreet.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Street", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
-                        new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
-                    panelDetailsBody.add(textFieldStreet, new TableLayoutConstraints(0, 3, 0, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-                    //---- labelStreetError ----
-                    labelStreetError.setForeground(new Color(191, 44, 39));
-                    labelStreetError.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
-                    labelStreetError.setBackground(Color.white);
-                    panelDetailsBody.add(labelStreetError, new TableLayoutConstraints(0, 4, 0, 4, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-                    //---- vSpacer6 ----
-                    vSpacer6.setBackground(Color.white);
-                    vSpacer6.setPreferredSize(new Dimension(50, 10));
-                    vSpacer6.setMinimumSize(new Dimension(50, 10));
-                    panelDetailsBody.add(vSpacer6, new TableLayoutConstraints(0, 5, 0, 5, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-                    //---- textFieldApt ----
-                    textFieldApt.setBackground(Color.white);
-                    textFieldApt.setForeground(Color.black);
-                    textFieldApt.setFont(new Font("Helvetica-Normal", Font.PLAIN, 16));
-                    textFieldApt.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Apartment", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
-                        new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
-                    panelDetailsBody.add(textFieldApt, new TableLayoutConstraints(0, 6, 0, 6, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-                    //---- labelAptError ----
-                    labelAptError.setForeground(new Color(191, 44, 39));
-                    labelAptError.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
-                    labelAptError.setBackground(Color.white);
-                    panelDetailsBody.add(labelAptError, new TableLayoutConstraints(0, 7, 0, 7, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                    panelDetailsDrug.add(panelFake, new TableLayoutConstraints(4, 1, 4, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
                 }
-                panelBody.add(panelDetailsBody, new TableLayoutConstraints(0, 3, 0, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                panelBody.add(panelDetailsDrug, new TableLayoutConstraints(0, 4, 0, 4, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                //======== panelDetailsEngine ========
+                {
+                    panelDetailsEngine.setBackground(Color.white);
+                    panelDetailsEngine.setVisible(false);
+                    panelDetailsEngine.setLayout(new TableLayout(new double[][] {
+                        {TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL},
+                        {TableLayout.PREFERRED, 50, 30, 50, 30, TableLayout.PREFERRED, 50}}));
+                    ((TableLayout)panelDetailsEngine.getLayout()).setHGap(5);
+                    ((TableLayout)panelDetailsEngine.getLayout()).setVGap(5);
+
+                    //======== panelMaintainability ========
+                    {
+                        panelMaintainability.setBackground(Color.white);
+                        panelMaintainability.setLayout(new TableLayout(new double[][] {
+                            {TableLayout.PREFERRED, TableLayout.FILL, TableLayout.FILL},
+                            {50}}));
+                        ((TableLayout)panelMaintainability.getLayout()).setHGap(5);
+                        ((TableLayout)panelMaintainability.getLayout()).setVGap(5);
+
+                        //---- labelMaintainability ----
+                        labelMaintainability.setText("Maintainability");
+                        labelMaintainability.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        labelMaintainability.setForeground(Color.black);
+                        panelMaintainability.add(labelMaintainability, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                        //---- radioButtonMaintained ----
+                        radioButtonMaintained.setText("Maintained");
+                        radioButtonMaintained.setBackground(Color.white);
+                        radioButtonMaintained.setForeground(Color.black);
+                        radioButtonMaintained.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        radioButtonMaintained.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                radioButtonMaintainedMouseClicked(e);
+                            }
+                        });
+                        panelMaintainability.add(radioButtonMaintained, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.CENTER, TableLayoutConstraints.FULL));
+
+                        //---- radioButtonNeeds ----
+                        radioButtonNeeds.setText("Needs Maintenance");
+                        radioButtonNeeds.setBackground(Color.white);
+                        radioButtonNeeds.setForeground(Color.black);
+                        radioButtonNeeds.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        radioButtonNeeds.setSelected(true);
+                        radioButtonNeeds.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                radioButtonNeedsMouseClicked(e);
+                            }
+                        });
+                        panelMaintainability.add(radioButtonNeeds, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.CENTER, TableLayoutConstraints.FULL));
+                    }
+                    panelDetailsEngine.add(panelMaintainability, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- hSpacer5 ----
+                    hSpacer5.setBackground(Color.white);
+                    hSpacer5.setMinimumSize(new Dimension(30, 12));
+                    hSpacer5.setPreferredSize(new Dimension(50, 10));
+                    panelDetailsEngine.add(hSpacer5, new TableLayoutConstraints(1, 1, 1, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //======== panelFake5 ========
+                    {
+                        panelFake5.setBackground(Color.white);
+
+                        GroupLayout panelFake5Layout = new GroupLayout(panelFake5);
+                        panelFake5.setLayout(panelFake5Layout);
+                        panelFake5Layout.setHorizontalGroup(
+                            panelFake5Layout.createParallelGroup()
+                                .addGap(0, 355, Short.MAX_VALUE)
+                        );
+                        panelFake5Layout.setVerticalGroup(
+                            panelFake5Layout.createParallelGroup()
+                                .addGap(0, 50, Short.MAX_VALUE)
+                        );
+                    }
+                    panelDetailsEngine.add(panelFake5, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- hSpacer6 ----
+                    hSpacer6.setBackground(Color.white);
+                    hSpacer6.setMinimumSize(new Dimension(30, 12));
+                    hSpacer6.setPreferredSize(new Dimension(50, 10));
+                    panelDetailsEngine.add(hSpacer6, new TableLayoutConstraints(3, 1, 3, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //======== panelFake2 ========
+                    {
+                        panelFake2.setBackground(Color.white);
+
+                        GroupLayout panelFake2Layout = new GroupLayout(panelFake2);
+                        panelFake2.setLayout(panelFake2Layout);
+                        panelFake2Layout.setHorizontalGroup(
+                            panelFake2Layout.createParallelGroup()
+                                .addGap(0, 355, Short.MAX_VALUE)
+                        );
+                        panelFake2Layout.setVerticalGroup(
+                            panelFake2Layout.createParallelGroup()
+                                .addGap(0, 50, Short.MAX_VALUE)
+                        );
+                    }
+                    panelDetailsEngine.add(panelFake2, new TableLayoutConstraints(4, 1, 4, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- vSpacer8 ----
+                    vSpacer8.setBackground(Color.white);
+                    vSpacer8.setPreferredSize(new Dimension(50, 10));
+                    vSpacer8.setMinimumSize(new Dimension(50, 10));
+                    panelDetailsEngine.add(vSpacer8, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //======== panelOccupation ========
+                    {
+                        panelOccupation.setBackground(Color.white);
+                        panelOccupation.setLayout(new TableLayout(new double[][] {
+                            {TableLayout.PREFERRED, TableLayout.FILL, TableLayout.FILL},
+                            {50}}));
+                        ((TableLayout)panelOccupation.getLayout()).setHGap(5);
+                        ((TableLayout)panelOccupation.getLayout()).setVGap(5);
+
+                        //---- labelOccupation ----
+                        labelOccupation.setText("Occupation");
+                        labelOccupation.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        labelOccupation.setForeground(Color.black);
+                        panelOccupation.add(labelOccupation, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                        //---- radioButtonOccupied ----
+                        radioButtonOccupied.setText("Occupied");
+                        radioButtonOccupied.setBackground(Color.white);
+                        radioButtonOccupied.setForeground(Color.black);
+                        radioButtonOccupied.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        radioButtonOccupied.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                radioButtonOccupiedMouseClicked(e);
+                            }
+                        });
+                        panelOccupation.add(radioButtonOccupied, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.CENTER, TableLayoutConstraints.FULL));
+
+                        //---- radioButtonEmpty ----
+                        radioButtonEmpty.setText("Empty");
+                        radioButtonEmpty.setBackground(Color.white);
+                        radioButtonEmpty.setForeground(Color.black);
+                        radioButtonEmpty.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        radioButtonEmpty.setSelected(true);
+                        radioButtonEmpty.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                radioButtonEmptyMouseClicked(e);
+                            }
+                        });
+                        panelOccupation.add(radioButtonEmpty, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.CENTER, TableLayoutConstraints.FULL));
+                    }
+                    panelDetailsEngine.add(panelOccupation, new TableLayoutConstraints(0, 3, 0, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- vSpacer9 ----
+                    vSpacer9.setBackground(Color.white);
+                    vSpacer9.setPreferredSize(new Dimension(50, 10));
+                    vSpacer9.setMinimumSize(new Dimension(50, 10));
+                    panelDetailsEngine.add(vSpacer9, new TableLayoutConstraints(0, 4, 0, 4, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- labelRoom ----
+                    labelRoom.setText("Room");
+                    labelRoom.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                    labelRoom.setForeground(Color.black);
+                    panelDetailsEngine.add(labelRoom, new TableLayoutConstraints(0, 5, 0, 5, TableLayoutConstraints.FULL, TableLayoutConstraints.BOTTOM));
+
+                    //---- comboBoxRoom ----
+                    comboBoxRoom.setBackground(Color.white);
+                    comboBoxRoom.setForeground(new Color(32, 32, 82));
+                    comboBoxRoom.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    panelDetailsEngine.add(comboBoxRoom, new TableLayoutConstraints(0, 6, 0, 6, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                }
+                panelBody.add(panelDetailsEngine, new TableLayoutConstraints(0, 4, 0, 4, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                //======== panelDetailsOperational ========
+                {
+                    panelDetailsOperational.setBackground(Color.white);
+                    panelDetailsOperational.setVisible(false);
+                    panelDetailsOperational.setLayout(new TableLayout(new double[][] {
+                        {TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL},
+                        {50, 30, 50}}));
+                    ((TableLayout)panelDetailsOperational.getLayout()).setHGap(5);
+                    ((TableLayout)panelDetailsOperational.getLayout()).setVGap(5);
+
+                    //======== panelSterilization ========
+                    {
+                        panelSterilization.setBackground(Color.white);
+                        panelSterilization.setLayout(new TableLayout(new double[][] {
+                            {TableLayout.PREFERRED, TableLayout.FILL, TableLayout.FILL},
+                            {50}}));
+                        ((TableLayout)panelSterilization.getLayout()).setHGap(5);
+                        ((TableLayout)panelSterilization.getLayout()).setVGap(5);
+
+                        //---- labelAvailability2 ----
+                        labelAvailability2.setText("Serilization");
+                        labelAvailability2.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        labelAvailability2.setForeground(Color.black);
+                        panelSterilization.add(labelAvailability2, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                        //---- radioButtonSterilized ----
+                        radioButtonSterilized.setText("Sterilized");
+                        radioButtonSterilized.setBackground(Color.white);
+                        radioButtonSterilized.setForeground(Color.black);
+                        radioButtonSterilized.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        radioButtonSterilized.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                radioButtonSterilizedMouseClicked(e);
+                            }
+                        });
+                        panelSterilization.add(radioButtonSterilized, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.CENTER, TableLayoutConstraints.FULL));
+
+                        //---- radioButtonNeedsSteri ----
+                        radioButtonNeedsSteri.setText("Needs Sterilization");
+                        radioButtonNeedsSteri.setBackground(Color.white);
+                        radioButtonNeedsSteri.setForeground(Color.black);
+                        radioButtonNeedsSteri.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        radioButtonNeedsSteri.setSelected(true);
+                        radioButtonNeedsSteri.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                radioButtonNeedsSteriMouseClicked(e);
+                            }
+                        });
+                        panelSterilization.add(radioButtonNeedsSteri, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.CENTER, TableLayoutConstraints.FULL));
+                    }
+                    panelDetailsOperational.add(panelSterilization, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- hSpacer7 ----
+                    hSpacer7.setBackground(Color.white);
+                    hSpacer7.setMinimumSize(new Dimension(30, 12));
+                    hSpacer7.setPreferredSize(new Dimension(50, 10));
+                    panelDetailsOperational.add(hSpacer7, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //======== panelFake6 ========
+                    {
+                        panelFake6.setBackground(Color.white);
+
+                        GroupLayout panelFake6Layout = new GroupLayout(panelFake6);
+                        panelFake6.setLayout(panelFake6Layout);
+                        panelFake6Layout.setHorizontalGroup(
+                            panelFake6Layout.createParallelGroup()
+                                .addGap(0, 355, Short.MAX_VALUE)
+                        );
+                        panelFake6Layout.setVerticalGroup(
+                            panelFake6Layout.createParallelGroup()
+                                .addGap(0, 50, Short.MAX_VALUE)
+                        );
+                    }
+                    panelDetailsOperational.add(panelFake6, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- hSpacer8 ----
+                    hSpacer8.setBackground(Color.white);
+                    hSpacer8.setMinimumSize(new Dimension(30, 12));
+                    hSpacer8.setPreferredSize(new Dimension(50, 10));
+                    panelDetailsOperational.add(hSpacer8, new TableLayoutConstraints(3, 0, 3, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //======== panelFake3 ========
+                    {
+                        panelFake3.setBackground(Color.white);
+
+                        GroupLayout panelFake3Layout = new GroupLayout(panelFake3);
+                        panelFake3.setLayout(panelFake3Layout);
+                        panelFake3Layout.setHorizontalGroup(
+                            panelFake3Layout.createParallelGroup()
+                                .addGap(0, 355, Short.MAX_VALUE)
+                        );
+                        panelFake3Layout.setVerticalGroup(
+                            panelFake3Layout.createParallelGroup()
+                                .addGap(0, 50, Short.MAX_VALUE)
+                        );
+                    }
+                    panelDetailsOperational.add(panelFake3, new TableLayoutConstraints(4, 0, 4, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- vSpacer10 ----
+                    vSpacer10.setBackground(Color.white);
+                    vSpacer10.setPreferredSize(new Dimension(50, 10));
+                    vSpacer10.setMinimumSize(new Dimension(50, 10));
+                    panelDetailsOperational.add(vSpacer10, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //======== panelReusability ========
+                    {
+                        panelReusability.setBackground(Color.white);
+                        panelReusability.setLayout(new TableLayout(new double[][] {
+                            {TableLayout.PREFERRED, TableLayout.FILL, TableLayout.FILL},
+                            {50}}));
+                        ((TableLayout)panelReusability.getLayout()).setHGap(5);
+                        ((TableLayout)panelReusability.getLayout()).setVGap(5);
+
+                        //---- labelReusability ----
+                        labelReusability.setText("Reusability");
+                        labelReusability.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        labelReusability.setForeground(Color.black);
+                        panelReusability.add(labelReusability, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                        //---- radioButtonReusable ----
+                        radioButtonReusable.setText("Reusable");
+                        radioButtonReusable.setBackground(Color.white);
+                        radioButtonReusable.setForeground(Color.black);
+                        radioButtonReusable.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        radioButtonReusable.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                radioButtonReuseMouseClicked(e);
+                            }
+                        });
+                        panelReusability.add(radioButtonReusable, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.CENTER, TableLayoutConstraints.FULL));
+
+                        //---- radioButtonDisposable ----
+                        radioButtonDisposable.setText("Disposable");
+                        radioButtonDisposable.setBackground(Color.white);
+                        radioButtonDisposable.setForeground(Color.black);
+                        radioButtonDisposable.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+                        radioButtonDisposable.setSelected(true);
+                        radioButtonDisposable.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                radioButtonDisposeMouseClicked(e);
+                            }
+                        });
+                        panelReusability.add(radioButtonDisposable, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.CENTER, TableLayoutConstraints.FULL));
+                    }
+                    panelDetailsOperational.add(panelReusability, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                }
+                panelBody.add(panelDetailsOperational, new TableLayoutConstraints(0, 4, 0, 4, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                //======== panelDetailsSterilization ========
+                {
+                    panelDetailsSterilization.setBackground(Color.white);
+                    panelDetailsSterilization.setVisible(false);
+                    panelDetailsSterilization.setLayout(new TableLayout(new double[][] {
+                        {TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL},
+                        {TableLayout.PREFERRED, 50}}));
+                    ((TableLayout)panelDetailsSterilization.getLayout()).setHGap(5);
+                    ((TableLayout)panelDetailsSterilization.getLayout()).setVGap(5);
+
+                    //---- labelSteriType ----
+                    labelSteriType.setText("Sterilization Type");
+                    labelSteriType.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
+                    labelSteriType.setForeground(Color.black);
+                    panelDetailsSterilization.add(labelSteriType, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.BOTTOM));
+
+                    //---- comboBoxSterilization ----
+                    comboBoxSterilization.setBackground(Color.white);
+                    comboBoxSterilization.setForeground(new Color(32, 32, 82));
+                    comboBoxSterilization.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    panelDetailsSterilization.add(comboBoxSterilization, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- hSpacer9 ----
+                    hSpacer9.setBackground(Color.white);
+                    hSpacer9.setMinimumSize(new Dimension(30, 12));
+                    hSpacer9.setPreferredSize(new Dimension(50, 10));
+                    panelDetailsSterilization.add(hSpacer9, new TableLayoutConstraints(1, 1, 1, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //======== panelFake7 ========
+                    {
+                        panelFake7.setBackground(Color.white);
+
+                        GroupLayout panelFake7Layout = new GroupLayout(panelFake7);
+                        panelFake7.setLayout(panelFake7Layout);
+                        panelFake7Layout.setHorizontalGroup(
+                            panelFake7Layout.createParallelGroup()
+                                .addGap(0, 355, Short.MAX_VALUE)
+                        );
+                        panelFake7Layout.setVerticalGroup(
+                            panelFake7Layout.createParallelGroup()
+                                .addGap(0, 50, Short.MAX_VALUE)
+                        );
+                    }
+                    panelDetailsSterilization.add(panelFake7, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //---- hSpacer10 ----
+                    hSpacer10.setBackground(Color.white);
+                    hSpacer10.setMinimumSize(new Dimension(30, 12));
+                    hSpacer10.setPreferredSize(new Dimension(50, 10));
+                    panelDetailsSterilization.add(hSpacer10, new TableLayoutConstraints(3, 1, 3, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+
+                    //======== panelFake4 ========
+                    {
+                        panelFake4.setBackground(Color.white);
+
+                        GroupLayout panelFake4Layout = new GroupLayout(panelFake4);
+                        panelFake4.setLayout(panelFake4Layout);
+                        panelFake4Layout.setHorizontalGroup(
+                            panelFake4Layout.createParallelGroup()
+                                .addGap(0, 355, Short.MAX_VALUE)
+                        );
+                        panelFake4Layout.setVerticalGroup(
+                            panelFake4Layout.createParallelGroup()
+                                .addGap(0, 50, Short.MAX_VALUE)
+                        );
+                    }
+                    panelDetailsSterilization.add(panelFake4, new TableLayoutConstraints(4, 1, 4, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+                }
+                panelBody.add(panelDetailsSterilization, new TableLayoutConstraints(0, 4, 0, 4, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                 //======== panelFooter ========
                 {
@@ -842,12 +1388,21 @@ public class V_AddEquipmentForm extends JPanel {
                         panelFooter.setPreferredSize(preferredSize);
                     }
                 }
-                panelBody.add(panelFooter, new TableLayoutConstraints(0, 4, 0, 4, TableLayoutConstraints.RIGHT, TableLayoutConstraints.BOTTOM));
+                panelBody.add(panelFooter, new TableLayoutConstraints(0, 5, 0, 5, TableLayoutConstraints.RIGHT, TableLayoutConstraints.BOTTOM));
             }
             scrollPane1.setViewportView(panelBody);
         }
         add(scrollPane1, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+
+        productionDate = new DatePicker();
+        productionDate.setBackground(Color.white);
+        productionDate.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+        panelProduction.add(productionDate);
+        expiryDate = new DatePicker();
+        expiryDate.setBackground(Color.white);
+        expiryDate.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
+        panelExpiry.add(expiryDate);
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -900,22 +1455,58 @@ public class V_AddEquipmentForm extends JPanel {
     private JPanel panelDetailsHeader;
     private JLabel textDetailsInfo;
     private JSeparator separatorDetails;
-    private JPanel panelDetailsBody;
-    private JLabel labelGov;
-    private JLabel labelCity;
-    private JComboBox comboBoxGov;
+    private JPanel panelDetailsDrug;
+    private JLabel labelProduction;
+    private JLabel labelExpiry;
+    private JPanel panelProduction;
     private JPanel hSpacer3;
-    private JComboBox comboBoxCity;
+    private JPanel panelExpiry;
     private JPanel hSpacer4;
     private JPanel panelFake;
-    private JPanel vSpacer5;
-    private JTextField textFieldStreet;
-    private JLabel labelStreetError;
-    private JPanel vSpacer6;
-    private JTextField textFieldApt;
-    private JLabel labelAptError;
+    private JPanel panelDetailsEngine;
+    private JPanel panelMaintainability;
+    private JLabel labelMaintainability;
+    private JRadioButton radioButtonMaintained;
+    private JRadioButton radioButtonNeeds;
+    private JPanel hSpacer5;
+    private JPanel panelFake5;
+    private JPanel hSpacer6;
+    private JPanel panelFake2;
+    private JPanel vSpacer8;
+    private JPanel panelOccupation;
+    private JLabel labelOccupation;
+    private JRadioButton radioButtonOccupied;
+    private JRadioButton radioButtonEmpty;
+    private JPanel vSpacer9;
+    private JLabel labelRoom;
+    private JComboBox comboBoxRoom;
+    private JPanel panelDetailsOperational;
+    private JPanel panelSterilization;
+    private JLabel labelAvailability2;
+    private JRadioButton radioButtonSterilized;
+    private JRadioButton radioButtonNeedsSteri;
+    private JPanel hSpacer7;
+    private JPanel panelFake6;
+    private JPanel hSpacer8;
+    private JPanel panelFake3;
+    private JPanel vSpacer10;
+    private JPanel panelReusability;
+    private JLabel labelReusability;
+    private JRadioButton radioButtonReusable;
+    private JRadioButton radioButtonDisposable;
+    private JPanel panelDetailsSterilization;
+    private JLabel labelSteriType;
+    private JComboBox comboBoxSterilization;
+    private JPanel hSpacer9;
+    private JPanel panelFake7;
+    private JPanel hSpacer10;
+    private JPanel panelFake4;
     private JPanel panelFooter;
     private JButton buttonAddEquip;
     private JLabel labelTooth;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+
+    public static JFrame frame = new JFrame("Home Frame");
+    private DatePicker productionDate, expiryDate;
+    private List<JPanel> panels = new ArrayList<>();
 }

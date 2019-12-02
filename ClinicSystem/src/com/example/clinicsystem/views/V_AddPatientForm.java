@@ -26,6 +26,12 @@ import info.clearthought.layout.*;
 public class V_AddPatientForm extends JPanel {
     public V_AddPatientForm() {
         initComponents();
+
+        comboBoxDepartment.addItem("-");
+
+        for (DentistryDepartment department : DentistryDepartment.values()) {
+            comboBoxDepartment.addItem(department.getName());
+        }
     }
 
     private void labelHome2MouseClicked(MouseEvent e) {
@@ -123,7 +129,7 @@ public class V_AddPatientForm extends JPanel {
             data.add(textFieldEmerName.getText());
             data.add(comboBoxRelation.getSelectedItem().toString());
             data.add(textFieldEmerPhone.getText());
-            data.add(departments.get(comboBoxDepartment.getSelectedItem()));
+            data.add(comboBoxDepartment.getSelectedItem());
 
             if(checkBoxAllergies.isSelected()) {
                 data.add(MedicalAlert.ALLERGIES);
@@ -1229,26 +1235,6 @@ public class V_AddPatientForm extends JPanel {
         datePicker.setBackground(Color.white);
         datePicker.setDateToToday();
         panelBirth.add(datePicker);
-
-        departments.put("Diagnosis", DentistryDepartment.DIAGNOSIS);
-        departments.put("Operative", DentistryDepartment.OPERATIVE);
-        departments.put("Endodontics", DentistryDepartment.ENDODONTICS);
-        departments.put("Removable Prosth", DentistryDepartment.REMOVABLE_PROSTH);
-        departments.put("Periodontics", DentistryDepartment.PERIODONTICS);
-        departments.put("Surgery", DentistryDepartment.SURGERY);
-        departments.put("Crown and Bridge", DentistryDepartment.CROWN_AND_BRIDGE);
-        departments.put("Pedodontics", DentistryDepartment.PEDODONTICS);
-        departments.put("Post Graduate", DentistryDepartment.POST_GRADUATE);
-
-        Iterator it = departments.entrySet().iterator();
-
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-
-            comboBoxDepartment.addItem(pair.getKey().toString());
-
-            it.remove();
-        }
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -1362,5 +1348,4 @@ public class V_AddPatientForm extends JPanel {
     DatePicker datePicker;
     public static JFrame frame = new JFrame("Home Frame");
     private C_Patient patientController = new C_Patient();
-    private HashMap<String, DentistryDepartment> departments = new HashMap<>();
 }

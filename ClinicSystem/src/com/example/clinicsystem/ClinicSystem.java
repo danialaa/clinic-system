@@ -1,6 +1,6 @@
 package com.example.clinicsystem;
 
-import com.example.clinicsystem.views.V_SearchEmployeesForm;
+import com.example.clinicsystem.views.V_AddEquipmentForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class ClinicSystem {
 
         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        mainFrame.add(new V_SearchEmployeesForm());
+        mainFrame.add(new V_AddEquipmentForm());
         mainFrame.pack();
         mainFrame.setVisible(true);
     }
