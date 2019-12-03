@@ -32,6 +32,23 @@ public class V_AddPatientForm extends JPanel {
         for (DentistryDepartment department : DentistryDepartment.values()) {
             comboBoxDepartment.addItem(department.getName());
         }
+
+        for(int i=0; i<ClinicSystem.governorates.size(); i++) {
+            comboBoxGov.addItem(ClinicSystem.governorates.get(i));
+        }
+
+        for(int i=0; i<ClinicSystem.cairoCities.size(); i++) {
+            comboBoxCity.addItem(ClinicSystem.cairoCities.get(i));
+        }
+
+        comboBoxRelation.addItem("Parent");
+        comboBoxRelation.addItem("Sibling");
+        comboBoxRelation.addItem("Spouse");
+        comboBoxRelation.addItem("Grandparent");
+        comboBoxRelation.addItem("Child");
+        comboBoxRelation.addItem("Grandchild");
+        comboBoxRelation.addItem("Uncle");
+        comboBoxRelation.addItem("Aunt");
     }
 
     private void labelHome2MouseClicked(MouseEvent e) {
@@ -104,7 +121,7 @@ public class V_AddPatientForm extends JPanel {
         labels.add(labelStreetError);
         labels.add(labelAptError);
         labels.add(labelEmerNameError);
-        labels.add(labelPhoneError);
+        labels.add(labelEmerPhoneError);
 
         if(patientController.isValidPatient(textFields,labels)) {
             List data = new ArrayList<>();
@@ -117,9 +134,9 @@ public class V_AddPatientForm extends JPanel {
             data.add(textFieldID.getText());
 
             if(radioButtonFemale.isSelected()) {
-                data.add(Gender.FEMALE);
+                data.add("Female");
             } else {
-                data.add(Gender.MALE);
+                data.add("Male");
             }
 
             data.add(comboBoxGov.getSelectedItem().toString());
@@ -132,41 +149,167 @@ public class V_AddPatientForm extends JPanel {
             data.add(comboBoxDepartment.getSelectedItem());
 
             if(checkBoxAllergies.isSelected()) {
-                data.add(MedicalAlert.ALLERGIES);
+                data.add("Allergies");
             }
             if(checkBoxDiabetes.isSelected()) {
-                data.add(MedicalAlert.DIABETES);
+                data.add("Diabetes");
             }
             if(checkBoxAsthma.isSelected()) {
-                data.add(MedicalAlert.ASTHMA);
+                data.add("Asthma");
             }
             if(checkBoxDrugs.isSelected()) {
-                data.add(MedicalAlert.DRUGS);
+                data.add("Drugs");
             }
             if(checkBoxBP.isSelected()) {
-                data.add(MedicalAlert.BLOOD_PRESSURE);
+                data.add("Blood Pressure");
             }
             if(checkBoxAnemia.isSelected()) {
-                data.add(MedicalAlert.ANEMIA);
+                data.add("Anemia");
             }
             if(checkBoxCancer.isSelected()) {
-                data.add(MedicalAlert.CANCER);
+                data.add("Cancer");
             }
             if(checkBoxCardio.isSelected()) {
-                data.add(MedicalAlert.CARDIOVASCULAR_DISEASES);
+                data.add("Cardiovascular Diseases");
             }
             if(checkBoxHypertension.isSelected()) {
-                data.add(MedicalAlert.HYPERTENSION);
+                data.add("Hypertension");
             }
             if(checkBoxBD.isSelected()) {
-                data.add(MedicalAlert.BLEEDING_DISORDERS);
+                data.add("Blood Pressure");
             }
 
-            patientController.request("C",data);
+            patientController.request("C", data);
         }
 
         textFields.clear();
         labels.clear();
+    }
+
+    private void textFieldFNFocusGained(FocusEvent e) {
+        if (textFieldFN.getText().equals("e.g. John")) {
+            textFieldFN.setText("");
+            textFieldFN.setForeground(Color.black);
+        }
+    }
+
+    private void textFieldFNFocusLost(FocusEvent e) {
+        if (textFieldFN.getText().equals("")) {
+            textFieldFN.setText("e.g. John");
+            textFieldFN.setForeground(Color.gray);
+        }
+    }
+
+    private void textFieldMNFocusGained(FocusEvent e) {
+        if (textFieldMN.getText().equals("e.g. Ahmed")) {
+            textFieldMN.setText("");
+            textFieldMN.setForeground(Color.black);
+        }
+    }
+
+    private void textFieldMNFocusLost(FocusEvent e) {
+        if (textFieldMN.getText().equals("")) {
+            textFieldMN.setText("e.g. Ahmed");
+            textFieldMN.setForeground(Color.gray);
+        }
+    }
+
+    private void textFieldLNFocusGained(FocusEvent e) {
+        if (textFieldLN.getText().equals("e.g. Doe")) {
+            textFieldLN.setText("");
+            textFieldLN.setForeground(Color.black);
+        }
+    }
+
+    private void textFieldLNFocusLost(FocusEvent e) {
+        if (textFieldLN.getText().equals("")) {
+            textFieldLN.setText("e.g. Doe");
+            textFieldLN.setForeground(Color.gray);
+        }
+    }
+
+    private void textFieldPhoneFocusGained(FocusEvent e) {
+        if (textFieldPhone.getText().equals("e.g. +201017836584")) {
+            textFieldPhone.setText("");
+            textFieldPhone.setForeground(Color.black);
+        }
+    }
+
+    private void textFieldPhoneFocusLost(FocusEvent e) {
+        if (textFieldPhone.getText().equals("")) {
+            textFieldPhone.setText("e.g. +201017836584");
+            textFieldPhone.setForeground(Color.gray);
+        }
+    }
+
+    private void textFieldIDFocusGained(FocusEvent e) {
+        if (textFieldID.getText().equals("e.g. 235437659984")) {
+            textFieldID.setText("");
+            textFieldID.setForeground(Color.black);
+        }
+    }
+
+    private void textFieldIDFocusLost(FocusEvent e) {
+        if (textFieldID.getText().equals("")) {
+            textFieldID.setText("e.g. 235437659984");
+            textFieldID.setForeground(Color.gray);
+        }
+    }
+
+    private void textFieldStreetFocusGained(FocusEvent e) {
+        if (textFieldStreet.getText().equals("e.g. Tahrir St.")) {
+            textFieldStreet.setText("");
+            textFieldStreet.setForeground(Color.black);
+        }
+    }
+
+    private void textFieldStreetFocusLost(FocusEvent e) {
+        if (textFieldStreet.getText().equals("")) {
+            textFieldStreet.setText("e.g. Tahrir St.");
+            textFieldStreet.setForeground(Color.gray);
+        }
+    }
+
+    private void textFieldAptFocusGained(FocusEvent e) {
+        if (textFieldApt.getText().equals("e.g. 211")) {
+            textFieldApt.setText("");
+            textFieldApt.setForeground(Color.black);
+        }
+    }
+
+    private void textFieldAptFocusLost(FocusEvent e) {
+        if (textFieldApt.getText().equals("")) {
+            textFieldApt.setText("e.g. 211");
+            textFieldApt.setForeground(Color.gray);
+        }
+    }
+
+    private void textFieldEmerNameFocusGained(FocusEvent e) {
+        if (textFieldEmerName.getText().equals("e.g. John Doe")) {
+            textFieldEmerName.setText("");
+            textFieldEmerName.setForeground(Color.black);
+        }
+    }
+
+    private void textFieldEmerNameFocusLost(FocusEvent e) {
+        if (textFieldEmerName.getText().equals("")) {
+            textFieldEmerName.setText("e.g. John Doe");
+            textFieldEmerName.setForeground(Color.gray);
+        }
+    }
+
+    private void textFieldEmerPhoneFocusGained(FocusEvent e) {
+        if (textFieldEmerPhone.getText().equals("e.g. +201017836584")) {
+            textFieldEmerPhone.setText("");
+            textFieldEmerPhone.setForeground(Color.black);
+        }
+    }
+
+    private void textFieldEmerPhoneFocusLost(FocusEvent e) {
+        if (textFieldEmerPhone.getText().equals("")) {
+            textFieldEmerPhone.setText("e.g. +201017836584");
+            textFieldEmerPhone.setForeground(Color.gray);
+        }
     }
 
     private void initComponents() {
@@ -281,12 +424,13 @@ public class V_AddPatientForm extends JPanel {
         setMinimumSize(new Dimension(1920, 1080));
         setPreferredSize(new Dimension(1920, 1200));
         setBackground(Color.white);
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing.
-        border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder. CENTER
-        ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font
-        . BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) );  addPropertyChangeListener(
-        new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "bord\u0065r"
-        .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new
+        javax.swing.border.EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax
+        .swing.border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java
+        .awt.Font("D\u0069alog",java.awt.Font.BOLD,12),java.awt
+        .Color.red), getBorder())); addPropertyChangeListener(new java.beans.
+        PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order".
+        equals(e.getPropertyName()))throw new RuntimeException();}});
         setLayout(new TableLayout(new double[][] {
             {226, TableLayout.FILL},
             {TableLayout.FILL}}));
@@ -662,6 +806,16 @@ public class V_AddPatientForm extends JPanel {
                     textFieldFN.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "First Name", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldFN.setText("e.g. John");
+                    textFieldFN.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldFNFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldFNFocusLost(e);
+                        }
+                    });
                     panelPatientBody.add(textFieldFN, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- hSpacer1 ----
@@ -677,6 +831,16 @@ public class V_AddPatientForm extends JPanel {
                     textFieldMN.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Middle Name", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldMN.setText("e.g. Ahmed");
+                    textFieldMN.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldMNFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldMNFocusLost(e);
+                        }
+                    });
                     panelPatientBody.add(textFieldMN, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- hSpacer2 ----
@@ -692,6 +856,16 @@ public class V_AddPatientForm extends JPanel {
                     textFieldLN.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Last Name", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldLN.setText("e.g. Doe");
+                    textFieldLN.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldLNFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldLNFocusLost(e);
+                        }
+                    });
                     panelPatientBody.add(textFieldLN, new TableLayoutConstraints(4, 0, 4, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- labelFNError ----
@@ -731,6 +905,16 @@ public class V_AddPatientForm extends JPanel {
                     textFieldPhone.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Phone Number", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldPhone.setText("e.g. +201017836584");
+                    textFieldPhone.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldPhoneFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldPhoneFocusLost(e);
+                        }
+                    });
                     panelPatientBody.add(textFieldPhone, new TableLayoutConstraints(0, 3, 0, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //======== panelBirth ========
@@ -747,6 +931,16 @@ public class V_AddPatientForm extends JPanel {
                     textFieldID.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "National ID", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldID.setText("e.g. 235437659984");
+                    textFieldID.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldIDFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldIDFocusLost(e);
+                        }
+                    });
                     panelPatientBody.add(textFieldID, new TableLayoutConstraints(4, 3, 4, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- labelPhoneError ----
@@ -768,7 +962,7 @@ public class V_AddPatientForm extends JPanel {
                     panelPatientBody.add(vSpacer3, new TableLayoutConstraints(0, 5, 0, 5, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- labelDepartment ----
-                    labelDepartment.setText("City");
+                    labelDepartment.setText("Department");
                     labelDepartment.setFont(new Font("Helvetica-Normal", Font.PLAIN, 12));
                     labelDepartment.setForeground(Color.black);
                     panelPatientBody.add(labelDepartment, new TableLayoutConstraints(2, 6, 2, 6, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
@@ -919,6 +1113,16 @@ public class V_AddPatientForm extends JPanel {
                     textFieldStreet.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Street", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldStreet.setText("e.g. Tahrir St.");
+                    textFieldStreet.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldStreetFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldStreetFocusLost(e);
+                        }
+                    });
                     panelAddBody.add(textFieldStreet, new TableLayoutConstraints(0, 3, 0, 3, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- labelStreetError ----
@@ -940,6 +1144,16 @@ public class V_AddPatientForm extends JPanel {
                     textFieldApt.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Apartment", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldApt.setText("e.g. 211");
+                    textFieldApt.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldAptFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldAptFocusLost(e);
+                        }
+                    });
                     panelAddBody.add(textFieldApt, new TableLayoutConstraints(0, 6, 0, 6, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- labelAptError ----
@@ -990,6 +1204,16 @@ public class V_AddPatientForm extends JPanel {
                     textFieldEmerName.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Name", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldEmerName.setText("e.g. John Doe");
+                    textFieldEmerName.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldEmerNameFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldEmerNameFocusLost(e);
+                        }
+                    });
                     panelEmerBody.add(textFieldEmerName, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- hSpacer5 ----
@@ -1046,6 +1270,16 @@ public class V_AddPatientForm extends JPanel {
                     textFieldEmerPhone.setBorder(new TitledBorder(new EtchedBorder(new Color(66, 66, 135), new Color(139, 139, 195)), "Phone Number", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                         new Font("Helvetica-Normal", Font.PLAIN, 12), Color.black));
                     textFieldEmerPhone.setText("e.g. +201017836584");
+                    textFieldEmerPhone.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            textFieldEmerPhoneFocusGained(e);
+                        }
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textFieldEmerPhoneFocusLost(e);
+                        }
+                    });
                     panelEmerBody.add(textFieldEmerPhone, new TableLayoutConstraints(0, 4, 0, 4, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
                     //---- labelEmerPhoneError ----
@@ -1085,7 +1319,7 @@ public class V_AddPatientForm extends JPanel {
 
                     //---- checkBoxAllergies ----
                     checkBoxAllergies.setText("Allergies");
-                    checkBoxAllergies.setBackground(new Color(32, 32, 82, 0));
+                    checkBoxAllergies.setBackground(Color.white);
                     checkBoxAllergies.setForeground(Color.black);
                     checkBoxAllergies.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                     panelMedBody.add(checkBoxAllergies, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.LEFT, TableLayoutConstraints.FULL));
@@ -1098,7 +1332,7 @@ public class V_AddPatientForm extends JPanel {
 
                     //---- checkBoxDiabetes ----
                     checkBoxDiabetes.setText("Diabetes");
-                    checkBoxDiabetes.setBackground(new Color(60, 63, 65, 0));
+                    checkBoxDiabetes.setBackground(Color.white);
                     checkBoxDiabetes.setForeground(Color.black);
                     checkBoxDiabetes.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                     panelMedBody.add(checkBoxDiabetes, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.LEFT, TableLayoutConstraints.FULL));
@@ -1111,14 +1345,14 @@ public class V_AddPatientForm extends JPanel {
 
                     //---- checkBoxAsthma ----
                     checkBoxAsthma.setText("Asthma");
-                    checkBoxAsthma.setBackground(new Color(60, 63, 65, 0));
+                    checkBoxAsthma.setBackground(Color.white);
                     checkBoxAsthma.setForeground(Color.black);
                     checkBoxAsthma.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                     panelMedBody.add(checkBoxAsthma, new TableLayoutConstraints(4, 0, 4, 0, TableLayoutConstraints.LEFT, TableLayoutConstraints.FULL));
 
                     //---- checkBoxDrugs ----
                     checkBoxDrugs.setText("  Drugs");
-                    checkBoxDrugs.setBackground(new Color(60, 63, 65, 0));
+                    checkBoxDrugs.setBackground(Color.white);
                     checkBoxDrugs.setForeground(Color.black);
                     checkBoxDrugs.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                     panelMedBody.add(checkBoxDrugs, new TableLayoutConstraints(5, 0, 5, 0, TableLayoutConstraints.CENTER, TableLayoutConstraints.FULL));
@@ -1131,7 +1365,7 @@ public class V_AddPatientForm extends JPanel {
 
                     //---- checkBoxBP ----
                     checkBoxBP.setText("Blood Pressure");
-                    checkBoxBP.setBackground(new Color(60, 63, 65, 0));
+                    checkBoxBP.setBackground(Color.white);
                     checkBoxBP.setForeground(Color.black);
                     checkBoxBP.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                     panelMedBody.add(checkBoxBP, new TableLayoutConstraints(7, 0, 7, 0, TableLayoutConstraints.LEFT, TableLayoutConstraints.FULL));
@@ -1144,28 +1378,28 @@ public class V_AddPatientForm extends JPanel {
 
                     //---- checkBoxAnemia ----
                     checkBoxAnemia.setText("Anemia");
-                    checkBoxAnemia.setBackground(new Color(60, 63, 65, 0));
+                    checkBoxAnemia.setBackground(Color.white);
                     checkBoxAnemia.setForeground(Color.black);
                     checkBoxAnemia.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                     panelMedBody.add(checkBoxAnemia, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.LEFT, TableLayoutConstraints.FULL));
 
                     //---- checkBoxCancer ----
                     checkBoxCancer.setText("Cancer");
-                    checkBoxCancer.setBackground(new Color(60, 63, 65, 0));
+                    checkBoxCancer.setBackground(Color.white);
                     checkBoxCancer.setForeground(Color.black);
                     checkBoxCancer.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                     panelMedBody.add(checkBoxCancer, new TableLayoutConstraints(2, 2, 2, 2, TableLayoutConstraints.LEFT, TableLayoutConstraints.FULL));
 
                     //---- checkBoxCardio ----
                     checkBoxCardio.setText("  Cardiovascular Diseases");
-                    checkBoxCardio.setBackground(new Color(60, 63, 65, 0));
+                    checkBoxCardio.setBackground(Color.white);
                     checkBoxCardio.setForeground(Color.black);
                     checkBoxCardio.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                     panelMedBody.add(checkBoxCardio, new TableLayoutConstraints(4, 2, 5, 2, TableLayoutConstraints.LEFT, TableLayoutConstraints.FULL));
 
                     //---- checkBoxHypertension ----
                     checkBoxHypertension.setText("Hypertension");
-                    checkBoxHypertension.setBackground(new Color(60, 63, 65, 0));
+                    checkBoxHypertension.setBackground(Color.white);
                     checkBoxHypertension.setForeground(Color.black);
                     checkBoxHypertension.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                     panelMedBody.add(checkBoxHypertension, new TableLayoutConstraints(7, 2, 7, 2, TableLayoutConstraints.LEFT, TableLayoutConstraints.FULL));
@@ -1178,7 +1412,7 @@ public class V_AddPatientForm extends JPanel {
 
                     //---- checkBoxBD ----
                     checkBoxBD.setText("Bleeding Disorder");
-                    checkBoxBD.setBackground(new Color(60, 63, 65, 0));
+                    checkBoxBD.setBackground(Color.white);
                     checkBoxBD.setForeground(Color.black);
                     checkBoxBD.setFont(new Font("Helvetica-Normal", Font.PLAIN, 14));
                     panelMedBody.add(checkBoxBD, new TableLayoutConstraints(0, 4, 2, 4, TableLayoutConstraints.LEFT, TableLayoutConstraints.FULL));

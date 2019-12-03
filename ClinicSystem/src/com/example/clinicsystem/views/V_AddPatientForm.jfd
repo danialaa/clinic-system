@@ -282,6 +282,8 @@ new FormModel {
 							"font": &Font5 new java.awt.Font( "Helvetica-Normal", 0, 16 )
 							"border": new javax.swing.border.TitledBorder( &EtchedBorder0 new javax.swing.border.EtchedBorder( 1, new java.awt.Color( 66, 66, 135, 255 ), new java.awt.Color( 139, 139, 195, 255 ) ), "First Name", 4, 0, &Font6 new java.awt.Font( "Helvetica-Normal", 0, 12 ), &Color12 new java.awt.Color( 0, 0, 0, 255 ) )
 							"text": "e.g. John"
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldFNFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldFNFocusLost", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) )
 						add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
 							name: "hSpacer1"
@@ -298,6 +300,8 @@ new FormModel {
 							"font": #Font5
 							"border": new javax.swing.border.TitledBorder( #EtchedBorder0, "Middle Name", 4, 0, #Font6, #Color12 )
 							"text": "e.g. Ahmed"
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldMNFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldMNFocusLost", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridX": 2
 						} )
@@ -316,6 +320,8 @@ new FormModel {
 							"font": #Font5
 							"border": new javax.swing.border.TitledBorder( #EtchedBorder0, "Last Name", 4, 0, #Font6, #Color12 )
 							"text": "e.g. Doe"
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldLNFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldLNFocusLost", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridX": 4
 						} )
@@ -370,6 +376,8 @@ new FormModel {
 							"font": #Font5
 							"border": new javax.swing.border.TitledBorder( #EtchedBorder0, "Phone Number", 4, 0, #Font6, #Color12 )
 							"text": "e.g. +201017836584"
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldPhoneFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldPhoneFocusLost", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridY": 3
 						} )
@@ -387,6 +395,8 @@ new FormModel {
 							"font": #Font5
 							"border": new javax.swing.border.TitledBorder( #EtchedBorder0, "National ID", 4, 0, #Font6, #Color12 )
 							"text": "e.g. 235437659984"
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldIDFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldIDFocusLost", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridY": 3
 							"gridX": 4
@@ -418,7 +428,7 @@ new FormModel {
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "labelDepartment"
-							"text": "City"
+							"text": "Department"
 							"font": #Font8
 							"foreground": #Color15
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
@@ -585,6 +595,8 @@ new FormModel {
 							"font": #Font5
 							"border": new javax.swing.border.TitledBorder( #EtchedBorder0, "Street", 4, 0, #Font6, #Color12 )
 							"text": "e.g. Tahrir St."
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldStreetFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldStreetFocusLost", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridY": 3
 						} )
@@ -611,6 +623,8 @@ new FormModel {
 							"font": #Font5
 							"border": new javax.swing.border.TitledBorder( #EtchedBorder0, "Apartment", 4, 0, #Font6, #Color12 )
 							"text": "e.g. 211"
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldAptFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldAptFocusLost", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridY": 6
 						} )
@@ -671,6 +685,8 @@ new FormModel {
 							"font": #Font5
 							"border": new javax.swing.border.TitledBorder( #EtchedBorder0, "Name", 4, 0, #Font6, #Color12 )
 							"text": "e.g. John Doe"
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldEmerNameFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldEmerNameFocusLost", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridY": 1
 						} )
@@ -734,6 +750,8 @@ new FormModel {
 							"font": #Font5
 							"border": new javax.swing.border.TitledBorder( #EtchedBorder0, "Phone Number", 4, 0, #Font6, #Color12 )
 							"text": "e.g. +201017836584"
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "textFieldEmerPhoneFocusGained", true ) )
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textFieldEmerPhoneFocusLost", true ) )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridY": 4
 						} )
@@ -782,8 +800,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxAllergies"
 							"text": "Allergies"
-							"background": new java.awt.Color( 32, 32, 82, 0 )
-							"foreground": &Color21 new java.awt.Color( 0, 0, 0, 255 )
+							"background": &Color21 new java.awt.Color( 255, 255, 255, 255 )
+							"foreground": &Color22 new java.awt.Color( 0, 0, 0, 255 )
 							"font": &Font10 new java.awt.Font( "Helvetica-Normal", 0, 14 )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"hAlign": 0
@@ -799,8 +817,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxDiabetes"
 							"text": "Diabetes"
-							"background": &Color22 new java.awt.Color( 60, 63, 65, 0 )
-							"foreground": #Color21
+							"background": #Color21
+							"foreground": #Color22
 							"font": new java.awt.Font( "Helvetica-Normal", 0, 14 )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"hAlign": 0
@@ -817,8 +835,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxAsthma"
 							"text": "Asthma"
-							"background": #Color22
-							"foreground": #Color21
+							"background": #Color21
+							"foreground": #Color22
 							"font": #Font10
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"hAlign": 0
@@ -827,8 +845,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxDrugs"
 							"text": "  Drugs"
-							"background": #Color22
-							"foreground": #Color21
+							"background": #Color21
+							"foreground": #Color22
 							"font": #Font10
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"hAlign": 1
@@ -845,8 +863,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxBP"
 							"text": "Blood Pressure"
-							"background": #Color22
-							"foreground": #Color21
+							"background": #Color21
+							"foreground": #Color22
 							"font": new java.awt.Font( "Helvetica-Normal", 0, 14 )
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"gridX": 7
@@ -863,8 +881,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxAnemia"
 							"text": "Anemia"
-							"background": #Color22
-							"foreground": #Color21
+							"background": #Color21
+							"foreground": #Color22
 							"font": #Font10
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"hAlign": 0
@@ -873,8 +891,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxCancer"
 							"text": "Cancer"
-							"background": #Color22
-							"foreground": #Color21
+							"background": #Color21
+							"foreground": #Color22
 							"font": #Font10
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"hAlign": 0
@@ -884,8 +902,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxCardio"
 							"text": "  Cardiovascular Diseases"
-							"background": #Color22
-							"foreground": #Color21
+							"background": #Color21
+							"foreground": #Color22
 							"font": #Font10
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"hAlign": 0
@@ -896,8 +914,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxHypertension"
 							"text": "Hypertension"
-							"background": #Color22
-							"foreground": #Color21
+							"background": #Color21
+							"foreground": #Color22
 							"font": #Font10
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"hAlign": 0
@@ -915,8 +933,8 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JCheckBox" ) {
 							name: "checkBoxBD"
 							"text": "Bleeding Disorder"
-							"background": #Color22
-							"foreground": #Color21
+							"background": #Color21
+							"foreground": #Color22
 							"font": #Font10
 						}, new FormLayoutConstraints( class com.jformdesigner.runtime.TableConstraints ) {
 							"hAlign": 0
@@ -965,7 +983,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 1520, 965 )
+			"size": new java.awt.Dimension( 1520, 835 )
 		} )
 	}
 }

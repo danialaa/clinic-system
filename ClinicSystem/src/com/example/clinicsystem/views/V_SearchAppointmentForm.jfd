@@ -476,7 +476,6 @@ new FormModel {
 								add( "Patient" )
 								add( "Department" )
 								add( "Status" )
-								add( "Room" )
 								add( "Date" )
 								add( "Time" )
 							}, new java.util.Vector {
@@ -487,9 +486,7 @@ new FormModel {
 								add( null )
 								add( null )
 								add( null )
-								add( null )
 							}, new java.util.Vector {
-								add( false )
 								add( false )
 								add( false )
 								add( false )
@@ -498,7 +495,6 @@ new FormModel {
 								add( null )
 								add( null )
 							}, new java.util.Vector {
-								add( null )
 								add( null )
 								add( null )
 								add( null )

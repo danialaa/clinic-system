@@ -5,9 +5,11 @@ import com.example.clinicsystem.models.classes.M_User;
 import java.util.List;
 
 public class C_User {
-    private M_User user = new M_User();
+
 
     public List request(String requestType, String condition) {
+        M_User user = new M_User();
+
         switch (requestType) {
             case "C":
 

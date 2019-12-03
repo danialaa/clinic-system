@@ -8,9 +8,11 @@ import javax.swing.*;
 import java.util.List;
 
 public class C_Employee {
-    private M_Employee employee = new M_Employee();
+
 
     public List request(String requestType, List<String> list) {
+        M_Employee employee = new M_Employee();
+
         switch (requestType) {
             case "C":
                 employee.getAddress().setApartmentNumber(list.get(0));

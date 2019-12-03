@@ -12,7 +12,6 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import com.example.clinicsystem.controllers.C_Appointment;
-import com.example.clinicsystem.controllers.C_Patient;
 import com.example.clinicsystem.models.enums.DentistryDepartment;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.intellij.uiDesigner.core.*;
@@ -749,6 +748,5 @@ public class V_AddAppointment extends JPanel {
 
     DatePicker datePicker;
     public static JFrame frame = new JFrame("Home Frame");
-    C_Patient patientController = new C_Patient();
     C_Appointment appointmentController = new C_Appointment();
 }

@@ -26,4 +26,24 @@ public enum DentistryDepartment {
     public int getId() {
         return id;
     }
+
+    public static DentistryDepartment getConstant(String name) {
+        for (DentistryDepartment dentistryDepartment : DentistryDepartment.values()) {
+            if (dentistryDepartment.getName().equals(name)) {
+                return dentistryDepartment;
+            }
+        }
+
+        return null;
+    }
+
+    public static DentistryDepartment getConstant(int id) {
+        for (DentistryDepartment dentistryDepartment : DentistryDepartment.values()) {
+            if (dentistryDepartment.getId() == id) {
+                return dentistryDepartment;
+            }
+        }
+
+        return null;
+    }
 }

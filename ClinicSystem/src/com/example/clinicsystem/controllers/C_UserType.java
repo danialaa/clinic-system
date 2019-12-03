@@ -10,17 +10,19 @@ import javax.swing.*;
 import java.util.List;
 
 public class C_UserType {
-    private M_UserType m_userType = new M_UserType();
-
     public List request(String requestType, List data) {
         switch (requestType) {
             case "C":
+                M_UserType m_userType = new M_UserType();
                 m_userType.setTypeName(data.get(0).toString());
-                for(int i =1;i<data.size();i++) {
+
+                for(int i=1; i < data.size(); i++) {
                     M_Permission permission = new M_Permission();
                     permission.setLinkName(data.get(i).toString());
                     m_userType.getPermissions().add(permission);
                 }
+
+                return null;
             case "R":
 
             case "U":
@@ -36,6 +38,7 @@ public class C_UserType {
         if(TextFieldValidator.validateEmpty(textFields,labels)) {
             return true;
         }
+
         return false;
     }
 }

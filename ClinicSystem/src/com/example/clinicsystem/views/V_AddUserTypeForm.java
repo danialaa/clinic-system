@@ -118,7 +118,8 @@ public class V_AddUserTypeForm extends JPanel {
         List<JLabel> labels = new ArrayList<>();
         textFields.add(textFieldTypeName);
         labels.add(labelType);
-        if (userType.isValidUserType(textFields, labels)) {
+
+        if (userTypeController.isValidUserType(textFields, labels)) {
             List data = new ArrayList<>();
             data.add(textFieldTypeName.getText());
 
@@ -126,8 +127,9 @@ public class V_AddUserTypeForm extends JPanel {
                 data.add(tablePermissions.getModel().getValueAt(i, 0));
             }
 
-            userType.request("c", data);
+            userTypeController.request("C", data);
         }
+
         textFields.clear();
         labels.clear();
     }
@@ -881,7 +883,7 @@ public class V_AddUserTypeForm extends JPanel {
     private boolean isFilled = false;
     private TableColumn removeColumn;
     private boolean isEditable = false;
-    private C_UserType userType = new C_UserType();
+    private C_UserType userTypeController = new C_UserType();
     private BufferedImage edit; {
         try {
             edit = ImageIO.read(getClass().getResourceAsStream("/com/example/clinicsystem/pictures/edit.png"));

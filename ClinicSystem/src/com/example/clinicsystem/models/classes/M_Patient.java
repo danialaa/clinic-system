@@ -15,15 +15,13 @@ public class M_Patient extends M_Person {
     private String registrationDate;
     private DentistryDepartment department;
     private M_EmergencyContact emergencyContact;
-    private int EmergencyContact;
     private List<MedicalAlert> medicalAlerts;
     //private List<CDentalHistory> dentalHistory;
-    private List<String> previousSurgeries, medications;
+    //private List<String> previousSurgeries, medications;
 
     public M_Patient(String firstName, String middleName, String lastName, String phoneNumber, String birthDate,
                      M_Address address, int nationalID, Gender gender, int patientID, String registrationDate,
-                     DentistryDepartment department, M_EmergencyContact emergencyContact, List<MedicalAlert> medicalAlerts,
-                     List<String> previousSurgeries, List<String> medications) {
+                     DentistryDepartment department, M_EmergencyContact emergencyContact, List<MedicalAlert> medicalAlerts) {
         super(firstName, middleName, lastName, phoneNumber, birthDate, address, nationalID, gender);
         this.patientID = patientID;
         this.registrationDate = registrationDate;
@@ -31,22 +29,18 @@ public class M_Patient extends M_Person {
         this.emergencyContact = emergencyContact;
         this.medicalAlerts = medicalAlerts;
         //this.dentalHistory = dentalHistory;
-        this.previousSurgeries = previousSurgeries;
-        this.medications = medications;
+        //this.previousSurgeries = previousSurgeries;
+        //this.medications = medications;
     }
 
     public M_Patient(String firstName, String middleName, String lastName, String phoneNumber, String birthDate,
                      M_Address address, int nationalID, Gender gender, int patientID, String registrationDate,
-                     DentistryDepartment department, int emergencyContact) {
+                     DentistryDepartment department, M_EmergencyContact emergencyContact) {
         super(firstName, middleName, lastName, phoneNumber, birthDate, address, nationalID, gender);
         this.patientID = patientID;
         this.registrationDate = registrationDate;
         this.department = department;
-        this.EmergencyContact = emergencyContact;
-        //this.medicalAlerts = medicalAlerts;
-        //this.dentalHistory = dentalHistory;
-        //this.previousSurgeries = previousSurgeries;
-        //this.medications = medications;
+        this.emergencyContact = emergencyContact;
     }
 
     public M_Patient() {
@@ -54,10 +48,10 @@ public class M_Patient extends M_Person {
         emergencyContact = new M_EmergencyContact();
     }
 
-    public int addPatient(int personID,int Emergency_ID) {
+    public int addPatient(int personID) {
        return DatabaseConnection.getINSTANCE().insertInto("patient"
-                ,"(Department_ID,Emergency_ID,Person_ID,Regestration_Date)"
-                ,"('" + this.department.getId() + "', '" + Emergency_ID
+                ,"(Department_ID, Emergency_ID, Person_ID, Registration_Date)"
+                ,"('" + this.department.getId() + "', '" + this.emergencyContact.getContactID()
                         + "', '" + personID + "', '" + this.getRegistrationDate() + "')");
     }
 
@@ -67,9 +61,37 @@ public class M_Patient extends M_Person {
                 ,"('" + this.emergencyContact.getName() + "', '" + this.emergencyContact.getPhoneNumber()
                         + "', '" + this.emergencyContact.getRelation() + "')");
     }
-    public void updateEmergency(int Patient_ID) {
-        DatabaseConnection.getINSTANCE().insertInto("emergency_contact"
-        ,"(Patient_ID)", "('" + patientID + "')");
+
+    public void updateEmergency(String column) {
+        if(column == "pid") {
+            DatabaseConnection.getINSTANCE().update("emergency_contact",
+                    "Patient_ID = '" + this.getEmergencyContact().getPatientID() + "'", this.emergencyContact.getContactID(), "Emergency_ID");
+        }
+    }
+
+    public List<M_EmergencyContact> getAllEmergency(String condition) {
+        List<M_EmergencyContact> emergencyContacts = new ArrayList<>();
+        DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
+        ResultSet resultSet = databaseConnection.select("emergency_contact", condition);
+
+        if(resultSet != null) {
+            try {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("Emergency_ID");
+                    String name = resultSet.getString("Emergency_Name");
+                    String phone = resultSet.getString("Emergency_Phone");
+                    String relation = resultSet.getString("Emergency_Relation");
+
+                    M_EmergencyContact emergencyContact = new M_EmergencyContact(id, resultSet.getInt("Patient_ID"), name, relation, phone);
+
+                    emergencyContacts.add(emergencyContact);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return emergencyContacts;
     }
 
     public List<M_Patient> getAllPatients(String condition){
@@ -80,17 +102,17 @@ public class M_Patient extends M_Person {
         if(resultSet != null) {
             try {
                 while (resultSet.next()) {
-                    int id = resultSet.getInt("Patient_ID");
+                    int id = resultSet.getInt("Person_ID");
                     int departmentId = resultSet.getInt("Department_ID");
                     String registrationDate = resultSet.getString("Registration_Date");
-                    int emergencyId = resultSet.getInt("Emergency_ID");
 
                     List<M_Person> people = getAllPersons(" WHERE Person_ID = " + resultSet.getInt("Person_ID"));
+                    List<M_EmergencyContact> emergencyContacts = getAllEmergency(" WHERE Emergency_ID = " + resultSet.getInt("Emergency_ID"));
 
                     M_Patient patient = new M_Patient(people.get(0).getFirstName(), people.get(0).getMiddleName(),
                             people.get(0).getLastName(), people.get(0).getPhoneNumber(), people.get(0).getBirthDate(),
                             people.get(0).getAddress(), people.get(0).getNationalID(), people.get(0).getGender(),
-                            id, registrationDate, DentistryDepartment.DIAGNOSIS, EmergencyContact);
+                            id, registrationDate, DentistryDepartment.getConstant(departmentId), emergencyContacts.get(0));
 
                     patients.add(patient);
                 }
@@ -98,6 +120,7 @@ public class M_Patient extends M_Person {
                 e.printStackTrace();
             }
         }
+
         return patients;
     }
 
@@ -147,7 +170,7 @@ public class M_Patient extends M_Person {
 
     public void setDentalHistory(List<CDentalHistory> dentalHistory) {
         this.dentalHistory = dentalHistory;
-    }*/
+    }
 
     public List<String> getPreviousSurgeries() {
         return previousSurgeries;
@@ -163,5 +186,5 @@ public class M_Patient extends M_Person {
 
     public void setMedications(List<String> medications) {
         this.medications = medications;
-    }
+    }*/
 }

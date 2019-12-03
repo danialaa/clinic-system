@@ -36,7 +36,7 @@ public class DatabaseConnection {
 
             return resultSet;
         } catch (SQLException e) {
-            System.out.println("Query Error: ");
+            System.out.println("Select Query Error: ");
             e.printStackTrace();
             return null;
         }
@@ -56,10 +56,22 @@ public class DatabaseConnection {
 
             return id;
         } catch (SQLException e) {
-            System.out.println("Query Error: ");
+            System.out.println("Insert Query Error: ");
             e.printStackTrace();
         }
 
         return -1;
+    }
+
+    public void update(String table, String newValues, int id, String idColumn) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "UPDATE " + table + " SET " + newValues + " WHERE " + idColumn + " = " + id;
+
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println("Update Query Error: ");
+            e.printStackTrace();
+        }
     }
 }

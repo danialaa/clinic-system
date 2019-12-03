@@ -9,25 +9,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class C_Appointment {
-    private C_Patient patientController = new C_Patient();
-    private M_Appointment appointment = new M_Appointment();
-
     public List request(String requestType, List list) {
+        M_Appointment appointment = new M_Appointment();
+
         switch (requestType) {
             case "C":
                 if(isValidAppointmentData(Integer.parseInt(list.get(0).toString()))){
                     appointment.setPatientID(Integer.parseInt(list.get(0).toString()));
                     appointment.setDentistID(Integer.parseInt(list.get(1).toString()));
-                    appointment.setAppointmentType((DentistryDepartment) list.get(2));
+                    appointment.setAppointmentType(DentistryDepartment.getConstant(list.get(2).toString()));
                     appointment.setDate(list.get(3).toString());
-                    appointment.setByPhone((boolean) list.get(4));
+                    appointment.setByPhone((boolean)list.get(4));
                     appointment.setStartTime(list.get(5).toString());
-                    appointment.setComplete(false);
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "Patient not Found");
                 }
+
+                return null;
             case "R":
+                if(list == null) {
+                    return appointment.getAllAppointments("");
+                } else {
+                    return appointment.getAllAppointments(list.get(0).toString());
+                }
 
             case "U":
 
@@ -38,6 +43,7 @@ public class C_Appointment {
         return null;
     }
     public boolean isValidAppointmentData(int PID){
+        C_Patient patientController = new C_Patient();
         List<String> data = new ArrayList<>();
         String condition = " WHERE Patient_ID = " + PID;
         data.add(condition);

@@ -16,9 +16,12 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
 
+import com.example.clinicsystem.controllers.C_Appointment;
 import com.example.clinicsystem.controllers.C_Employee;
+import com.example.clinicsystem.controllers.C_Patient;
 import com.example.clinicsystem.models.classes.M_Appointment;
 import com.example.clinicsystem.models.classes.M_Employee;
+import com.example.clinicsystem.models.classes.M_Patient;
 import com.example.clinicsystem.models.enums.DentistryDepartment;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.intellij.uiDesigner.core.*;
@@ -31,9 +34,9 @@ public class V_SearchAppointmentForm extends JPanel {
     public V_SearchAppointmentForm() {
         initComponents();
 
-        datePicker.setDate(LocalDate.parse(getNextDay()));
+        datePicker.setDate(LocalDate.parse(getFutureDay()));
 
-        //appointments = employeeController.request("R", null);
+        appointments = appointmentController.request("R", null);
         updateTable();
 
         comboBoxDepartment.addItem("-");
@@ -109,7 +112,82 @@ public class V_SearchAppointmentForm extends JPanel {
     }
 
     private void buttonSearchMouseClicked(MouseEvent e) {
-        // TODO add your code here
+        List<String> data = new ArrayList<>();
+        List<String> columns = new ArrayList<>();
+        String condition = " WHERE ";
+        String date = datePicker.getDate().toString();
+
+        //textfields filtering
+
+        if(!textFieldID.getText().equals("e.g. 180967")){
+            columns.add("Schedule_ID = " + textFieldID.getText());
+        }
+        if(!textFieldPatientName.getText().equals("e.g. John Doe")) {
+            String[] patientNames = textFieldPatientName.getText().split("\\s+");
+            String patientCondition = " INNER JOIN person ON person.Person_ID = patient.Person_ID " +
+                    "AND person.Person_FN = '" + patientNames[0] + "'";
+
+            if(patientNames.length > 1) {
+                patientCondition += " AND person.Person_LN = '" + patientNames[1] + "'";
+            }
+
+            C_Patient patientController = new C_Patient();
+            data.add(patientCondition);
+            List<M_Patient> patients = patientController.request("R", data);
+
+            if(patients.size() != 0) {
+                for (int i=0; i < patients.size(); i++) {
+                    if (i >= 1) {
+                        columns.add(" OR ");
+                    }
+
+                    columns.add("Patient_ID = " + patients.get(i).getPatientID());
+                }
+            }
+        }
+        if(comboBoxDepartment.getSelectedIndex() != 0) {
+            columns.add("Department_ID = " + DentistryDepartment.getConstant(comboBoxDepartment.getSelectedItem().toString()).getId());
+        }
+        if(date != getFutureDay()) {
+            data.clear();
+            datePicker.setDate(LocalDate.parse(date));
+            String scheduleCondition = " INNER JOIN schedule ON schedule.Schedule_ID = appointment.Schedule_ID " +
+                    "AND schedule.Schedule_Date = '" + datePicker.getDate().toString() + "'";
+
+            data.add(scheduleCondition);
+            List<M_Appointment> tempAppointments = appointmentController.request("R", data);
+
+            if(tempAppointments.size() != 0) {
+                for (int i=0; i < tempAppointments.size(); i++) {
+                    if (i >= 1) {
+                        columns.add(" OR ");
+                    }
+
+                    columns.add("Schedule_ID = " + tempAppointments.get(i).getID());
+                }
+            }
+        }
+
+        data.clear();
+
+        //sending where statement
+
+        if(columns.size() == 0) {
+            appointments = appointmentController.request("R", null);
+        } else {
+            for (int i=0; i < columns.size(); i++) {
+                if (i >= 1) {
+                    condition += " AND ";
+                }
+
+                condition += columns.get(i);
+            }
+
+            data.add(condition);
+            appointments = appointmentController.request("R", data);
+        }
+
+        updateTable();
     }
 
     private void buttonResetMouseClicked(MouseEvent e) {
@@ -122,10 +200,10 @@ public class V_SearchAppointmentForm extends JPanel {
 
         comboBoxDepartment.setSelectedIndex(0);
 
-        datePicker.setDate(LocalDate.parse(getNextDay()));
+        datePicker.setDate(LocalDate.parse(getFutureDay()));
     }
 
-    private String getNextDay() {
+    private String getFutureDay() {
         datePicker.setDateToToday();
         String newDate = datePicker.getDateStringOrEmptyString();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -137,7 +215,7 @@ public class V_SearchAppointmentForm extends JPanel {
             e.printStackTrace();
         }
 
-        calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.DATE, 1000);
         return sdf.format(calendar.getTime());
     }
 
@@ -145,8 +223,9 @@ public class V_SearchAppointmentForm extends JPanel {
         ((DefaultTableModel) tableAppointments.getModel()).setRowCount(0);
 
         for (M_Appointment appointment : appointments) {
-            //((DefaultTableModel) tableAppointments.getModel()).addRow(new Object[]{appointment.getID(),
-            //        appointment.getDentistID() + " " + appointment.getPatientID(), appointment.gett(), "Dentist", "Surgery", "H213"});
+            ((DefaultTableModel) tableAppointments.getModel()).addRow(new Object[]{appointment.getID(),
+                    appointment.getDentistName(), appointment.getPatientName(), appointment.getAppointmentType().getName(),
+                    appointment.getStatus(), appointment.getDate(), appointment.getStartTime()});
         }
     }
 
@@ -213,13 +292,13 @@ public class V_SearchAppointmentForm extends JPanel {
         setMinimumSize(new Dimension(1920, 1080));
         setPreferredSize(new Dimension(1920, 1200));
         setBackground(Color.white);
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-        javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax
-        . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
-        .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt
-        . Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans.
-        PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .
-        equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
+        swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border
+        . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069alog"
+        ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder
+        ( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
+        .beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException
+        ( ); }} );
         setLayout(new TableLayout(new double[][] {
             {226, TableLayout.FILL},
             {TableLayout.FILL}}));
@@ -776,11 +855,11 @@ public class V_SearchAppointmentForm extends JPanel {
                         new Object[][] {
                         },
                         new String[] {
-                            "ID", "Doctor", "Patient", "Department", "Status", "Room", "Date", "Time"
+                            "ID", "Doctor", "Patient", "Department", "Status", "Date", "Time"
                         }
                     ) {
                         boolean[] columnEditable = new boolean[] {
-                            false, false, false, false, false, false, true, true
+                            false, false, false, false, false, true, true
                         };
                         @Override
                         public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -909,5 +988,6 @@ public class V_SearchAppointmentForm extends JPanel {
 
     public static JFrame frame = new JFrame("Home Frame");
     private DatePicker datePicker;
-    private List<M_Appointment> appointments = new ArrayList<>();
+    private List<M_Appointment> appointments;
+    private C_Appointment appointmentController = new C_Appointment();
 }

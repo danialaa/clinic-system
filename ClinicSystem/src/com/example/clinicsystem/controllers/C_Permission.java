@@ -6,9 +6,11 @@ import com.example.clinicsystem.models.classes.M_Permission;
 import java.util.List;
 
 public class C_Permission {
-    private M_Permission permission = new M_Permission();
+
 
     public List request(String requestType, String condition) {
+        M_Permission permission = new M_Permission();
+
         switch (requestType) {
             case "C":
 

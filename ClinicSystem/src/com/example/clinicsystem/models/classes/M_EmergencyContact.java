@@ -46,6 +46,7 @@ public class M_EmergencyContact {
         }
         return emergencyContacts;
     }
+
     public int getContactID() {
         return contactID;
     }
