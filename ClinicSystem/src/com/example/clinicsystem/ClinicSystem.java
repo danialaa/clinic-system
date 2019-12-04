@@ -18,7 +18,7 @@ public class ClinicSystem {
 
         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            mainFrame.add(new V_AddUserTypeForm());
+            mainFrame.add(new V_AddEquipmentForm());
         mainFrame.pack();
         mainFrame.setVisible(true);
     }

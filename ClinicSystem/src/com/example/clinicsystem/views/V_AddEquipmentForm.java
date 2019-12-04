@@ -11,6 +11,7 @@ import javax.swing.border.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.clinicsystem.models.enums.EquipmentType;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.intellij.uiDesigner.core.*;
 import info.clearthought.layout.*;
@@ -22,10 +23,9 @@ public class V_AddEquipmentForm extends JPanel {
     public V_AddEquipmentForm() {
         initComponents();
 
-        comboBoxEquipType.addItem("Drug");
-        comboBoxEquipType.addItem("Dental Engine");
-        comboBoxEquipType.addItem("Operational Tool");
-        comboBoxEquipType.addItem("Sterilization Tool");
+        for(EquipmentType equipmentType : EquipmentType.values()) {
+            comboBoxEquipType.addItem(equipmentType.getName());
+        }
 
         panels.add(panelDetailsDrug);
         panels.add(panelDetailsEngine);
@@ -341,12 +341,13 @@ public class V_AddEquipmentForm extends JPanel {
         setMinimumSize(new Dimension(1920, 1080));
         setPreferredSize(new Dimension(1920, 1200));
         setBackground(Color.white);
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
-        (0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER,javax.swing.border
-        .TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt
-        .Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void
-        propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName()))throw new RuntimeException()
-        ;}});
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
+        swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e", javax. swing. border
+        . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069al\u006fg"
+        ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder
+        ( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
+        .beans .PropertyChangeEvent e) {if ("\u0062or\u0064er" .equals (e .getPropertyName () )) throw new RuntimeException
+        ( ); }} );
         setLayout(new TableLayout(new double[][] {
             {226, TableLayout.FILL},
             {TableLayout.FILL}}));
