@@ -20,9 +20,16 @@ public class M_UserType {
         permissions = new ArrayList<>();
     }
 
-    public void addUserType() {
-        DatabaseConnection.getINSTANCE().insertInto("usertype","(UserType_Name)"
+    public int addUserType() {
+        return DatabaseConnection.getINSTANCE().insertInto("usertype","(UserType_Name)"
                 ,"('" + this.getTypeName() + "')");
+    }
+
+    public void addTypeLink() {
+        for(M_Permission permission : this.permissions) {
+            DatabaseConnection.getINSTANCE().insertInto("type_permission","(Permission_ID," +
+                    " UserType_ID)", "('" + permission.getPermissionID() + "', '" + this.getUserTypeID() + "')");
+        }
     }
 
     public int getUserTypeID() {

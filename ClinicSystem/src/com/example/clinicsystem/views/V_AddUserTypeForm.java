@@ -72,8 +72,8 @@ public class V_AddUserTypeForm extends JPanel {
     private void buttonAddPermissionMouseClicked(MouseEvent e) {
         boolean isAddable = true;
 
-        for (String addedPermission : addedPermissions) {
-            if (addedPermission.equals(comboBoxPermissions.getSelectedItem().toString())) {
+        for (M_Permission addedPermission : addedPermissions) {
+            if (addedPermission.getLinkName().equals(comboBoxPermissions.getSelectedItem().toString())) {
                 isAddable = false;
             }
         }
@@ -88,7 +88,12 @@ public class V_AddUserTypeForm extends JPanel {
             }
 
             model.addRow(data);
-            addedPermissions.add(comboBoxPermissions.getSelectedItem().toString());
+
+            for(M_Permission permission : permissionList) {
+                if(permission.getLinkName().equals(comboBoxPermissions.getSelectedItem().toString())) {
+                    addedPermissions.add(permission);
+                }
+            }
         }
     }
 
@@ -124,7 +129,7 @@ public class V_AddUserTypeForm extends JPanel {
             data.add(textFieldTypeName.getText());
 
             for (int i = 0; i < tablePermissions.getModel().getRowCount(); i++) {
-                data.add(tablePermissions.getModel().getValueAt(i, 0));
+                data.add(addedPermissions.get(i));
             }
 
             userTypeController.request("C", data);
@@ -757,7 +762,7 @@ public class V_AddUserTypeForm extends JPanel {
         add(scrollPane1, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
 
-        List<M_Permission> permissionList = permissionController.request("R", "");
+        permissionList = permissionController.request("R", "");
 
         for (int i = 0; i < permissionList.size(); i++) {
             comboBoxPermissions.addItem(permissionList.get(i).getLinkName());
@@ -879,7 +884,8 @@ public class V_AddUserTypeForm extends JPanel {
     public static JFrame frame = new JFrame("Home Frame");
     private C_Permission permissionController = new C_Permission();
     private DefaultTableModel model;
-    private List<String> addedPermissions = new ArrayList<>();
+    private List<M_Permission> permissionList = new ArrayList<>();
+    private List<M_Permission> addedPermissions = new ArrayList<>();
     private boolean isFilled = false;
     private TableColumn removeColumn;
     private boolean isEditable = false;

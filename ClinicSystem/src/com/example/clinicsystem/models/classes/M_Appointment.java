@@ -15,7 +15,8 @@ public class M_Appointment extends M_Schedule {
     private String startTime, endTime, status, dentistName, patientName;
     private DentistryDepartment appointmentType;
 
-    public M_Appointment(int ID, String date, int dentistID, int patientID, boolean isByPhone, String startTime, String endTime, String status, DentistryDepartment appointmentType) {
+    public M_Appointment(int ID, String date, int dentistID, int patientID, boolean isByPhone, String startTime,
+                         String endTime, String status, DentistryDepartment appointmentType) {
         super(ID, date);
         this.dentistID = dentistID;
         this.patientID = patientID;
@@ -27,6 +28,22 @@ public class M_Appointment extends M_Schedule {
     }
 
     public M_Appointment() {
+    }
+
+    public int addAppointment() {
+        DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
+        String type = "Frontdesk";
+
+        if(this.isByPhone()) {
+            type = "By Phone";
+        }
+
+        return databaseConnection.insertInto("appointment","(Schedule_ID, Appointment_FinishTime," +
+                        " Appointment_StartTime, Appointment_Status, Appointment_Type," +
+                        " Department_ID, Employee_ID, Patient_ID)" ,
+                "('" + this.ID + "', '" + this.endTime + "', '" + this.startTime
+                        + "', '" + this.status + "', '" + type + "', '" + this.appointmentType.getId() +
+                        "', '" + this.dentistID + "', '" + this.patientID + "')");
     }
 
     public List<M_Appointment> getAllAppointments(String condition) {

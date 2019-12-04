@@ -14,21 +14,22 @@ public class C_Appointment {
 
         switch (requestType) {
             case "C":
-                if(isValidAppointmentData(Integer.parseInt(list.get(0).toString()))){
-                    appointment.setPatientID(Integer.parseInt(list.get(0).toString()));
-                    appointment.setDentistID(Integer.parseInt(list.get(1).toString()));
-                    appointment.setAppointmentType(DentistryDepartment.getConstant(list.get(2).toString()));
-                    appointment.setDate(list.get(3).toString());
-                    appointment.setByPhone((boolean)list.get(4));
-                    appointment.setStartTime(list.get(5).toString());
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "Patient not Found");
-                }
+                appointment.setPatientID(Integer.parseInt(list.get(0).toString()));
+                appointment.setPatientName(list.get(1).toString());
+                appointment.setDentistID(Integer.parseInt(list.get(2).toString()));
+                appointment.setDentistName(list.get(3).toString());
+                appointment.setStatus("Pending");
+                appointment.setAppointmentType(DentistryDepartment.getConstant(list.get(4).toString()));
+                appointment.setDate(list.get(5).toString());
+                appointment.setByPhone((boolean) list.get(6));
+                appointment.setStartTime(list.get(7).toString());
+                appointment.setEndTime("00:00");
+                appointment.setID(appointment.addSchedule());
+                appointment.addAppointment();
 
                 return null;
             case "R":
-                if(list == null) {
+                if (list == null) {
                     return appointment.getAllAppointments("");
                 } else {
                     return appointment.getAllAppointments(list.get(0).toString());
@@ -42,18 +43,16 @@ public class C_Appointment {
 
         return null;
     }
-    public boolean isValidAppointmentData(int PID){
+
+    public boolean isValidAppointmentData(int PID) {
         C_Patient patientController = new C_Patient();
         List<String> data = new ArrayList<>();
         String condition = " WHERE Patient_ID = " + PID;
         data.add(condition);
-        List<M_Patient> result = patientController.request("R", data);
+        List<M_Patient> patients = patientController.request("R", data);
 
-        for(int i = 0 ; i < result.size() ; i++)
-        {
-            if(Integer.compare(result.get(i).getPatientID(), PID) == 0){
-                 return true;
-            }
+        if (patients.size() > 0) {
+            return true;
         }
 
         return false;

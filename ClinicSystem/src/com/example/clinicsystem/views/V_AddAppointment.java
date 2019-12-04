@@ -12,6 +12,10 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import com.example.clinicsystem.controllers.C_Appointment;
+import com.example.clinicsystem.controllers.C_Dentist;
+import com.example.clinicsystem.controllers.C_Patient;
+import com.example.clinicsystem.models.classes.M_Dentist;
+import com.example.clinicsystem.models.classes.M_Patient;
 import com.example.clinicsystem.models.enums.DentistryDepartment;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.intellij.uiDesigner.core.*;
@@ -27,17 +31,20 @@ public class V_AddAppointment extends JPanel {
         for (DentistryDepartment department : DentistryDepartment.values()) {
             comboBoxDepartment.addItem(department.getName());
         }
-        comboBoxDentist.addItem("Doctor1");
-        comboBoxDentist.addItem("Doctor2");
-        comboBoxDentist.addItem("Doctor3");
+        C_Dentist dentistController = new C_Dentist();
+        dentists = dentistController.request("R", null);
 
-        comboBoxAType.addItem("Phone");
-        comboBoxAType.addItem("Front-desk");
+        for (M_Dentist dentist : dentists) {
+            comboBoxDentist.addItem(dentist.getFirstName() + " " + dentist.getLastName());
+        }
 
-        comboBoxTime.addItem("09:30 AM");
-        comboBoxTime.addItem("11:00 AM");
-        comboBoxTime.addItem("12:30 PM");
-        comboBoxTime.addItem("01:00 PM");
+        comboBoxAType.addItem("By Phone");
+        comboBoxAType.addItem("Frontdesk");
+
+        comboBoxTime.addItem("09:30AM");
+        comboBoxTime.addItem("11:00AM");
+        comboBoxTime.addItem("12:30PM");
+        comboBoxTime.addItem("01:00PM");
     }
 
     private void labelHome2MouseClicked(MouseEvent e) {
@@ -65,21 +72,36 @@ public class V_AddAppointment extends JPanel {
 
     private void buttonReserveMouseClicked(MouseEvent e) {
         List list = new ArrayList<>();
-        list.add(textFieldPatient.getText());
-        list.add(comboBoxDentist.getSelectedItem().toString());
-        list.add(comboBoxDepartment.getSelectedItem().toString());
-        list.add(datePicker.getDate().toString());
 
-        if(comboBoxAType.getSelectedItem().equals("Phone")){
-            list.add(true);
-        }
-        else{
-            list.add(false);
-        }
+        String condition = " WHERE Person_ID = " + Integer.parseInt(textFieldPatient.getText());
+        List<String> data = new ArrayList<>();
+        data.add(condition);
+        C_Patient patientController = new C_Patient();
+        List<M_Patient> patients = patientController.request("R", data);
 
-        list.add(comboBoxTime.getSelectedItem().toString());
-        appointmentController.request("C", list);
+        if (patients.size() > 0) {
+            list.add(patients.get(0).getPatientID());
+            list.add(patients.get(0).getFirstName() + " " + patients.get(0).getLastName());
+            list.add(dentists.get(comboBoxDentist.getSelectedIndex()).getEmployeeID());
+            list.add(dentists.get(comboBoxDentist.getSelectedIndex()).getFirstName() + " " +
+                    dentists.get(comboBoxDentist.getSelectedIndex()).getLastName());
+            list.add(comboBoxDepartment.getSelectedItem().toString());
+            list.add(datePicker.getDate().toString());
+
+            if(comboBoxAType.getSelectedItem().equals("By Phone")){
+                list.add(true);
+            }
+            else{
+                list.add(false);
+            }
+
+            list.add(comboBoxTime.getSelectedItem().toString());
+            appointmentController.request("C", list);
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid Patient");
+        }
     }
+
     private void textFieldPatientFocusGained(FocusEvent e) {
 
         if(textFieldPatient.getText().equals("e.g. 182732")){
@@ -97,6 +119,7 @@ public class V_AddAppointment extends JPanel {
             textFieldPatient.setForeground(Color.gray);
         }
     }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Dania
@@ -749,4 +772,5 @@ public class V_AddAppointment extends JPanel {
     DatePicker datePicker;
     public static JFrame frame = new JFrame("Home Frame");
     C_Appointment appointmentController = new C_Appointment();
+    private List<M_Dentist> dentists = new ArrayList<>();
 }

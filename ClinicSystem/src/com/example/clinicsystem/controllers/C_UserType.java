@@ -11,16 +11,19 @@ import java.util.List;
 
 public class C_UserType {
     public List request(String requestType, List data) {
+        M_UserType userType = new M_UserType();
+
         switch (requestType) {
             case "C":
-                M_UserType m_userType = new M_UserType();
-                m_userType.setTypeName(data.get(0).toString());
+                userType.setTypeName(data.get(0).toString());
 
                 for(int i=1; i < data.size(); i++) {
-                    M_Permission permission = new M_Permission();
-                    permission.setLinkName(data.get(i).toString());
-                    m_userType.getPermissions().add(permission);
+                    M_Permission permission = (M_Permission)data.get(i);
+                    userType.getPermissions().add(permission);
                 }
+
+                userType.setUserTypeID(userType.addUserType());
+                userType.addTypeLink();
 
                 return null;
             case "R":

@@ -19,6 +19,13 @@ public class M_Schedule {
     public M_Schedule() {
     }
 
+    public int addSchedule() {
+        DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
+
+        return databaseConnection.insertInto("schedule","(Schedule_ID, Schedule_Date)",
+                "('" + this.ID + "', '" + this.date + "')");
+    }
+
     public List<M_Schedule> getAllSchedules(String condition) {
         List<M_Schedule> schedules = new ArrayList<>();
         DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();

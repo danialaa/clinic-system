@@ -43,11 +43,11 @@ public class M_Permission {
         return permissions;
     }
 
-    public int getLinkID() {
+    public int getPermissionID() {
         return permissionID;
     }
 
-    public void setLinkID(int permissionID) {
+    public void setPermissionID(int permissionID) {
         this.permissionID = permissionID;
     }
 

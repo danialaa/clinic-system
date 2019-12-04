@@ -5,7 +5,7 @@ import java.sql.*;
 public class DatabaseConnection {
     private String host = "jdbc:mysql://localhost:3306/clinic";
     private String uName = "root";
-    private String uPass = "Dania98Mahdaly";
+    private String uPass = "Awsomemosta12232";
     private Connection connection;
     private static DatabaseConnection INSTANCE = null;
 

@@ -17,10 +17,8 @@ import javax.swing.border.*;
 import javax.swing.table.*;
 
 import com.example.clinicsystem.controllers.C_Appointment;
-import com.example.clinicsystem.controllers.C_Employee;
 import com.example.clinicsystem.controllers.C_Patient;
 import com.example.clinicsystem.models.classes.M_Appointment;
-import com.example.clinicsystem.models.classes.M_Employee;
 import com.example.clinicsystem.models.classes.M_Patient;
 import com.example.clinicsystem.models.enums.DentistryDepartment;
 import com.github.lgooddatepicker.components.DatePicker;
