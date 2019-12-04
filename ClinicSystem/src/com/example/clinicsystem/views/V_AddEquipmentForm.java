@@ -11,6 +11,7 @@ import javax.swing.border.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.clinicsystem.controllers.C_Equipment;
 import com.example.clinicsystem.models.enums.EquipmentType;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.intellij.uiDesigner.core.*;
@@ -123,7 +124,71 @@ public class V_AddEquipmentForm extends JPanel {
     }
 
     private void buttonAddEquipMouseClicked(MouseEvent e) {
-        // TODO add your code here
+        List<JTextField> textFields = new ArrayList<>();
+        List<JLabel> labels = new ArrayList<>();
+
+        textFields.add(textFieldName);
+        labels.add(labelNameError);
+        textFields.add(textFieldPrice);
+        labels.add(labelPriceError);
+
+        if(textFieldQuantity.isVisible()) {
+            textFields.add(textFieldQuantity);
+            labels.add(labelQuantityError);
+        }
+
+        if(equipmentController.isValidEquipmentData(textFields, labels)) {
+            List data = new ArrayList();
+            data.add(textFieldName.toString());
+            data.add(textFieldPrice.toString());
+            data.add(textFieldQuantity.toString());
+            data.add(comboBoxEquipType.getSelectedItem().toString());
+
+            if(radioButtonAvailable.isSelected()) {
+                data.add(true);
+            } else {
+                data.add(false);
+            }
+
+            if(panelDetailsDrug.isVisible()) {
+                data.add("drug");
+                data.add(expiryDate.getDate().toString());
+                data.add(productionDate.getDate().toString());
+            } else if(panelDetailsEngine.isVisible()) {
+                data.add("engine");
+
+                if(radioButtonMaintained.isSelected()) {
+                    data.add(true);
+                } else {
+                    data.add(false);
+                }
+                if(radioButtonOccupied.isSelected()) {
+                    data.add(true);
+                } else {
+                    data.add(false);
+                }
+
+                data.add(comboBoxRoom.getSelectedItem().toString());
+            } else if(panelDetailsOperational.isVisible()) {
+                data.add("operational");
+
+                if(radioButtonSterilized.isSelected()) {
+                    data.add(true);
+                } else {
+                    data.add(false);
+                }
+                if(radioButtonReusable.isSelected()) {
+                    data.add(true);
+                } else {
+                    data.add(false);
+                }
+            } else if(panelDetailsSterilization.isVisible()) {
+                data.add("sterilization");
+                data.add(comboBoxSterilization.getSelectedItem().toString());
+            }
+
+            equipmentController.request("C", data);
+        }
     }
 
     private void textFieldQuantityFocusGained(FocusEvent e) {
@@ -1510,4 +1575,5 @@ public class V_AddEquipmentForm extends JPanel {
     public static JFrame frame = new JFrame("Home Frame");
     private DatePicker productionDate, expiryDate;
     private List<JPanel> panels = new ArrayList<>();
+    private C_Equipment equipmentController = new C_Equipment();
 }

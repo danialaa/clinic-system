@@ -1,7 +1,9 @@
 package com.example.clinicsystem.controllers;
 
+import com.example.clinicsystem.helpers.TextFieldValidator;
 import com.example.clinicsystem.models.classes.M_Equipment;
 
+import javax.swing.*;
 import java.util.List;
 
 public class C_Equipment {
@@ -22,5 +24,13 @@ public class C_Equipment {
         }
 
         return null;
+    }
+
+    public boolean isValidEquipmentData(List<JTextField> textFieldList, List<JLabel> labelList) {
+        if(TextFieldValidator.validateEmpty(textFieldList, labelList) && TextFieldValidator.validateEmail(textFieldList.get(5), labelList.get(5))) {
+            return true;
+        }
+
+        return false;
     }
 }
