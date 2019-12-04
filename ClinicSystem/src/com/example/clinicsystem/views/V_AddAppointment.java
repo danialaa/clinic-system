@@ -31,8 +31,9 @@ public class V_AddAppointment extends JPanel {
         for (DentistryDepartment department : DentistryDepartment.values()) {
             comboBoxDepartment.addItem(department.getName());
         }
+
         C_Dentist dentistController = new C_Dentist();
-        dentists = dentistController.request("R", null);
+        dentists = updateDentistComboBox(dentistController);
 
         for (M_Dentist dentist : dentists) {
             comboBoxDentist.addItem(dentist.getFirstName() + " " + dentist.getLastName());
@@ -71,6 +72,7 @@ public class V_AddAppointment extends JPanel {
     }
 
     private void buttonReserveMouseClicked(MouseEvent e) {
+        C_Appointment appointmentController = new C_Appointment();
         List list = new ArrayList<>();
 
         String condition = " WHERE Person_ID = " + Integer.parseInt(textFieldPatient.getText());
@@ -90,8 +92,7 @@ public class V_AddAppointment extends JPanel {
 
             if(comboBoxAType.getSelectedItem().equals("By Phone")){
                 list.add(true);
-            }
-            else{
+            } else {
                 list.add(false);
             }
 
@@ -118,6 +119,16 @@ public class V_AddAppointment extends JPanel {
             textFieldPatient.setText("e.g. 182732");
             textFieldPatient.setForeground(Color.gray);
         }
+    }
+
+    private List<M_Dentist> updateDentistComboBox(C_Dentist dentistController) {
+        dentists = dentistController.request("R", null);
+
+        for (M_Dentist dentist : dentists) {
+            comboBoxDentist.addItem(dentist.getFirstName() + " " + dentist.getLastName());
+        }
+
+        return dentists;
     }
 
     private void initComponents() {
@@ -771,6 +782,5 @@ public class V_AddAppointment extends JPanel {
 
     DatePicker datePicker;
     public static JFrame frame = new JFrame("Home Frame");
-    C_Appointment appointmentController = new C_Appointment();
     private List<M_Dentist> dentists = new ArrayList<>();
 }

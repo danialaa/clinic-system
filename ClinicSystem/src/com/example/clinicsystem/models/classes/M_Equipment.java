@@ -24,12 +24,10 @@ public class M_Equipment {
     public int addEquipment() {
         DatabaseConnection databaseConnection = DatabaseConnection.getINSTANCE();
 
-        int available;
+        int available = 0;
 
         if(this.isAvailable) {
             available = 1;
-        } else {
-            available = 0;
         }
 
         return databaseConnection.insertInto("equipment", "(Equipment_IsAvailable, Equipment_Name, Equipment_Price, " +
